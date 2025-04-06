@@ -259,7 +259,7 @@
         }
     </style>
 </head>
-<body class="LOGO VUONG NEN TRONG SUOT -chu trang-small.png">
+<body class="min-h-screen flex">
     <!-- Sidebar -->
     <div class="sidebar fixed w-64 h-full overflow-y-auto">
         <div class="p-4 flex items-center border-b border-gray-200">
@@ -722,7 +722,7 @@
             
             <div class="flex flex-col md:flex-row items-center mb-6">
                 <a href="https://vtzspaxe.com/" target="_blank" class="mb-4 md:mb-0 md:mr-6">
-                    <img src="https://i.imgur.com/uLAimaY.png" alt="VTZ Spaxe Logo" class="h-24 w-24">
+                    <img src="LOGO VUONG NEN TRONG SUOT -chu trang-small.png" alt="VTZ Spaxe Logo" class="h-24 w-24">
                 </a>
                 
                 <div>
