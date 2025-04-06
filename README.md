@@ -7,7 +7,6 @@
     <h1 class="text-2xl font-bold text-indigo-700">BẢNG TÍNH MẬT ĐỘ XÂY DỰNG TP.HCM</h1>
     <p class="text-gray-600">Theo Phụ lục 18 - Quyết định số 56/2021/QĐ-UBND</p>
   </div>
-</div>
 <style>
   .logo-container {
     display: flex;
