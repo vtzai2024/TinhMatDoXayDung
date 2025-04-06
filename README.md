@@ -1,3 +1,21 @@
+<style>
+  .logo-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+  }
+  .logo-container img {
+    height: 80px; /* Adjust size as needed */
+    transition: transform 0.3s ease;
+  }
+  .logo-container img:hover {
+    transform: scale(1.05); /* Add a slight hover effect */
+  }
+</style>
+
+<div class="logo-container">
+  <img src="LOGO VUONG NEN TRONG SUOT -chu trang-small.png" alt="VTZ SPAXE Logo">
+</div>
 <TinhMatDoXayDung-VTZ.Spaxe html>
 <html lang="vi">
 <head>
