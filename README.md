@@ -5,7 +5,7 @@
   </a>
   <div class="text-center md:text-left">
     <h1 class="text-2xl font-bold text-indigo-700">Công ty TNHH thiết kế xây dựng VTZ.SPAXE</h1>
-    <p class="text-gray-600">TIÊN PHONG-TẬN TÂM-TÍN NHIỆM-TRÁCH NHIỆM-TRUNG THỰC-TRÍ TUỆ</p>
+    <p class="text-gray-600">TIÊN PHONG-TẬN TÂM-TRÁCH NHIỆM-TRUNG THỰC-TRÍ TUỆ</p>
   </div>
 <style>
   .logo-container {
