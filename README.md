@@ -1,5 +1,5 @@
 <a href="https://vtzspaxe.com/" target="_blank" onclick="trackLogoClick()">
-  <img src="vtz-spaxe-logo.png" alt="VTZ SPAXE Logo" class="max-h-20 mx-auto">
+  <img src="LOGO VUONG NEN TRANG 2 copy.jpg" alt="VTZ SPAXE Logo" class="max-h-20 mx-auto">
 </a>
 
 <script>
