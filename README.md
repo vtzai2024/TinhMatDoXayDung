@@ -259,7 +259,7 @@
         }
     </style>
 </head>
-<body class="min-h-screen flex">
+<body class="LOGO VUONG NEN TRONG SUOT -chu trang-small.png">
     <!-- Sidebar -->
     <div class="sidebar fixed w-64 h-full overflow-y-auto">
         <div class="p-4 flex items-center border-b border-gray-200">
