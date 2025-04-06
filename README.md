@@ -4,8 +4,8 @@
     <img src="LOGO VUONG NEN TRANG 2 copy.jpg" alt="VTZ SPAXE Logo" class="h-16 hover:opacity-80 transition-opacity">
   </a>
   <div class="text-center md:text-left">
-    <h1 class="text-2xl font-bold text-indigo-700">BẢNG TÍNH MẬT ĐỘ XÂY DỰNG TP.HCM</h1>
-    <p class="text-gray-600">Theo Phụ lục 18 - Quyết định số 56/2021/QĐ-UBND</p>
+    <h1 class="text-2xl font-bold text-indigo-700">Công ty TNHH thiết kế xây dựng VTZ.SPAXE</h1>
+    <p class="text-gray-600">TIÊN PHONG-TẬN TÂM-TÍN NHIỆM-TRÁCH NHIỆM-TRUNG THỰC-TRÍ TUỆ</p>
   </div>
 <style>
   .logo-container {
