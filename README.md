@@ -264,7 +264,7 @@
     <div class="sidebar fixed w-64 h-full overflow-y-auto">
         <div class="p-4 flex items-center border-b border-gray-200">
             <a href="https://vtzspaxe.com/" target="_blank" class="flex items-center">
-                <img src="https://i.imgur.com/uLAimaY.png" alt="VTZ Spaxe Logo" class="h-10 w-10 mr-2">
+                <img src="LOGO VUONG NEN TRONG SUOT -chu trang-small.png" alt="VTZ Spaxe Logo" class="h-10 w-10 mr-2">
                 <div>
                     <div class="font-bold text-lg text-primary">VTZ Spaxe</div>
                     <div class="text-xs text-gray-500">Thiết kế & Xây dựng</div>
