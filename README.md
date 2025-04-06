@@ -1,3 +1,13 @@
+<!-- Replace your current title section with this -->
+<div class="flex flex-col md:flex-row items-center justify-center mb-4 gap-4">
+  <a href="https://vtzspaxe.com/" target="_blank" class="shrink-0">
+    <img src="LOGO VUONG NEN TRANG 2 copy.jpg" alt="VTZ SPAXE Logo" class="h-16 hover:opacity-80 transition-opacity">
+  </a>
+  <div class="text-center md:text-left">
+    <h1 class="text-2xl font-bold text-indigo-700">BẢNG TÍNH MẬT ĐỘ XÂY DỰNG TP.HCM</h1>
+    <p class="text-gray-600">Theo Phụ lục 18 - Quyết định số 56/2021/QĐ-UBND</p>
+  </div>
+</div>
 <style>
   .logo-container {
     display: flex;
@@ -21,7 +31,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Máy tính Quy định xây dựng TP.HCM - QĐ-56-2021-UBND</title>
+    <title>BẢNG TÍNH MẬT ĐỘ XÂY DỰNG TP.HCM - QĐ-56-2021-UBND</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.1/css/all.min.css">
     <style>
@@ -101,7 +111,7 @@
 <body class="bg-gray-50 p-4 md:p-8">
     <div class="max-w-4xl mx-auto bg-white shadow-md rounded-lg p-6">
         <h1 class="text-2xl md:text-3xl font-bold text-center text-indigo-800 mb-6 border-b pb-4">
-            Máy tính Quy định xây dựng TP.HCM<br>
+            BẢNG TÍNH MẬT ĐỘ XÂY DỰNG TP.HCM<br>
             <span class="text-lg md:text-xl font-medium text-gray-600">Theo Phụ lục 18 - Quyết định số 56/2021/QĐ-UBND</span>
         </h1>
 
