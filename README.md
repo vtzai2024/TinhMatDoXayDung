@@ -1,13 +1,3 @@
-<a href="https://vtzspaxe.com/" target="_blank" onclick="trackLogoClick()">
-  <img src="LOGO VUONG NEN TRANG 2 copy.jpg" alt="VTZ SPAXE Logo" class="max-h-20 mx-auto">
-</a>
-
-<script>
-  function trackLogoClick() {
-    // You can add analytics tracking code here if needed
-    console.log('Logo clicked');
-  }
-</script>
 <!-- Replace your current title section with this -->
 <div class="flex flex-col md:flex-row items-center justify-center mb-4 gap-4">
   <a href="https://vtzspaxe.com/" target="_blank" class="shrink-0">
@@ -32,9 +22,6 @@
     transform: scale(1.05); /* Add a slight hover effect */
   }
 </style>
-
-<div class="logo-container">
-  <img src="ComfyUI_01854_.jpg" alt="VTZ SPAXE Logo">
 </div>
 <TinhMatDoXayDung-VTZ.Spaxe html>
 <html lang="vi">
