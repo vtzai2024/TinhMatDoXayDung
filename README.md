@@ -14,7 +14,7 @@
 </style>
 
 <div class="logo-container">
-  <img src="LOGO VUONG NEN TRONG SUOT -chu trang-small.png" alt="VTZ SPAXE Logo">
+  <img src="LOGO VUONG NEN TRANG 2 copy.jpg" alt="VTZ SPAXE Logo">
 </div>
 <TinhMatDoXayDung-VTZ.Spaxe html>
 <html lang="vi">
