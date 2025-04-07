@@ -9,6 +9,8 @@
         :root {
             --primary: #3B82F6;
             --primary-dark: #2563EB;
+            --green: #10B981;
+            --green-dark: #059669;
             --background: #FFFFFF;
             --background-alt: #F9FAFB;
             --text-primary: #111827;
@@ -190,6 +192,16 @@
         .total-row td {
             color: white !important;
         }
+
+        .total-green-row {
+            background-color: var(--green) !important;
+            color: white !important;
+            font-weight: 600;
+        }
+        
+        .total-green-row td {
+            color: white !important;
+        }
         
         .notification {
             position: fixed;
@@ -238,6 +250,17 @@
             font-size: 0.875rem;
             margin-top: 0.25rem;
             display: none;
+        }
+
+        .percent-badge {
+            display: inline-block;
+            background-color: #E5E7EB;
+            color: #374151;
+            padding: 0.15rem 0.4rem;
+            border-radius: 0.375rem;
+            font-size: 0.75rem;
+            margin-left: 0.5rem;
+            font-weight: 500;
         }
         
         /* Responsive design */
@@ -568,7 +591,7 @@
                 </div>
             </div>
             
-            <div class="flex justify-between items-center mt-4 p-3 bg-primary rounded-lg text-white">
+            <div class="flex justify-between items-center mt-4 p-3 bg-green-500 rounded-lg text-white">
                 <span class="font-bold text-lg">Tổng chi phí:</span>
                 <span id="tongChiPhi" class="font-bold text-lg">--</span>
             </div>
@@ -988,16 +1011,20 @@
             let tongDienTichThietKe = 0;
             let tongDienTichXayDung = 0;
             
+            // Diện tích XD tối đa theo mật độ xây dựng
+            const dienTichXDMax = dienTichDat * matDoXayDung / 100;
+            
             // Thêm móng nhà
+            const dienTichMong = dienTichXDMax * 1.2; // Mở rộng diện tích móng 20% so với diện tích XD
             khaiToanTable.push({
                 stt: 1,
                 hangMuc: 'Móng nhà',
                 dienTichDat: dienTichDat,
                 heSo: 0.5,
-                dienTichXD: dienTichDat * 0.5
+                dienTichXD: dienTichMong * 0.5
             });
-            tongDienTichThietKe += dienTichDat * 0.5;
-            tongDienTichXayDung += dienTichDat * 0.5;
+            tongDienTichThietKe += dienTichMong * 0.5;
+            tongDienTichXayDung += dienTichMong * 0.5;
             
             // Thêm các tầng 1 đến số tầng tối đa
             for (let i = 1; i <= soTang; i++) {
@@ -1006,10 +1033,10 @@
                     hangMuc: `Tầng ${i}`,
                     dienTichDat: dienTichDat,
                     heSo: 1,
-                    dienTichXD: dienTichDat * matDoXayDung / 100
+                    dienTichXD: dienTichXDMax
                 });
-                tongDienTichThietKe += dienTichDat * matDoXayDung / 100;
-                tongDienTichXayDung += dienTichDat * matDoXayDung / 100;
+                tongDienTichThietKe += dienTichXDMax;
+                tongDienTichXayDung += dienTichXDMax;
             }
             
             // Thêm tầng lửng nếu được chọn và được phép
@@ -1019,10 +1046,10 @@
                     hangMuc: 'Tầng lửng',
                     dienTichDat: dienTichDat,
                     heSo: 0.65,
-                    dienTichXD: dienTichDat * 0.65 * matDoXayDung / 100
+                    dienTichXD: dienTichXDMax * 0.65
                 });
-                tongDienTichThietKe += dienTichDat * 0.65 * matDoXayDung / 100;
-                tongDienTichXayDung += dienTichDat * 0.65 * matDoXayDung / 100;
+                tongDienTichThietKe += dienTichXDMax * 0.65;
+                tongDienTichXayDung += dienTichXDMax * 0.65;
             }
             
             // Thêm các hạng mục bổ sung
@@ -1035,10 +1062,10 @@
                     hangMuc: 'Tầng đỉnh mái',
                     dienTichDat: dienTichDat,
                     heSo: 0.35,
-                    dienTichXD: dienTichDat * 0.35 * matDoXayDung / 100
+                    dienTichXD: dienTichXDMax * 0.35
                 });
-                tongDienTichThietKe += dienTichDat * 0.35 * matDoXayDung / 100;
-                tongDienTichXayDung += dienTichDat * 0.35 * matDoXayDung / 100;
+                tongDienTichThietKe += dienTichXDMax * 0.35;
+                tongDienTichXayDung += dienTichXDMax * 0.35;
             }
             
             // Sân thượng
@@ -1048,10 +1075,10 @@
                     hangMuc: 'Sân thượng',
                     dienTichDat: dienTichDat,
                     heSo: 0.325,
-                    dienTichXD: dienTichDat * 0.325 * matDoXayDung / 100
+                    dienTichXD: dienTichXDMax * 0.325
                 });
-                tongDienTichThietKe += dienTichDat * 0.325 * matDoXayDung / 100;
-                tongDienTichXayDung += dienTichDat * 0.325 * matDoXayDung / 100;
+                tongDienTichThietKe += dienTichXDMax * 0.325;
+                tongDienTichXayDung += dienTichXDMax * 0.325;
             }
             
             // Mái BTCT
@@ -1061,10 +1088,10 @@
                     hangMuc: 'Mái BTCT',
                     dienTichDat: dienTichDat,
                     heSo: 0.175,
-                    dienTichXD: dienTichDat * 0.175 * matDoXayDung / 100
+                    dienTichXD: dienTichXDMax * 0.175
                 });
-                tongDienTichThietKe += dienTichDat * 0.175 * matDoXayDung / 100;
-                tongDienTichXayDung += dienTichDat * 0.175 * matDoXayDung / 100;
+                tongDienTichThietKe += dienTichXDMax * 0.175;
+                tongDienTichXayDung += dienTichXDMax * 0.175;
             }
             
             // Thêm hàng tổng
@@ -1183,7 +1210,7 @@
                     
                     tongDienTichXayDung += dienTichXD;
                     if (heSo > 0 && dienTichDat > 0) {
-                        tongDienTichThietKe += dienTichDat * heSo;
+                        tongDienTichThietKe += dienTichXD;
                     }
                 }
             });
@@ -1200,11 +1227,17 @@
             const chiPhiNoiThat = tongDienTichXayDung * 0.85 * donGiaNoiThat;
             const tongChiPhi = chiPhiThietKe + chiPhiPhanTho + chiPhiHoanThien + chiPhiNoiThat;
             
-            // Hiển thị lại các chi phí
-            document.getElementById('chiPhiThietKe').textContent = formatCurrency(chiPhiThietKe);
-            document.getElementById('chiPhiPhanTho').textContent = formatCurrency(chiPhiPhanTho);
-            document.getElementById('chiPhiHoanThien').textContent = formatCurrency(chiPhiHoanThien);
-            document.getElementById('chiPhiNoiThat').textContent = formatCurrency(chiPhiNoiThat);
+            // Tính phần trăm của từng chi phí
+            const percentThietKe = ((chiPhiThietKe / tongChiPhi) * 100).toFixed(1);
+            const percentPhanTho = ((chiPhiPhanTho / tongChiPhi) * 100).toFixed(1);
+            const percentHoanThien = ((chiPhiHoanThien / tongChiPhi) * 100).toFixed(1);
+            const percentNoiThat = ((chiPhiNoiThat / tongChiPhi) * 100).toFixed(1);
+            
+            // Hiển thị lại các chi phí với phần trăm
+            document.getElementById('chiPhiThietKe').innerHTML = `${formatCurrency(chiPhiThietKe)} <span class="percent-badge">${percentThietKe}%</span>`;
+            document.getElementById('chiPhiPhanTho').innerHTML = `${formatCurrency(chiPhiPhanTho)} <span class="percent-badge">${percentPhanTho}%</span>`;
+            document.getElementById('chiPhiHoanThien').innerHTML = `${formatCurrency(chiPhiHoanThien)} <span class="percent-badge">${percentHoanThien}%</span>`;
+            document.getElementById('chiPhiNoiThat').innerHTML = `${formatCurrency(chiPhiNoiThat)} <span class="percent-badge">${percentNoiThat}%</span>`;
             document.getElementById('tongChiPhi').textContent = formatCurrency(tongChiPhi);
         }
         
@@ -1399,10 +1432,17 @@
                 const chiPhiNoiThat = khaiToan.tongDienTichXayDung * 0.85 * donGiaNoiThat;
                 const tongChiPhi = chiPhiThietKe + chiPhiPhanTho + chiPhiHoanThien + chiPhiNoiThat;
                 
-                document.getElementById('chiPhiThietKe').textContent = formatCurrency(chiPhiThietKe);
-                document.getElementById('chiPhiPhanTho').textContent = formatCurrency(chiPhiPhanTho);
-                document.getElementById('chiPhiHoanThien').textContent = formatCurrency(chiPhiHoanThien);
-                document.getElementById('chiPhiNoiThat').textContent = formatCurrency(chiPhiNoiThat);
+                // Tính phần trăm của từng chi phí
+                const percentThietKe = ((chiPhiThietKe / tongChiPhi) * 100).toFixed(1);
+                const percentPhanTho = ((chiPhiPhanTho / tongChiPhi) * 100).toFixed(1);
+                const percentHoanThien = ((chiPhiHoanThien / tongChiPhi) * 100).toFixed(1);
+                const percentNoiThat = ((chiPhiNoiThat / tongChiPhi) * 100).toFixed(1);
+                
+                // Hiển thị lại các chi phí với phần trăm
+                document.getElementById('chiPhiThietKe').innerHTML = `${formatCurrency(chiPhiThietKe)} <span class="percent-badge">${percentThietKe}%</span>`;
+                document.getElementById('chiPhiPhanTho').innerHTML = `${formatCurrency(chiPhiPhanTho)} <span class="percent-badge">${percentPhanTho}%</span>`;
+                document.getElementById('chiPhiHoanThien').innerHTML = `${formatCurrency(chiPhiHoanThien)} <span class="percent-badge">${percentHoanThien}%</span>`;
+                document.getElementById('chiPhiNoiThat').innerHTML = `${formatCurrency(chiPhiNoiThat)} <span class="percent-badge">${percentNoiThat}%</span>`;
                 document.getElementById('tongChiPhi').textContent = formatCurrency(tongChiPhi);
                 
                 // Hiển thị thông báo thành công
