@@ -703,7 +703,7 @@
                 </a>
                 <div>
                     <h3 class="text-lg font-bold">Công ty TNHH Thiết kế và xây dựng VTZ Spaxe</h3>
-                    <p class="text-sm text-gray-600 mb-2">TIẾN PHONG - TẬN TÂM - TRÁCH NHIỆM - TRUNG THỰC - TRÍ TUỆ</p>
+                    <p class="text-sm text-gray-600 mb-2">TIÊN PHONG - TẬN TÂM - TRÁCH NHIỆM - TRUNG THỰC - TRÍ TUỆ</p>
                     <p class="mb-2">VTZ Spaxe là đơn vị chuyên thiết kế, thi công xây dựng nhà phố, biệt thự, căn hộ với chất lượng cao và thiết kế hiện đại.</p>
                     <p>Với đội ngũ kiến trúc sư, kỹ sư giàu kinh nghiệm, chúng tôi cam kết mang đến những công trình đạt chất lượng và thẩm mỹ cao nhất, đúng tiến độ và chi phí hợp lý.</p>
                 </div>
