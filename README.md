@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
@@ -263,6 +264,48 @@
             font-weight: 500;
         }
         
+        /* Diện tích xây dựng styles */
+        .construction-area-section {
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 1rem;
+        }
+        
+        .construction-area-title {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.75rem;
+        }
+        
+        .construction-area-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+        
+        .construction-radio-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .construction-radio-item input[type="radio"] {
+            accent-color: var(--primary);
+            margin-right: 0.5rem;
+        }
+        
+        .radio-label {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+        }
+        
+        .radio-coefficient {
+            color: var(--primary);
+            font-weight: 500;
+            font-size: 0.875rem;
+        }
+        
         /* Responsive design */
         @media (max-width: 768px) {
             .sidebar {
@@ -302,6 +345,10 @@
             <a href="#don-gia" class="nav-item px-4 py-3 flex items-center">
                 <i class="fas fa-dollar-sign mr-3"></i>
                 <span>Đơn giá thi công</span>
+            </a>
+            <a href="#dien-tich-xay-dung" class="nav-item px-4 py-3 flex items-center">
+                <i class="fas fa-ruler-combined mr-3"></i>
+                <span>Diện tích xây dựng</span>
             </a>
             <a href="#results" class="nav-item px-4 py-3 flex items-center">
                 <i class="fas fa-calculator mr-3"></i>
@@ -435,6 +482,142 @@
             </section>
         </div>
 
+        <!-- Diện tích xây dựng -->
+        <section id="dien-tich-xay-dung" class="card p-6 mt-6">
+            <h2 class="text-xl font-bold mb-4 card-header pb-3">
+                <i class="fas fa-ruler-combined mr-2"></i> Diện tích xây dựng
+            </h2>
+            <div class="mt-4">
+                <!-- Tầng hầm -->
+                <div class="construction-area-section">
+                    <h3 class="construction-area-title">
+                        <i class="fas fa-arrow-down mr-2"></i> Tầng hầm
+                    </h3>
+                    <div class="radio-group mb-2">
+                        <label class="inline-flex items-center mr-4">
+                            <input type="radio" name="tangHam" value="none" checked class="mr-2">
+                            <span>Không có tầng hầm</span>
+                        </label>
+                        <label class="inline-flex items-center mr-4">
+                            <input type="radio" name="tangHam" value="ham" class="mr-2">
+                            <span>Có tầng hầm</span>
+                        </label>
+                    </div>
+                    <div id="tangHamOptions" class="pl-4 mt-2 hidden">
+                        <div class="construction-area-grid">
+                            <div class="construction-radio-item">
+                                <input type="radio" name="doSauHam" id="doSau1" value="1.5">
+                                <label for="doSau1" class="radio-label">
+                                    <span>Sâu 1.0m - 1.3m</span>
+                                    <span class="radio-coefficient">150%</span>
+                                </label>
+                            </div>
+                            <div class="construction-radio-item">
+                                <input type="radio" name="doSauHam" id="doSau2" value="1.7">
+                                <label for="doSau2" class="radio-label">
+                                    <span>Sâu 1.3m - 1.7m</span>
+                                    <span class="radio-coefficient">170%</span>
+                                </label>
+                            </div>
+                            <div class="construction-radio-item">
+                                <input type="radio" name="doSauHam" id="doSau3" value="2.0">
+                                <label for="doSau3" class="radio-label">
+                                    <span>Sâu 1.7m - 2.0m</span>
+                                    <span class="radio-coefficient">200%</span>
+                                </label>
+                            </div>
+                            <div class="construction-radio-item">
+                                <input type="radio" name="doSauHam" id="doSau4" value="2.2">
+                                <label for="doSau4" class="radio-label">
+                                    <span>Sâu trên 2.0m</span>
+                                    <span class="radio-coefficient">220%</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="checkbox-item mt-2">
+                            <input type="checkbox" id="hamNho" class="mr-2">
+                            <label for="hamNho">Hầm có diện tích sử dụng < 70m²</label>
+                            <span class="ml-2 px-2 py-0.5 bg-blue-100 text-primary text-xs rounded">+20%</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Móng -->
+                <div class="construction-area-section">
+                    <h3 class="construction-area-title">
+                        <i class="fas fa-arrow-down mr-2"></i> Móng
+                    </h3>
+                    <div class="construction-area-grid">
+                        <div class="construction-radio-item">
+                            <input type="radio" name="loaiMong" id="mongDon" value="0.3" checked>
+                            <label for="mongDon" class="radio-label">
+                                <span>Móng đơn</span>
+                                <span class="radio-coefficient">30%</span>
+                            </label>
+                        </div>
+                        <div class="construction-radio-item">
+                            <input type="radio" name="loaiMong" id="mongCoc" value="0.5">
+                            <label for="mongCoc" class="radio-label">
+                                <span>Móng cọc</span>
+                                <span class="radio-coefficient">50%</span>
+                            </label>
+                        </div>
+                        <div class="construction-radio-item">
+                            <input type="radio" name="loaiMong" id="mongBang" value="0.5">
+                            <label for="mongBang" class="radio-label">
+                                <span>Móng băng</span>
+                                <span class="radio-coefficient">50%</span>
+                            </label>
+                        </div>
+                        <div class="construction-radio-item">
+                            <input type="radio" name="loaiMong" id="mongBe" value="0.8">
+                            <label for="mongBe" class="radio-label">
+                                <span>Móng bè</span>
+                                <span class="radio-coefficient">80%</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Mái -->
+                <div class="construction-area-section">
+                    <h3 class="construction-area-title">
+                        <i class="fas fa-home mr-2"></i> Mái
+                    </h3>
+                    <div class="construction-area-grid">
+                        <div class="construction-radio-item">
+                            <input type="radio" name="loaiMai" id="maiBTCT" value="0.5" checked>
+                            <label for="maiBTCT" class="radio-label">
+                                <span>Mái bê tông cốt thép</span>
+                                <span class="radio-coefficient">50%</span>
+                            </label>
+                        </div>
+                        <div class="construction-radio-item">
+                            <input type="radio" name="loaiMai" id="maiTon" value="0.3">
+                            <label for="maiTon" class="radio-label">
+                                <span>Mái tôn</span>
+                                <span class="radio-coefficient">30%</span>
+                            </label>
+                        </div>
+                        <div class="construction-radio-item">
+                            <input type="radio" name="loaiMai" id="maiNgoi" value="0.7">
+                            <label for="maiNgoi" class="radio-label">
+                                <span>Mái ngói kèo sắt</span>
+                                <span class="radio-coefficient">70%</span>
+                            </label>
+                        </div>
+                        <div class="construction-radio-item">
+                            <input type="radio" name="loaiMai" id="maiXienBTCT" value="0.8">
+                            <label for="maiXienBTCT" class="radio-label">
+                                <span>Mái xiên BTCT</span>
+                                <span class="radio-coefficient">80%</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- Kết quả tính toán -->
         <section id="results" class="card p-6 mt-6">
             <h2 class="text-xl font-bold mb-4 card-header pb-3">
@@ -466,6 +649,10 @@
                         <span class="result-label">Khoảng lùi phía sau:</span>
                         <span class="result-value" id="khoangLuiSau">--</span>
                     </div>
+                    <div class="result-row">
+                        <span class="result-label">Diện tích sân sau:</span>
+                        <span class="result-value" id="dienTichSanSau">--</span>
+                    </div>
                 </div>
                 <div class="result-section">
                     <div class="result-title">
@@ -495,6 +682,10 @@
                     <div class="result-row">
                         <span class="result-label">Độ vươn tối đa của ban công:</span>
                         <span class="result-value" id="doVuonBanCong">--</span>
+                    </div>
+                    <div class="result-row">
+                        <span class="result-label">Diện tích ban công:</span>
+                        <span class="result-value" id="dienTichBanCong">--</span>
                     </div>
                 </div>
             </div>
@@ -837,6 +1028,17 @@
         // Tính khoảng lùi phía sau
         function tinhKhoangLuiSau(chieuSauDat) {
             if (chieuSauDat >= 16) {
+                return 2; // 2 mét
+            } else if (chieuSauDat >= 9) {
+                return 1; // 1 mét
+            } else {
+                return 0.5; // Giả định 0.5m cho khoảng trống phía sau
+            }
+        }
+
+        // Lấy khoảng lùi phía sau dạng text để hiển thị
+        function getKhoangLuiSauText(chieuSauDat) {
+            if (chieuSauDat >= 16) {
                 return "Tối thiểu 2m";
             } else if (chieuSauDat >= 9) {
                 return "Tối thiểu 1m";
@@ -935,51 +1137,102 @@
 
         // Tính độ vươn ban công
         function tinhDoVuonBanCong(chieuRongLoGioi) {
+            let doVuon = 0;
             if (chieuRongLoGioi < 7) {
-                return "0m (không được phép)";
+                doVuon = 0;
             } else if (chieuRongLoGioi < 12) {
-                return "0,9m";
+                doVuon = 0.9;
             } else if (chieuRongLoGioi < 20) {
-                return "1,2m";
+                doVuon = 1.2;
             } else {
-                return "1,4m";
+                doVuon = 1.4;
+            }
+            return doVuon;
+        }
+
+        // Lấy độ vươn ban công dạng text để hiển thị
+        function getDoVuonBanCongText(chieuRongLoGioi) {
+            let doVuon = tinhDoVuonBanCong(chieuRongLoGioi);
+            if (doVuon === 0) {
+                return "0m (không được phép)";
+            } else {
+                return doVuon.toFixed(1) + "m";
             }
         }
 
+        // Tính diện tích ban công
+        function tinhDienTichBanCong(chieuRongLoGioi, chieuRongMatTien, soTang) {
+            const doVuonBanCong = tinhDoVuonBanCong(chieuRongLoGioi);
+            // Tính số tầng có ban công (từ tầng 1 trở lên)
+            const soTangCoBanCong = soTang > 0 ? soTang - 1 : 0;
+            return doVuonBanCong * chieuRongMatTien * soTangCoBanCong;
+        }
+
         // Tính khái toán chi phí
-        function tinhKhaiToanChiPhi(dienTichDat, soTang, matDoXayDung) {
+        function tinhKhaiToanChiPhi(dienTichDat, soTang, matDoXayDung, chieuRongLoGioi, chieuRongMatTien, chieuSauDat) {
             // Lấy trạng thái checkbox từ giao diện
             const coTangLung = document.getElementById('coTangLung').checked && !document.getElementById('coTangLung').disabled;
             const coTangDinhMai = document.getElementById('coTangDinhMai').checked;
             const coSanThuong = document.getElementById('coSanThuong').checked;
             const coMaiBTCT = document.getElementById('coMaiBTCT').checked;
+            
+            // Lấy thông tin từ phần diện tích xây dựng
+            const coTangHam = document.querySelector('input[name="tangHam"]:checked').value === 'ham';
+            const doSauHam = coTangHam ? parseFloat(document.querySelector('input[name="doSauHam"]:checked')?.value || 0) : 0;
+            const hamNho = document.getElementById('hamNho').checked;
+            const loaiMong = parseFloat(document.querySelector('input[name="loaiMong"]:checked').value || 0.3);
+            const loaiMai = parseFloat(document.querySelector('input[name="loaiMai"]:checked').value || 0.5);
+
+            // Diện tích XD tối đa theo mật độ xây dựng
+            const dienTichXDMax = dienTichDat * matDoXayDung / 100;
+            
+            // Tính khoảng lùi sau và diện tích sân sau
+            const khoangLuiSau = tinhKhoangLuiSau(chieuSauDat);
+            const dienTichSanSau = khoangLuiSau * chieuRongMatTien;
+            
+            // Tính diện tích ban công
+            const dienTichBanCong = tinhDienTichBanCong(chieuRongLoGioi, chieuRongMatTien, soTang);
 
             // Tạo bảng khái toán
             const khaiToanTable = [];
             let tongDienTichThietKe = 0;
             let tongDienTichXayDung = 0;
+            let stt = 1;
 
-            // Diện tích XD tối đa theo mật độ xây dựng
-            const dienTichXDMax = dienTichDat * matDoXayDung / 100;
-
-            // Thêm móng nhà
-            const dienTichMong = dienTichXDMax * 1.2; // Mở rộng diện tích móng 20% so với diện tích XD
+            // Thêm móng nhà (dùng diện tích xây dựng tối đa làm diện tích cơ sở)
             khaiToanTable.push({
-                stt: 1,
+                stt: stt++,
                 hangMuc: 'Móng nhà',
-                dienTichDat: dienTichDat,
-                heSo: 0.5,
-                dienTichXD: dienTichMong * 0.5
+                dienTichDat: dienTichXDMax,
+                heSo: loaiMong,
+                dienTichXD: dienTichXDMax * loaiMong
             });
             // Không cộng vào tongDienTichThietKe như yêu cầu
-            tongDienTichXayDung += dienTichMong * 0.5;
+            tongDienTichXayDung += dienTichXDMax * loaiMong;
+
+            // Thêm tầng hầm nếu có
+            if (coTangHam) {
+                let heSoHam = doSauHam;
+                if (hamNho) {
+                    heSoHam += 0.2; // Cộng thêm 20% nếu hầm nhỏ
+                }
+                khaiToanTable.push({
+                    stt: stt++,
+                    hangMuc: 'Tầng hầm',
+                    dienTichDat: dienTichXDMax,
+                    heSo: heSoHam,
+                    dienTichXD: dienTichXDMax * heSoHam
+                });
+                tongDienTichThietKe += dienTichXDMax;
+                tongDienTichXayDung += dienTichXDMax * heSoHam;
+            }
 
             // Thêm các tầng 1 đến số tầng tối đa
             for (let i = 1; i <= soTang; i++) {
                 khaiToanTable.push({
-                    stt: i + 1,
+                    stt: stt++,
                     hangMuc: `Tầng ${i}`,
-                    dienTichDat: dienTichDat,
+                    dienTichDat: dienTichXDMax,
                     heSo: 1,
                     dienTichXD: dienTichXDMax
                 });
@@ -990,9 +1243,9 @@
             // Thêm tầng lửng nếu được chọn và được phép
             if (coTangLung) {
                 khaiToanTable.push({
-                    stt: soTang + 2,
+                    stt: stt++,
                     hangMuc: 'Tầng lửng',
-                    dienTichDat: dienTichDat,
+                    dienTichDat: dienTichXDMax,
                     heSo: 0.65,
                     dienTichXD: dienTichXDMax * 0.65
                 });
@@ -1000,15 +1253,12 @@
                 tongDienTichXayDung += dienTichXDMax * 0.65;
             }
 
-            // Thêm các hạng mục bổ sung
-            let currentSTT = khaiToanTable.length + 1;
-
             // Tầng đỉnh mái (luôn được tính)
             if (coTangDinhMai) {
                 khaiToanTable.push({
-                    stt: currentSTT++,
+                    stt: stt++,
                     hangMuc: 'Tầng đỉnh mái',
-                    dienTichDat: dienTichDat,
+                    dienTichDat: dienTichXDMax,
                     heSo: 0.35,
                     dienTichXD: dienTichXDMax * 0.35
                 });
@@ -1019,9 +1269,9 @@
             // Sân thượng
             if (coSanThuong) {
                 khaiToanTable.push({
-                    stt: currentSTT++,
+                    stt: stt++,
                     hangMuc: 'Sân thượng',
-                    dienTichDat: dienTichDat,
+                    dienTichDat: dienTichXDMax,
                     heSo: 0.325,
                     dienTichXD: dienTichXDMax * 0.325
                 });
@@ -1029,22 +1279,35 @@
                 tongDienTichXayDung += dienTichXDMax * 0.325;
             }
 
-            // Mái BTCT
-            if (coMaiBTCT) {
+            // Ban công (nếu có)
+            if (dienTichBanCong > 0) {
                 khaiToanTable.push({
-                    stt: currentSTT++,
-                    hangMuc: 'Mái BTCT',
-                    dienTichDat: dienTichDat,
-                    heSo: 0.175,
-                    dienTichXD: dienTichXDMax * 0.175
+                    stt: stt++,
+                    hangMuc: 'Ban công',
+                    dienTichDat: dienTichBanCong,
+                    heSo: 0.5,
+                    dienTichXD: dienTichBanCong * 0.5
                 });
-                tongDienTichThietKe += dienTichXDMax * 0.175;
-                tongDienTichXayDung += dienTichXDMax * 0.175;
+                tongDienTichThietKe += dienTichBanCong * 0.5;
+                tongDienTichXayDung += dienTichBanCong * 0.5;
+            }
+
+            // Sân sau
+            if (dienTichSanSau > 0) {
+                khaiToanTable.push({
+                    stt: stt++,
+                    hangMuc: 'Sân sau',
+                    dienTichDat: dienTichSanSau,
+                    heSo: 0.7,
+                    dienTichXD: dienTichSanSau * 0.7
+                });
+                tongDienTichThietKe += dienTichSanSau * 0.7;
+                tongDienTichXayDung += dienTichSanSau * 0.7;
             }
 
             // Thêm hàng tổng
             khaiToanTable.push({
-                stt: currentSTT,
+                stt: stt,
                 hangMuc: 'Tổng diện tích',
                 dienTichDat: '',
                 heSo: '',
@@ -1090,7 +1353,7 @@
                 hangMucCell.textContent = item.hangMuc;
                 row.appendChild(hangMucCell);
                 
-                // Tạo cột Diện tích đất
+                // Tạo cột Diện tích cơ sở
                 const dienTichDatCell = document.createElement('td');
                 dienTichDatCell.textContent = item.dienTichDat ? item.dienTichDat.toFixed(2) : '';
                 row.appendChild(dienTichDatCell);
@@ -1245,6 +1508,22 @@
                 }
             });
             
+            // Xử lý sự kiện khi thay đổi option tầng hầm
+            document.querySelectorAll('input[name="tangHam"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    const tangHamOptions = document.getElementById('tangHamOptions');
+                    if (this.value === 'ham') {
+                        tangHamOptions.classList.remove('hidden');
+                        // Đảm bảo rằng có một độ sâu hầm được chọn
+                        if (!document.querySelector('input[name="doSauHam"]:checked')) {
+                            document.getElementById('doSau1').checked = true;
+                        }
+                    } else {
+                        tangHamOptions.classList.add('hidden');
+                    }
+                });
+            });
+            
             // Định dạng các trường đơn giá khi blur
             document.querySelectorAll('.currency-input').forEach(input => {
                 input.addEventListener('blur', function() {
@@ -1337,7 +1616,11 @@
                 const dienTichXD = (dienTichDat * matDo / 100).toFixed(2);
                 
                 // Tính khoảng lùi phía sau
-                const khoangLui = tinhKhoangLuiSau(chieuSauDat);
+                const khoangLuiSau = tinhKhoangLuiSau(chieuSauDat);
+                const khoangLuiSauText = getKhoangLuiSauText(chieuSauDat);
+                
+                // Tính diện tích sân sau
+                const dienTichSanSau = (khoangLuiSau * chieuRongMatTien).toFixed(2);
                 
                 // Tính số tầng tối đa
                 const soTang = tinhSoTangToiDa(chieuRongLoGioi, quanTrungTam, trucDuongThuongMai, matTienTren8m);
@@ -1350,20 +1633,26 @@
                 
                 // Tính độ vươn của ban công
                 const doVuonBanCong = tinhDoVuonBanCong(chieuRongLoGioi);
+                const doVuonBanCongText = getDoVuonBanCongText(chieuRongLoGioi);
+                
+                // Tính diện tích ban công
+                const dienTichBanCong = tinhDienTichBanCong(chieuRongLoGioi, chieuRongMatTien, soTang);
                 
                 // Tính khái toán chi phí
-                const khaiToan = tinhKhaiToanChiPhi(dienTichDat, soTang, matDo);
+                const khaiToan = tinhKhaiToanChiPhi(dienTichDat, soTang, matDo, chieuRongLoGioi, chieuRongMatTien, chieuSauDat);
                 
                 // Hiển thị kết quả
                 document.getElementById('dienTichLoDat').textContent = dienTichDat + ' m²';
                 document.getElementById('dienTichXayDung').textContent = dienTichXD + ' m²';
                 document.getElementById('matDoXayDung').textContent = matDo + ' %';
-                document.getElementById('khoangLuiSau').textContent = khoangLui;
+                document.getElementById('khoangLuiSau').textContent = khoangLuiSauText;
+                document.getElementById('dienTichSanSau').textContent = dienTichSanSau + ' m²';
                 document.getElementById('soTangToiDa').textContent = soTang + ' tầng';
                 document.getElementById('chieuCaoToiDaTaiCGXD').textContent = chieuCao.taiCGXD;
                 document.getElementById('chieuCaoToiDaTaiDinhMai').textContent = chieuCao.taiDinhMai;
                 document.getElementById('thongTinTangLung').textContent = thongTinTangLung;
-                document.getElementById('doVuonBanCong').textContent = doVuonBanCong;
+                document.getElementById('doVuonBanCong').textContent = doVuonBanCongText;
+                document.getElementById('dienTichBanCong').textContent = dienTichBanCong.toFixed(2) + ' m²';
                 
                 // Hiển thị bảng khái toán
                 renderKhaiToanTable(khaiToan.khaiToanTable);
