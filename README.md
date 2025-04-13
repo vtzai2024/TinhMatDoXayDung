@@ -419,8 +419,17 @@
             border-left-color: var(--accent-yellow);
         }
         
+        .alert-red {
+            background-color: rgba(239, 68, 68, 0.1);
+            border-left-color: var(--accent-red);
+        }
+        
         .text-yellow-dark {
             color: var(--accent-yellow);
+        }
+        
+        .text-red-dark {
+            color: var(--accent-red);
         }
         
         .info-badge {
@@ -485,6 +494,15 @@
             max-height: 1000px;
             padding: 0.75rem 0.5rem;
         }
+        
+        /* Styles cho lô đất < 36m² */
+        .small-lot-warning {
+            background-color: rgba(239, 68, 68, 0.1);
+            border-left: 4px solid var(--accent-red);
+            padding: 0.75rem;
+            margin-top: 0.75rem;
+            border-radius: 0.25rem;
+        }
     </style>
 </head>
 <body class="pb-16">
@@ -504,7 +522,7 @@
     <div class="mobile-sidebar" id="mobileSidebar">
         <div class="p-3 flex items-center justify-between border-b border-gray-700">
             <div class="flex items-center">
-                <img src="https://raw.githubusercontent.com/vtzai2024/TinhMatDoXayDung/refs/heads/main/LOGO%20VUONG%20NEN%20TRONG%20SUOT%20-chu%20trang-small.png" alt="Logo VTZ Spaxe" class="h-8 w-8 mr-2">
+                <img src="https://cdn.jsdelivr.net/gh/vtzai2024/TinhMatDoXayDung@main/LOGO%20VUONG%20NEN%20TRONG%20SUOT%20-chu%20trang-small.png" alt="Logo VTZ Spaxe" class="h-8 w-8 mr-2">
                 <div class="font-bold text-primary-light">VTZ Spaxe</div>
             </div>
             <button id="closeSidebar" class="p-2">
@@ -597,6 +615,14 @@
                             <input type="checkbox" id="matTienTren8m" name="viTri" class="mr-2">
                             <label for="matTienTren8m" class="text-sm">Mặt tiền > 8,0m</label>
                         </div>
+                    </div>
+                    <!-- Điều kiện hợp khối (chỉ hiển thị khi diện tích từ 15m² đến dưới 36m²) -->
+                    <div id="hopKhoiSection" class="mt-3 hidden">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="hopKhoi" name="hopKhoi" class="mr-2">
+                            <label for="hopKhoi" class="text-sm">Có điều kiện hợp khối kiến trúc hoặc mở rộng phía sau</label>
+                        </div>
+                        <div class="text-xs text-gray-400 mt-1 ml-8">Có các cạnh vuông góc/hình thang/hình đa giác với diện tích trên 36m²</div>
                     </div>
                 </div>
             </div>
@@ -788,10 +814,36 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Cảnh báo diện tích < 36m² -->
+            <div id="smallLotWarning" class="small-lot-warning hidden">
+                <div class="flex">
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-exclamation-triangle text-red-dark"></i>
+                    </div>
+                    <div class="ml-3">
+                        <h3 class="text-xs font-medium text-red-dark">Lô đất dưới 36m²</h3>
+                        <p class="mt-1 text-xs text-gray-300">Lô đất của bạn có diện tích nhỏ hơn 36m² và phải tuân theo quy định đặc biệt về chiều cao và số tầng.</p>
+                        <div id="smallLotDetails" class="mt-1 text-xs text-gray-300"></div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Kết quả tính toán -->
         <div class="tab-content" id="ket-qua">
+            <div id="smallLotAlert" class="p-2 alert-red border-l-4 mb-3 text-xs rounded hidden">
+                <div class="flex">
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-exclamation-triangle text-red-dark"></i>
+                    </div>
+                    <div class="ml-3">
+                        <h3 class="text-xs font-medium text-red-dark">Lô đất dưới 36m²</h3>
+                        <p id="smallLotDetails2" class="mt-1 text-gray-300"></p>
+                    </div>
+                </div>
+            </div>
+
             <div class="result-section">
                 <div class="result-title">
                     <i class="fas fa-ruler-combined mr-1"></i> Diện tích và mật độ
@@ -994,6 +1046,28 @@
                     </table>
                 </div>
             </div>
+
+            <div class="collapsible-section">
+                <div class="collapsible-header">
+                    <div class="font-bold text-sm">
+                        <i class="fas fa-ruler-vertical mr-2"></i> Quy định lô đất nhỏ
+                    </div>
+                    <i class="fas fa-chevron-down text-xs"></i>
+                </div>
+                <div class="collapsible-content">
+                    <ul class="list-disc pl-4 space-y-1 text-xs">
+                        <li>Lô đất tối thiểu 36m², chiều rộng mặt tiền và chiều sâu không nhỏ hơn 3,0m.</li>
+                        <li>Lô đất có chiều rộng mặt tiền hoặc chiều sâu < 3,0m: cao tối đa 7,0m tại CGXD và 9,0m tại đỉnh mái.</li>
+                        <li>Lô đất < 15m², có chiều rộng và chiều sâu ≥ 3,0m: cao tối đa 7,0m tại đỉnh mái.</li>
+                        <li>Lô đất 15-36m², có chiều rộng và chiều sâu ≥ 3,0m:
+                            <ul class="list-disc pl-4 mt-1">
+                                <li>Lộ giới ≥ 6m: cao tối đa 11,6m tại CGXD và 13,6m tại đỉnh mái</li>
+                                <li>Lộ giới < 6m: cao tối đa 11,6m tại đỉnh mái</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
             
             <!-- Liên hệ tư vấn -->
             <div class="collapsible-section mt-5" id="lien-he">
@@ -1034,7 +1108,7 @@
                 </div>
                 <div class="collapsible-content">
                     <div class="flex flex-col items-center mb-3">
-                        <img src="https://raw.githubusercontent.com/vtzai2024/TinhMatDoXayDung/refs/heads/main/LOGO%20VUONG%20NEN%20TRONG%20SUOT%20-chu%20trang-small.png" alt="Logo VTZ Spaxe" class="h-16 w-16 mb-2">
+                        <img src="https://cdn.jsdelivr.net/gh/vtzai2024/TinhMatDoXayDung@main/LOGO%20VUONG%20NEN%20TRONG%20SUOT%20-chu%20trang-small.png" alt="Logo VTZ Spaxe" class="h-16 w-16 mb-2">
                         <div class="text-center">
                             <div class="font-bold text-sm">Công ty TNHH Thiết kế và xây dựng VTZ Spaxe</div>
                             <p class="text-xs text-gray-400">TIÊN PHONG - TẬN TÂM - TRUNG THỰC - TRÍ TUỆ</p>
@@ -1202,6 +1276,46 @@
             });
         });
 
+        // Kiểm tra điều kiện lô đất dưới 36m²
+        document.getElementById('dienTichDat').addEventListener('input', function() {
+            const dienTichDat = parseFloat(this.value) || 0;
+            const smallLotWarning = document.getElementById('smallLotWarning');
+            const hopKhoiSection = document.getElementById('hopKhoiSection');
+            
+            if (dienTichDat > 0 && dienTichDat < 36) {
+                smallLotWarning.classList.remove('hidden');
+                
+                // Hiển thị section hợp khối nếu diện tích từ 15-36m²
+                if (dienTichDat >= 15 && dienTichDat < 36) {
+                    hopKhoiSection.classList.remove('hidden');
+                } else {
+                    hopKhoiSection.classList.add('hidden');
+                    document.getElementById('hopKhoi').checked = false;
+                }
+                
+                // Cập nhật thông tin chi tiết
+                updateSmallLotDetails(dienTichDat);
+            } else {
+                smallLotWarning.classList.add('hidden');
+                hopKhoiSection.classList.add('hidden');
+                document.getElementById('hopKhoi').checked = false;
+            }
+        });
+
+        // Cập nhật thông tin chi tiết cho lô đất nhỏ
+        function updateSmallLotDetails(dienTichDat) {
+            const smallLotDetails = document.getElementById('smallLotDetails');
+            let detailsText = '';
+            
+            if (dienTichDat < 15) {
+                detailsText = 'Với diện tích dưới 15m², chiều cao sẽ bị giới hạn theo quy định đặc biệt.';
+            } else if (dienTichDat >= 15 && dienTichDat < 36) {
+                detailsText = 'Với diện tích từ 15m² đến dưới 36m², chiều cao tối đa sẽ phụ thuộc vào chiều rộng lộ giới và điều kiện hợp khối.';
+            }
+            
+            smallLotDetails.textContent = detailsText;
+        }
+
         // Hàm định dạng số với dấu chấm phần nghìn
         function formatNumber(number) {
             return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
@@ -1318,8 +1432,89 @@
             }
         }
 
+        // Kiểm tra yêu cầu đặc biệt cho lô đất nhỏ
+        function kiemTraDieuKienDatNho(dienTichDat, chieuRongMatTien, chieuSauDat, chieuRongLoGioi, hopKhoi) {
+            // Khởi tạo kết quả
+            let result = {
+                isSmallLot: false,
+                specialHeight: false,
+                heightRestriction: null,
+                soTangToiDa: null,
+                message: ""
+            };
+            
+            // Kiểm tra nếu diện tích < 36m²
+            if (dienTichDat < 36) {
+                result.isSmallLot = true;
+                
+                // Trường hợp 1: Chiều rộng mặt tiền hoặc chiều sâu < 3.0m
+                if (chieuRongMatTien < 3.0 || chieuSauDat < 3.0) {
+                    result.specialHeight = true;
+                    result.heightRestriction = {
+                        taiCGXD: "7,0m",
+                        taiDinhMai: "9,0m"
+                    };
+                    result.soTangToiDa = 2;
+                    result.message = "Lô đất có chiều rộng mặt tiền hoặc chiều sâu nhỏ hơn 3,0m: chỉ được cải tạo, sửa chữa theo quy mô hiện trạng hoặc xây dựng mới với chiều cao tối đa tại CGXD 7,0m và đỉnh mái 9,0m.";
+                }
+                // Trường hợp 2: Diện tích < 15m², chiều rộng và chiều sâu >= 3.0m
+                else if (dienTichDat < 15) {
+                    result.specialHeight = true;
+                    result.heightRestriction = {
+                        taiCGXD: null,
+                        taiDinhMai: "7,0m"
+                    };
+                    result.soTangToiDa = 2;
+                    result.message = "Lô đất diện tích nhỏ hơn 15m², có chiều rộng mặt tiền và chiều sâu từ 3,0m trở lên: chỉ được cải tạo, sửa chữa theo hiện trạng hoặc xây dựng mới với chiều cao tối đa tại đỉnh mái không quá 7,0m.";
+                }
+                // Trường hợp 3: Diện tích từ 15-36m², chiều rộng và chiều sâu >= 3.0m
+                else if (dienTichDat >= 15 && dienTichDat < 36) {
+                    result.specialHeight = true;
+                    
+                    // Trường hợp 3a: Lộ giới >= 6m
+                    if (chieuRongLoGioi >= 6) {
+                        // Kiểm tra điều kiện hợp khối
+                        if (hopKhoi) {
+                            result.heightRestriction = {
+                                taiCGXD: "11,6m",
+                                taiDinhMai: "13,6m"
+                            };
+                            result.soTangToiDa = 3;
+                            result.message = "Lô đất từ 15m² đến dưới 36m², có điều kiện hợp khối: được xây dựng với chiều cao tối đa tại CGXD 11,6m và đỉnh mái 13,6m.";
+                        } else {
+                            result.heightRestriction = {
+                                taiCGXD: "11,6m",
+                                taiDinhMai: "13,6m"
+                            };
+                            result.soTangToiDa = 3;
+                            result.message = "Lô đất từ 15m² đến dưới 36m², tiếp giáp đường có lộ giới từ 6m trở lên: được xây dựng với chiều cao tối đa tại CGXD 11,6m và đỉnh mái 13,6m.";
+                        }
+                    } 
+                    // Trường hợp 3b: Lộ giới < 6m
+                    else {
+                        result.heightRestriction = {
+                            taiCGXD: null,
+                            taiDinhMai: "11,6m"
+                        };
+                        result.soTangToiDa = 3;
+                        result.message = "Lô đất từ 15m² đến dưới 36m², tiếp giáp đường có lộ giới nhỏ hơn 6m: được xây dựng với chiều cao tối đa tại đỉnh mái không quá 11,6m.";
+                    }
+                }
+            }
+            
+            return result;
+        }
+
         // Tính số tầng tối đa
-        function tinhSoTangToiDa(chieuRongLoGioi, quanTrungTam, trucDuongThuongMai, matTienTren8m) {
+        function tinhSoTangToiDa(chieuRongLoGioi, quanTrungTam, trucDuongThuongMai, matTienTren8m, dienTichDat, chieuRongMatTien, chieuSauDat, hopKhoi) {
+            // Kiểm tra điều kiện đặc biệt cho lô đất < 36m²
+            const dieuKienDatNho = kiemTraDieuKienDatNho(dienTichDat, chieuRongMatTien, chieuSauDat, chieuRongLoGioi, hopKhoi);
+            
+            if (dieuKienDatNho.specialHeight && dieuKienDatNho.soTangToiDa !== null) {
+                return dieuKienDatNho.soTangToiDa;
+            }
+            
+            // Tính toán bình thường nếu không có điều kiện đặc biệt
             let soTangCoBan = 0;
             let soTangCongThem = 0;
 
@@ -1363,7 +1558,15 @@
         }
 
         // Tính chiều cao tối đa
-        function tinhChieuCaoToiDa(chieuRongLoGioi, soTang) {
+        function tinhChieuCaoToiDa(chieuRongLoGioi, soTang, dienTichDat, chieuRongMatTien, chieuSauDat, hopKhoi) {
+            // Kiểm tra điều kiện đặc biệt cho lô đất < 36m²
+            const dieuKienDatNho = kiemTraDieuKienDatNho(dienTichDat, chieuRongMatTien, chieuSauDat, chieuRongLoGioi, hopKhoi);
+            
+            if (dieuKienDatNho.specialHeight && dieuKienDatNho.heightRestriction !== null) {
+                return dieuKienDatNho.heightRestriction;
+            }
+            
+            // Tính toán bình thường nếu không có điều kiện đặc biệt
             let chieuCaoTaiCGXD = ""; // Chiều cao tại chỉ giới xây dựng
             let chieuCaoTaiDinhMai = ""; // Chiều cao tại đỉnh mái
 
@@ -1823,6 +2026,7 @@
                 const chieuSauDat = parseFloat(document.getElementById('chieuSauDat').value);
                 const chieuRongLoGioi = parseFloat(document.getElementById('chieuRongLoGioi').value);
                 const chieuRongMatTien = parseFloat(document.getElementById('chieuRongMatTien').value);
+                const hopKhoi = document.getElementById('hopKhoi').checked;
                 
                 // Kiểm tra và hiển thị thông báo lỗi nếu cần
                 if (isNaN(dienTichDat) || dienTichDat <= 0) {
@@ -1880,11 +2084,14 @@
                 // Tính diện tích sân sau
                 const dienTichSanSau = (khoangLuiSau * chieuRongMatTien).toFixed(2);
                 
+                // Kiểm tra điều kiện đặc biệt cho lô đất < 36m²
+                const dieuKienDatNho = kiemTraDieuKienDatNho(dienTichDat, chieuRongMatTien, chieuSauDat, chieuRongLoGioi, hopKhoi);
+                
                 // Tính số tầng tối đa
-                const soTang = tinhSoTangToiDa(chieuRongLoGioi, quanTrungTam, trucDuongThuongMai, matTienTren8m);
+                const soTang = tinhSoTangToiDa(chieuRongLoGioi, quanTrungTam, trucDuongThuongMai, matTienTren8m, dienTichDat, chieuRongMatTien, chieuSauDat, hopKhoi);
                 
                 // Tính chiều cao tối đa
-                const chieuCao = tinhChieuCaoToiDa(chieuRongLoGioi, soTang);
+                const chieuCao = tinhChieuCaoToiDa(chieuRongLoGioi, soTang, dienTichDat, chieuRongMatTien, chieuSauDat, hopKhoi);
                 
                 // Xác định thông tin về tầng lửng
                 const thongTinTangLung = xacDinhTangLung(chieuRongLoGioi);
@@ -1906,11 +2113,22 @@
                 document.getElementById('khoangLuiSau').textContent = khoangLuiSauText;
                 document.getElementById('dienTichSanSau').textContent = dienTichSanSau + ' m²';
                 document.getElementById('soTangToiDa').textContent = soTang + ' tầng';
-                document.getElementById('chieuCaoToiDaTaiCGXD').textContent = chieuCao.taiCGXD;
+                document.getElementById('chieuCaoToiDaTaiCGXD').textContent = chieuCao.taiCGXD || "Không quy định";
                 document.getElementById('chieuCaoToiDaTaiDinhMai').textContent = chieuCao.taiDinhMai;
                 document.getElementById('thongTinTangLung').textContent = thongTinTangLung;
                 document.getElementById('doVuonBanCong').textContent = doVuonBanCongText;
                 document.getElementById('dienTichBanCong').textContent = dienTichBanCong.toFixed(2) + ' m²';
+                
+                // Hiển thị cảnh báo lô đất dưới 36m² nếu cần
+                const smallLotAlert = document.getElementById('smallLotAlert');
+                const smallLotDetails2 = document.getElementById('smallLotDetails2');
+                
+                if (dieuKienDatNho.isSmallLot) {
+                    smallLotAlert.classList.remove('hidden');
+                    smallLotDetails2.textContent = dieuKienDatNho.message;
+                } else {
+                    smallLotAlert.classList.add('hidden');
+                }
                 
                 // Hiển thị bảng khái toán
                 renderKhaiToanTable(khaiToan.khaiToanTable);
