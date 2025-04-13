@@ -2,205 +2,60 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Máy tính Quy định xây dựng TP. HCM</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Tư vấn xây dựng theo QĐ 56-2021</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css">
     <style>
         :root {
             --primary: #3B82F6;
             --primary-dark: #2563EB;
-            --primary-light: #60a5fa;
             --green: #10B981;
             --green-dark: #059669;
-            --background: #121212;
-            --background-alt: #1e1e1e;
-            --background-card: #1d1d1d;
-            --text-primary: #e0e0e0;
-            --text-secondary: #a0a0a0;
-            --text-muted: #6c7280;
-            --border-color: #2a2a2a;
-            --highlight: #2d2d2d;
-            --highlight-hover: #363636;
-            --accent-yellow: #fbbf24;
-            --accent-red: #ef4444;
-            --accent-blue: #1e40af;
+            --bg-dark: #121212;
+            --bg-card: #1E1E1E;
+            --bg-input: #2D2D2D;
+            --text-light: #E0E0E0;
+            --text-secondary: #BBBBBB;
+            --text-muted: #888888;
+            --border-color: #333333;
+            --error-color: #EF4444;
+            --success-color: #10B981;
+            --warning-color: #F59E0B;
+        }
+        
+        html {
+            scroll-behavior: smooth;
         }
         
         body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            background-color: var(--background);
-            color: var(--text-primary);
-            -webkit-tap-highlight-color: transparent;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.5;
+            overflow-x: hidden;
         }
         
-        /* Mobile sidebar */
-        .mobile-sidebar {
-            width: 85%;
-            max-width: 280px;
-            z-index: 1000;
-            transition: transform 0.3s ease;
-            transform: translateX(-105%);
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 100vh;
-            background-color: var(--background-alt);
-            border-right: 1px solid var(--border-color);
-            overflow-y: auto;
-        }
-        
-        .mobile-sidebar.open {
-            transform: translateX(0);
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
-        }
-        
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-            z-index: 999;
-        }
-        
-        .overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-        
-        .mobile-header {
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            background-color: var(--background-alt);
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.75rem 1rem;
-        }
-        
-        .nav-item {
-            color: var(--text-secondary);
-            border-left: 3px solid transparent;
-            transition: all 0.2s ease;
-        }
-        
-        .nav-item:hover {
-            background-color: var(--highlight-hover);
-            color: var(--primary-light);
-            border-left-color: var(--primary);
-        }
-        
-        .nav-item.active {
-            background-color: var(--highlight);
-            color: var(--primary-light);
-            border-left-color: var(--primary);
-            font-weight: 500;
-        }
-        
-        .card {
-            background-color: var(--background-card);
-            border: 1px solid var(--border-color);
-            border-radius: 0.5rem;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-            margin-bottom: 1rem;
-        }
-        
-        .card-header {
+        /* Header Styles */
+        .app-header {
+            background-color: var(--bg-card);
             border-bottom: 1px solid var(--border-color);
-            color: var(--text-primary);
         }
         
-        .btn-primary {
-            background-color: var(--primary);
-            color: white;
-            transition: all 0.2s ease;
-        }
-        
-        .btn-primary:hover {
-            background-color: var(--primary-dark);
-            transform: translateY(-1px);
-        }
-        
-        .btn-primary:active {
-            transform: translateY(0);
-        }
-        
-        .checkbox-item input[type="checkbox"] {
-            accent-color: var(--primary);
-            width: 18px;
-            height: 18px;
-        }
-        
-        .radio-item input[type="radio"] {
-            accent-color: var(--primary);
-            width: 18px;
-            height: 18px;
-        }
-        
-        .form-input {
-            background-color: var(--background-alt);
-            border: 1px solid var(--border-color);
-            border-radius: 0.375rem;
-            padding: 0.75rem;
-            width: 100%;
-            color: var(--text-primary);
-            font-size: 16px;
-        }
-        
-        .form-input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
-        }
-        
-        .form-label {
-            color: var(--text-primary);
-            font-weight: 500;
-            margin-bottom: 0.5rem;
-            display: block;
-        }
-        
-        .input-hint {
-            color: var(--text-secondary);
-            font-size: 0.75rem;
-            margin-top: 0.25rem;
-        }
-        
+        /* Tabs Styles */
         .tab-container {
-            display: flex;
-            overflow-x: auto;
-            border-bottom: 1px solid var(--border-color);
-            margin-bottom: 1rem;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-        }
-        
-        .tab-container::-webkit-scrollbar {
-            display: none;
+            background-color: var(--bg-card);
+            border-top: 1px solid var(--border-color);
         }
         
         .tab-button {
             color: var(--text-secondary);
-            padding: 0.75rem 1rem;
-            white-space: nowrap;
-            border-bottom: 2px solid transparent;
             transition: all 0.2s ease;
-        }
-        
-        .tab-button:hover {
-            color: var(--primary-light);
+            font-size: 12px;
         }
         
         .tab-button.active {
-            color: var(--primary-light);
-            border-bottom-color: var(--primary);
+            color: var(--primary);
         }
         
         .tab-content {
@@ -209,69 +64,164 @@
         
         .tab-content.active {
             display: block;
+            animation: fadeIn 0.3s ease-in-out;
         }
         
-        .result-section {
-            margin-bottom: 1rem;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Form Styles */
+        .form-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 0.75rem;
+        }
+        
+        .form-label {
+            color: var(--text-light);
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        
+        .form-input {
+            background-color: var(--bg-input);
+            border: 1px solid var(--border-color);
+            color: var(--text-light);
+            border-radius: 0.5rem;
+            transition: all 0.2s;
+            width: 100%;
+            padding: 0.75rem;
+            font-size: 16px;
+        }
+        
+        .form-input:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+        }
+        
+        .input-error {
+            border-color: var(--error-color) !important;
+        }
+        
+        .error-message {
+            color: var(--error-color);
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+            display: none;
+        }
+        
+        .input-hint {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+        
+        /* Button Styles */
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            padding: 0.75rem 1.5rem;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 48px;
+            font-size: 16px;
+            width: 100%;
+        }
+        
+        .btn-primary:hover, .btn-primary:focus {
+            background-color: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+        
+        .btn-primary:active {
+            transform: translateY(1px);
+        }
+        
+        /* Checkbox & Radio Styles */
+        .custom-checkbox, .custom-radio {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            cursor: pointer;
+            user-select: none;
+        }
+        
+        .custom-checkbox input[type="checkbox"],
+        .custom-radio input[type="radio"] {
+            accent-color: var(--primary);
+            width: 20px;
+            height: 20px;
+            margin-right: 0.75rem;
+        }
+        
+        /* Results Styles */
+        .result-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 0.75rem;
         }
         
         .result-title {
-            color: var(--primary-light);
+            color: var(--primary);
             font-weight: 600;
             border-bottom: 1px solid var(--border-color);
-            padding-bottom: 0.5rem;
-            margin-bottom: 0.5rem;
-            font-size: 0.9rem;
+            padding-bottom: 0.75rem;
+            margin-bottom: 1rem;
         }
         
         .result-row {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 0.5rem;
-            padding-bottom: 0.5rem;
+            padding: 0.5rem 0;
             border-bottom: 1px dashed var(--border-color);
-            flex-wrap: wrap;
         }
         
         .result-label {
             color: var(--text-secondary);
             font-weight: 500;
-            font-size: 0.85rem;
         }
         
         .result-value {
-            color: var(--primary-light);
+            color: var(--primary);
             font-weight: 600;
-            font-size: 0.85rem;
         }
         
-        .khai-toan-table {
+        /* Table Styles */
+        .data-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 0.8rem;
         }
         
-        .khai-toan-table th {
-            background-color: var(--highlight);
-            color: var(--text-primary);
+        .data-table th {
+            background-color: var(--bg-input);
+            color: var(--text-light);
             font-weight: 600;
             text-align: left;
-            padding: 0.5rem 0.4rem;
-            border: 1px solid var(--border-color);
+            padding: 0.75rem;
+            font-size: 14px;
         }
         
-        .khai-toan-table td {
-            padding: 0.5rem 0.4rem;
-            border: 1px solid var(--border-color);
-            color: var(--text-primary);
+        .data-table td {
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-light);
+            font-size: 14px;
         }
         
-        .khai-toan-table tr:nth-child(even) {
-            background-color: var(--highlight);
+        .data-table tr:nth-child(even) {
+            background-color: rgba(255, 255, 255, 0.05);
         }
         
         .total-row {
-            background-color: var(--primary-dark) !important;
+            background-color: var(--primary) !important;
             color: white !important;
             font-weight: 600;
         }
@@ -280,510 +230,459 @@
             color: white !important;
         }
         
+        /* Table Checkboxes */
+        .table-checkbox {
+            width: 22px;
+            height: 22px;
+            accent-color: var(--primary);
+        }
+        
+        .table-checkbox:disabled {
+            opacity: 0.7;
+        }
+        
+        /* Notifications */
         .notification {
             position: fixed;
             top: 20px;
-            right: 20px;
-            padding: 12px 20px;
-            background-color: var(--background-card);
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 15px 20px;
+            border-radius: 8px;
+            background-color: var(--bg-card);
             border-left: 4px solid var(--primary);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
-            border-radius: 4px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
             display: flex;
             align-items: center;
-            transform: translateX(120%);
-            transition: transform 0.3s ease;
             z-index: 1000;
-            color: var(--text-primary);
-        }
-        
-        .notification.show {
-            transform: translateX(0);
-        }
-        
-        .notification.error {
-            border-left-color: var(--accent-red);
-        }
-        
-        .notification.success {
-            border-left-color: var(--green);
-        }
-        
-        .error-message {
-            color: var(--accent-red);
-            font-size: 0.75rem;
-            margin-top: 0.25rem;
-            display: none;
-        }
-        
-        .percent-badge {
-            display: inline-block;
-            background-color: var(--highlight);
-            color: var(--text-primary);
-            padding: 0.1rem 0.3rem;
-            border-radius: 0.25rem;
-            font-size: 0.7rem;
-            margin-left: 0.3rem;
-            font-weight: 500;
-        }
-        
-        .construction-area-section {
-            margin-bottom: 1rem;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 1rem;
-        }
-        
-        .construction-area-title {
-            font-weight: 600;
-            color: var(--primary-light);
-            margin-bottom: 0.5rem;
-            font-size: 0.9rem;
-        }
-        
-        .construction-area-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 0.5rem;
-        }
-        
-        .construction-radio-item {
-            display: flex;
-            align-items: center;
-            margin-bottom: 0.5rem;
-        }
-        
-        .construction-radio-item input[type="radio"] {
-            accent-color: var(--primary);
-            margin-right: 0.5rem;
-        }
-        
-        .radio-label {
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-            font-size: 0.8rem;
-        }
-        
-        .radio-coefficient {
-            color: var(--primary-light);
-            font-weight: 500;
-            font-size: 0.75rem;
-        }
-        
-        .fab {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 56px;
-            height: 56px;
-            border-radius: 50%;
-            background-color: var(--primary);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            z-index: 50;
-            transition: all 0.3s ease;
-        }
-        
-        .fab:active {
-            transform: scale(0.95);
-        }
-        
-        .back-to-top {
-            position: fixed;
-            bottom: 90px;
-            right: 20px;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: var(--background-card);
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: var(--primary-light);
-            z-index: 50;
-            transition: all 0.3s ease;
+            max-width: 90%;
+            animation: slideIn 0.3s ease-out, slideOut 0.3s ease-in 3s forwards;
             opacity: 0;
             visibility: hidden;
         }
         
-        .back-to-top.show {
+        .notification.show {
             opacity: 1;
             visibility: visible;
         }
         
-        .alert-yellow {
-            background-color: rgba(251, 191, 36, 0.1);
-            border-left-color: var(--accent-yellow);
+        .notification.error {
+            border-left-color: var(--error-color);
         }
         
-        .text-yellow-dark {
-            color: var(--accent-yellow);
+        .notification.success {
+            border-left-color: var(--success-color);
         }
         
-        .info-badge {
-            background-color: rgba(59, 130, 246, 0.2);
-            color: var(--primary-light);
+        .notification-icon {
+            margin-right: 12px;
+            font-size: 20px;
         }
         
-        .bottom-nav {
+        .notification-message {
+            font-weight: 500;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translate(-50%, -20px); }
+            to { opacity: 1; transform: translate(-50%, 0); }
+        }
+        
+        @keyframes slideOut {
+            from { opacity: 1; transform: translate(-50%, 0); }
+            to { opacity: 0; transform: translate(-50%, -20px); visibility: hidden; }
+        }
+        
+        /* Loader */
+        .loader {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Mobile Bottom Navigation */
+        .mobile-nav {
             position: fixed;
             bottom: 0;
             left: 0;
-            width: 100%;
-            background-color: var(--background-alt);
+            right: 0;
+            background-color: var(--bg-card);
+            border-top: 1px solid var(--border-color);
             display: flex;
             justify-content: space-around;
-            padding: 0.5rem 0;
-            border-top: 1px solid var(--border-color);
-            z-index: 40;
+            padding: 10px 0;
+            z-index: 90;
         }
         
-        .bottom-nav-item {
+        .nav-item {
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 0.5rem;
+            font-size: 12px;
             color: var(--text-secondary);
-            font-size: 0.7rem;
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: all 0.2s;
         }
         
-        .bottom-nav-item.active {
-            color: var(--primary-light);
+        .nav-item.active {
+            color: var(--primary);
+            background-color: rgba(59, 130, 246, 0.1);
         }
         
-        .bottom-nav-item i {
-            font-size: 1.1rem;
-            margin-bottom: 0.2rem;
+        .nav-item i {
+            font-size: 20px;
+            margin-bottom: 5px;
         }
         
-        .collapsible-section {
-            margin-bottom: 0.75rem;
+        /* Back to top button */
+        .back-to-top {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            background-color: var(--primary);
+            color: white;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            z-index: 80;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+        
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        /* Sticky Calculate Button */
+        .sticky-calculate {
+            position: fixed;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--primary);
+            color: white;
+            font-weight: 500;
+            padding: 10px 25px;
+            border-radius: 30px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            z-index: 80;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 200px;
+        }
+        
+        /* Logo */
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo-img {
+            width: 32px;
+            height: 32px;
+            margin-right: 10px;
+        }
+        
+        /* Container for app content */
+        .app-container {
+            padding-bottom: 70px; /* Space for bottom nav */
+        }
+        
+        /* Section Block */
+        .section-block {
+            margin-bottom: 1.5rem;
+            transition: all 0.3s;
         }
         
         .collapsible-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0.75rem;
-            background-color: var(--highlight);
-            border-radius: 0.375rem;
             cursor: pointer;
-            user-select: none;
+            padding: 0.75rem;
+            background-color: var(--bg-input);
+            border-radius: 0.5rem;
         }
         
         .collapsible-content {
-            padding: 0 0.5rem;
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
+            padding: 1rem 0;
+            display: none;
         }
         
-        .collapsible-content.expanded {
-            max-height: 1000px;
-            padding: 0.75rem 0.5rem;
+        .collapsible-content.show {
+            display: block;
         }
+        
+        .toggle-icon {
+            transition: transform 0.3s;
+        }
+        
+        .toggle-icon.rotate {
+            transform: rotate(180deg);
+        }
+        
+        /* Utility Classes */
+        .text-primary { color: var(--primary); }
+        .text-green { color: var(--green); }
+        .text-error { color: var(--error-color); }
+        .text-warning { color: var(--warning-color); }
+        .bg-primary { background-color: var(--primary); }
+        .bg-card { background-color: var(--bg-card); }
+        .p-safe { padding-bottom: calc(1rem + env(safe-area-inset-bottom)); }
     </style>
 </head>
-<body class="pb-16">
-    <!-- Mobile Header -->
-    <header class="mobile-header">
-        <button id="menuToggle" class="p-2">
-            <i class="fas fa-bars text-xl text-gray-300"></i>
-        </button>
-        <div class="text-center">
-            <div class="font-bold text-primary-light">Quy định xây dựng TP.HCM</div>
-        </div>
-        <div class="w-8"><!-- Placeholder --></div>
+<body>
+    <!-- Header -->
+    <header class="app-header py-3 px-4 flex justify-between items-center">
+        <a href="https://vtzspaxe.com/" target="_blank" class="logo-container">
+            <img src="https://raw.githubusercontent.com/vtzai2024/TinhMatDoXayDung/main/LOGO%20VUONG%20NEN%20TRONG%20SUOT%20-chu%20trang-small.png" alt="Logo VTZ Spaxe" class="logo-img">
+            <div>
+                <div class="font-bold text-base text-primary">VTZ Spaxe</div>
+                <div class="text-xs text-gray-400">Thiết kế & Xây dựng</div>
+            </div>
+        </a>
+        <h1 class="text-lg font-bold ml-2 text-white">Tư vấn xây dựng</h1>
     </header>
 
-    <!-- Mobile Sidebar -->
-    <div class="overlay" id="overlay"></div>
-    <div class="mobile-sidebar" id="mobileSidebar">
-        <div class="p-3 flex items-center justify-between border-b border-gray-700">
-            <div class="flex items-center">
-                <img src="https://raw.githubusercontent.com/vtzai2024/TinhMatDoXayDung/refs/heads/main/LOGO%20VUONG%20NEN%20TRONG%20SUOT%20-chu%20trang-small.png" alt="Logo VTZ Spaxe" class="h-8 w-8 mr-2">
-                <div class="font-bold text-primary-light">VTZ Spaxe</div>
-            </div>
-            <button id="closeSidebar" class="p-2">
-                <i class="fas fa-times text-xl text-gray-300"></i>
-            </button>
-        </div>
-        <nav class="mt-2">
-            <a href="#nhap-thong-tin" class="nav-item px-4 py-3 flex items-center active">
-                <i class="fas fa-edit mr-3"></i>
-                <span>Nhập thông tin</span>
-            </a>
-            <a href="#ket-qua" class="nav-item px-4 py-3 flex items-center">
-                <i class="fas fa-calculator mr-3"></i>
-                <span>Kết quả tính toán</span>
-            </a>
-            <a href="#khai-toan" class="nav-item px-4 py-3 flex items-center">
-                <i class="fas fa-file-invoice-dollar mr-3"></i>
-                <span>Khái toán chi phí</span>
-            </a>
-            <a href="#huong-dan" class="nav-item px-4 py-3 flex items-center">
-                <i class="fas fa-book mr-3"></i>
-                <span>Hướng dẫn sử dụng</span>
-            </a>
-            <a href="#lien-he" class="nav-item px-4 py-3 flex items-center">
-                <i class="fas fa-envelope mr-3"></i>
-                <span>Liên hệ tư vấn</span>
-            </a>
-            <a href="#gioi-thieu" class="nav-item px-4 py-3 flex items-center">
-                <i class="fas fa-building mr-3"></i>
-                <span>Về chúng tôi</span>
-            </a>
-        </nav>
-        <div class="p-3 text-xs text-gray-400 border-t border-gray-700 mt-3">
-            QĐ số 56/2021/QĐ-UBND
-        </div>
-    </div>
+    <!-- Main Content -->
+    <div class="app-container pb-20">
+        <!-- Tab Content Sections -->
+        <div class="tab-content active" id="tab-input">
+            <div class="p-4">
+                <h2 class="text-lg font-bold mb-3">Thông tin lô đất</h2>
+                <div class="form-card p-4 mb-5">
+                    <div class="mb-4">
+                        <label for="dienTichDat" class="form-label">Diện tích lô đất (m²)</label>
+                        <input type="number" id="dienTichDat" class="form-input" placeholder="Nhập diện tích" min="0" step="0.01">
+                        <div id="dienTichDat-error" class="error-message">Vui lòng nhập diện tích lô đất</div>
+                    </div>
+                    <div class="mb-4">
+                        <label for="chieuSauDat" class="form-label">Chiều sâu lô đất (m)</label>
+                        <input type="number" id="chieuSauDat" class="form-input" placeholder="Nhập chiều sâu" min="0" step="0.01">
+                        <div id="chieuSauDat-error" class="error-message">Vui lòng nhập chiều sâu lô đất</div>
+                    </div>
+                    <div class="mb-4">
+                        <label for="chieuRongLoGioi" class="form-label">Chiều rộng lộ giới (m)</label>
+                        <input type="number" id="chieuRongLoGioi" class="form-input" placeholder="Nhập chiều rộng lộ giới" min="0" step="0.01">
+                        <div id="chieuRongLoGioi-error" class="error-message">Vui lòng nhập chiều rộng lộ giới</div>
+                    </div>
+                    <div class="mb-4">
+                        <label for="chieuRongMatTien" class="form-label">Chiều rộng mặt tiền (m)</label>
+                        <input type="number" id="chieuRongMatTien" class="form-input" placeholder="Nhập chiều rộng mặt tiền" min="0" step="0.01">
+                        <div id="chieuRongMatTien-error" class="error-message">Vui lòng nhập chiều rộng mặt tiền</div>
+                    </div>
+                </div>
 
-    <!-- Main content -->
-    <div class="content p-3">
-        <!-- Tabs for main sections -->
-        <div class="tab-container" id="mainTabs">
-            <button class="tab-button active" data-target="nhap-thong-tin">Nhập dữ liệu</button>
-            <button class="tab-button" data-target="ket-qua">Kết quả</button>
-            <button class="tab-button" data-target="khai-toan">Khái toán</button>
-            <button class="tab-button" data-target="huong-dan">Hướng dẫn</button>
-        </div>
+                <h2 class="text-lg font-bold mb-3">Điều kiện đặc biệt</h2>
+                <div class="form-card p-4 mb-5">
+                    <label class="custom-checkbox">
+                        <input type="checkbox" id="quanTrungTam" name="viTri">
+                        <span>Thuộc Quận trung tâm hoặc Trung tâm cấp quận</span>
+                    </label>
+                    <label class="custom-checkbox">
+                        <input type="checkbox" id="trucDuongThuongMai" name="viTri">
+                        <span>Thuộc trục đường thương mại - dịch vụ</span>
+                    </label>
+                    <label class="custom-checkbox">
+                        <input type="checkbox" id="matTienTren8m" name="viTri">
+                        <span>Có chiều rộng mặt tiền > 8,0m</span>
+                    </label>
+                    <label class="custom-checkbox">
+                        <input type="checkbox" id="loGoc" name="viTri">
+                        <span>Lô góc tiếp giáp hai đường</span>
+                    </label>
+                </div>
 
-        <!-- Tab content -->
-        <div class="tab-content active" id="nhap-thong-tin">
-            <!-- Thông tin lô đất -->
-            <div class="collapsible-section">
-                <div class="collapsible-header">
-                    <div class="font-bold text-sm">
-                        <i class="fas fa-info-circle mr-2"></i> Thông tin lô đất
+                <h2 class="text-lg font-bold mb-3">Đơn giá thi công</h2>
+                <div class="form-card p-4 mb-6">
+                    <div class="mb-4">
+                        <label for="donGiaThietKe" class="form-label">Đơn giá thiết kế (VNĐ/m²)</label>
+                        <input type="text" id="donGiaThietKe" class="form-input" value="250000" inputmode="numeric">
                     </div>
-                    <i class="fas fa-chevron-down text-xs"></i>
-                </div>
-                <div class="collapsible-content expanded">
-                    <div class="mb-3">
-                        <label for="dienTichDat" class="form-label text-sm">Diện tích lô đất (m²)</label>
-                        <input type="number" id="dienTichDat" class="form-input" placeholder="Nhập diện tích" min="0" step="0.01" inputmode="decimal">
-                        <div id="dienTichDat-error" class="error-message"></div>
+                    <div class="mb-4">
+                        <label for="donGiaPhanTho" class="form-label">Đơn giá phần thô (VNĐ/m²)</label>
+                        <input type="text" id="donGiaPhanTho" class="form-input" value="4000000" inputmode="numeric">
                     </div>
-                    <div class="mb-3">
-                        <label for="chieuSauDat" class="form-label text-sm">Chiều sâu lô đất (m)</label>
-                        <input type="number" id="chieuSauDat" class="form-input" placeholder="Nhập chiều sâu" min="0" step="0.01" inputmode="decimal">
-                        <div id="chieuSauDat-error" class="error-message"></div>
+                    <div class="mb-4">
+                        <label for="donGiaHoanThien" class="form-label">Đơn giá hoàn thiện (VNĐ/m²)</label>
+                        <input type="text" id="donGiaHoanThien" class="form-input" value="2500000" inputmode="numeric">
                     </div>
-                    <div class="mb-3">
-                        <label for="chieuRongLoGioi" class="form-label text-sm">Chiều rộng lộ giới (m)</label>
-                        <input type="number" id="chieuRongLoGioi" class="form-input" placeholder="Nhập lộ giới" min="0" step="0.01" inputmode="decimal">
-                        <div id="chieuRongLoGioi-error" class="error-message"></div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="chieuRongMatTien" class="form-label text-sm">Chiều rộng mặt tiền (m)</label>
-                        <input type="number" id="chieuRongMatTien" class="form-input" placeholder="Nhập mặt tiền" min="0" step="0.01" inputmode="decimal">
-                        <div id="chieuRongMatTien-error" class="error-message"></div>
-                    </div>
-                    <div class="mt-3">
-                        <p class="form-label text-sm mb-2">Điều kiện đặc biệt:</p>
-                        <div class="checkbox-item mb-2">
-                            <input type="checkbox" id="quanTrungTam" name="viTri" class="mr-2">
-                            <label for="quanTrungTam" class="text-sm">Thuộc Quận trung tâm</label>
-                        </div>
-                        <div class="checkbox-item mb-2">
-                            <input type="checkbox" id="trucDuongThuongMai" name="viTri" class="mr-2">
-                            <label for="trucDuongThuongMai" class="text-sm">Trục đường thương mại</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="matTienTren8m" name="viTri" class="mr-2">
-                            <label for="matTienTren8m" class="text-sm">Mặt tiền > 8,0m</label>
-                        </div>
+                    <div class="mb-4">
+                        <label for="donGiaNoiThat" class="form-label">Đơn giá nội thất (VNĐ/m²)</label>
+                        <input type="text" id="donGiaNoiThat" class="form-input" value="2000000" inputmode="numeric">
                     </div>
                 </div>
-            </div>
 
-            <!-- Đơn giá thi công -->
-            <div class="collapsible-section">
-                <div class="collapsible-header">
-                    <div class="font-bold text-sm">
-                        <i class="fas fa-dollar-sign mr-2"></i> Đơn giá thi công
-                    </div>
-                    <i class="fas fa-chevron-down text-xs"></i>
-                </div>
-                <div class="collapsible-content">
-                    <div class="mb-3">
-                        <label for="donGiaThietKe" class="form-label text-sm">Đơn giá thiết kế (VNĐ/m²)</label>
-                        <input type="text" id="donGiaThietKe" class="form-input currency-input" value="250.000" placeholder="VNĐ/m²" inputmode="decimal">
-                    </div>
-                    <div class="mb-3">
-                        <label for="donGiaPhanTho" class="form-label text-sm">Đơn giá phần thô (VNĐ/m²)</label>
-                        <input type="text" id="donGiaPhanTho" class="form-input currency-input" value="4.000.000" placeholder="VNĐ/m²" inputmode="decimal">
-                    </div>
-                    <div class="mb-3">
-                        <label for="donGiaHoanThien" class="form-label text-sm">Đơn giá hoàn thiện (VNĐ/m²)</label>
-                        <input type="text" id="donGiaHoanThien" class="form-input currency-input" value="2.500.000" placeholder="VNĐ/m²" inputmode="decimal">
-                    </div>
-                    <div class="mb-3">
-                        <label for="donGiaNoiThat" class="form-label text-sm">Đơn giá nội thất (VNĐ/m²)</label>
-                        <input type="text" id="donGiaNoiThat" class="form-input currency-input" value="2.000.000" placeholder="VNĐ/m²" inputmode="decimal">
-                    </div>
-                    <div class="mt-3">
-                        <p class="form-label text-sm mb-2">Tùy chọn bổ sung:</p>
-                        <div class="checkbox-item mb-2">
-                            <input type="checkbox" id="coTangLung" name="tangLung" class="mr-2" checked>
-                            <label for="coTangLung" class="text-sm">Có tầng lửng</label>
-                            <div id="tangLungInfo" class="text-xs text-gray-400 mt-1">Chỉ khi lộ giới ≥ 6m</div>
-                        </div>
-                        <div class="checkbox-item mb-2">
-                            <input type="checkbox" id="coTangDinhMai" name="tangDinhMai" class="mr-2" checked disabled>
-                            <label for="coTangDinhMai" class="text-sm">Có tầng đỉnh mái</label>
-                            <span class="ml-1 px-1 py-0.5 info-badge text-xs rounded">BT</span>
-                        </div>
-                        <div class="checkbox-item mb-2">
-                            <input type="checkbox" id="coSanThuong" name="sanThuong" class="mr-2" checked>
-                            <label for="coSanThuong" class="text-sm">Có sân thượng</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="coMaiBTCT" name="maiBTCT" class="mr-2" checked>
-                            <label for="coMaiBTCT" class="text-sm">Có mái BTCT</label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Diện tích xây dựng -->
-            <div class="collapsible-section">
-                <div class="collapsible-header">
-                    <div class="font-bold text-sm">
-                        <i class="fas fa-ruler-combined mr-2"></i> Diện tích xây dựng
-                    </div>
-                    <i class="fas fa-chevron-down text-xs"></i>
-                </div>
-                <div class="collapsible-content">
-                    <!-- Tầng hầm -->
-                    <div class="construction-area-section">
-                        <h3 class="construction-area-title">
-                            <i class="fas fa-arrow-down mr-1"></i> Tầng hầm
-                        </h3>
-                        <div class="radio-group mb-2">
-                            <div class="radio-item mb-1">
-                                <input type="radio" name="tangHam" id="khongTangHam" value="none" checked class="mr-2">
-                                <label for="khongTangHam" class="text-sm">Không có tầng hầm</label>
-                            </div>
-                            <div class="radio-item">
-                                <input type="radio" name="tangHam" id="coTangHam" value="ham" class="mr-2">
-                                <label for="coTangHam" class="text-sm">Có tầng hầm</label>
-                            </div>
-                        </div>
-                        <div id="tangHamOptions" class="pl-2 mt-2 hidden">
-                            <div class="construction-area-grid">
-                                <div class="construction-radio-item">
-                                    <input type="radio" name="doSauHam" id="doSau1" value="1.5">
-                                    <label for="doSau1" class="radio-label">
-                                        <span>1.0m - 1.3m</span>
-                                        <span class="radio-coefficient">150%</span>
-                                    </label>
-                                </div>
-                                <div class="construction-radio-item">
-                                    <input type="radio" name="doSauHam" id="doSau2" value="1.7">
-                                    <label for="doSau2" class="radio-label">
-                                        <span>1.3m - 1.7m</span>
-                                        <span class="radio-coefficient">170%</span>
-                                    </label>
-                                </div>
-                                <div class="construction-radio-item">
-                                    <input type="radio" name="doSauHam" id="doSau3" value="2.0">
-                                    <label for="doSau3" class="radio-label">
-                                        <span>1.7m - 2.0m</span>
-                                        <span class="radio-coefficient">200%</span>
-                                    </label>
-                                </div>
-                                <div class="construction-radio-item">
-                                    <input type="radio" name="doSauHam" id="doSau4" value="2.2">
-                                    <label for="doSau4" class="radio-label">
-                                        <span>Trên 2.0m</span>
-                                        <span class="radio-coefficient">220%</span>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="checkbox-item mt-2">
-                                <input type="checkbox" id="hamNho" class="mr-2">
-                                <label for="hamNho" class="text-sm">Hầm < 70m²</label>
-                                <span class="ml-1 px-1 py-0.5 info-badge text-xs rounded">+20%</span>
-                            </div>
-                        </div>
-                    </div>
+                <h2 class="text-lg font-bold mb-3">Tùy chọn bổ sung</h2>
+                <div class="form-card p-4 mb-6">
+                    <label class="custom-checkbox">
+                        <input type="checkbox" id="coTangLung" name="tangLung" checked>
+                        <span>Có tầng lửng</span>
+                    </label>
+                    <div id="tangLungInfo" class="ml-8 text-sm text-gray-400 mb-3">Chỉ được phép khi chiều rộng lộ giới ≥ 6m</div>
                     
-                    <!-- Móng -->
-                    <div class="construction-area-section">
-                        <h3 class="construction-area-title">
-                            <i class="fas fa-arrow-down mr-1"></i> Móng
-                        </h3>
-                        <div class="construction-area-grid">
-                            <div class="construction-radio-item">
-                                <input type="radio" name="loaiMong" id="mongDon" value="0.3" checked>
-                                <label for="mongDon" class="radio-label">
-                                    <span>Móng đơn</span>
-                                    <span class="radio-coefficient">30%</span>
-                                </label>
-                            </div>
-                            <div class="construction-radio-item">
-                                <input type="radio" name="loaiMong" id="mongCoc" value="0.5">
-                                <label for="mongCoc" class="radio-label">
-                                    <span>Móng cọc</span>
-                                    <span class="radio-coefficient">50%</span>
-                                </label>
-                            </div>
-                            <div class="construction-radio-item">
-                                <input type="radio" name="loaiMong" id="mongBang" value="0.5">
-                                <label for="mongBang" class="radio-label">
-                                    <span>Móng băng</span>
-                                    <span class="radio-coefficient">50%</span>
-                                </label>
-                            </div>
-                            <div class="construction-radio-item">
-                                <input type="radio" name="loaiMong" id="mongBe" value="0.8">
-                                <label for="mongBe" class="radio-label">
-                                    <span>Móng bè</span>
-                                    <span class="radio-coefficient">80%</span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
+                    <label class="custom-checkbox">
+                        <input type="checkbox" id="coTangDinhMai" name="tangDinhMai" checked disabled>
+                        <span>Có tầng đỉnh mái</span>
+                        <span class="ml-2 px-2 py-0.5 bg-blue-900 text-blue-300 text-xs rounded">Bắt buộc</span>
+                    </label>
                     
-                    <!-- Mái -->
-                    <div class="construction-area-section">
-                        <h3 class="construction-area-title">
-                            <i class="fas fa-home mr-1"></i> Mái
-                        </h3>
-                        <div class="construction-area-grid">
-                            <div class="construction-radio-item">
-                                <input type="radio" name="loaiMai" id="maiBTCT" value="0.5" checked>
-                                <label for="maiBTCT" class="radio-label">
-                                    <span>Mái BTCT</span>
-                                    <span class="radio-coefficient">50%</span>
-                                </label>
+                    <label class="custom-checkbox">
+                        <input type="checkbox" id="coSanThuong" name="sanThuong" checked>
+                        <span>Có sân thượng</span>
+                    </label>
+                    
+                    <label class="custom-checkbox">
+                        <input type="checkbox" id="coMaiBTCT" name="maiBTCT" checked>
+                        <span>Có mái BTCT</span>
+                    </label>
+                </div>
+
+                <!-- Calculate Button -->
+                <button id="tinhToanBtn" class="btn-primary mb-10">
+                    <i class="fas fa-calculator mr-2"></i>
+                    <span>Tính toán</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="tab-content" id="tab-results">
+            <div class="p-4">
+                <h2 class="text-lg font-bold mb-3">Kết quả tính toán</h2>
+                
+                <!-- Thông số cơ bản -->
+                <div class="section-block">
+                    <div class="collapsible-header">
+                        <h3 class="font-semibold"><i class="fas fa-info-circle mr-2"></i> Thông số cơ bản</h3>
+                        <i class="fas fa-chevron-down toggle-icon"></i>
+                    </div>
+                    <div class="collapsible-content show">
+                        <div class="result-card p-4">
+                            <div class="result-row">
+                                <span class="result-label">Diện tích lô đất:</span>
+                                <span class="result-value" id="dienTichLoDat">--</span>
                             </div>
-                            <div class="construction-radio-item">
-                                <input type="radio" name="loaiMai" id="maiTon" value="0.3">
-                                <label for="maiTon" class="radio-label">
-                                    <span>Mái tôn</span>
-                                    <span class="radio-coefficient">30%</span>
-                                </label>
+                            <div class="result-row">
+                                <span class="result-label">Diện tích được xây dựng:</span>
+                                <span class="result-value" id="dienTichXayDung">--</span>
                             </div>
-                            <div class="construction-radio-item">
-                                <input type="radio" name="loaiMai" id="maiNgoi" value="0.7">
-                                <label for="maiNgoi" class="radio-label">
-                                    <span>Mái ngói</span>
-                                    <span class="radio-coefficient">70%</span>
-                                </label>
+                            <div class="result-row">
+                                <span class="result-label">Mật độ xây dựng:</span>
+                                <span class="result-value" id="matDoXayDung">--</span>
                             </div>
-                            <div class="construction-radio-item">
-                                <input type="radio" name="loaiMai" id="maiXienBTCT" value="0.8">
-                                <label for="maiXienBTCT" class="radio-label">
-                                    <span>Mái xiên BTCT</span>
-                                    <span class="radio-coefficient">80%</span>
-                                </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Khoảng lùi -->
+                <div class="section-block">
+                    <div class="collapsible-header">
+                        <h3 class="font-semibold"><i class="fas fa-arrows-alt-h mr-2"></i> Khoảng lùi</h3>
+                        <i class="fas fa-chevron-down toggle-icon"></i>
+                    </div>
+                    <div class="collapsible-content">
+                        <div class="result-card p-4">
+                            <div class="result-row">
+                                <span class="result-label">Khoảng lùi phía sau:</span>
+                                <span class="result-value" id="khoangLuiSau">--</span>
+                            </div>
+                            <div class="result-row">
+                                <span class="result-label">Diện tích sân sau:</span>
+                                <span class="result-value" id="dienTichSanSau">--</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Chiều cao và số tầng -->
+                <div class="section-block">
+                    <div class="collapsible-header">
+                        <h3 class="font-semibold"><i class="fas fa-building mr-2"></i> Chiều cao và số tầng</h3>
+                        <i class="fas fa-chevron-down toggle-icon"></i>
+                    </div>
+                    <div class="collapsible-content">
+                        <div class="result-card p-4">
+                            <div class="result-row">
+                                <span class="result-label">Số tầng tối đa:</span>
+                                <span class="result-value" id="soTangToiDa">--</span>
+                            </div>
+                            <div class="result-row">
+                                <span class="result-label">Chiều cao tại CGXD:</span>
+                                <span class="result-value" id="chieuCaoToiDaTaiCGXD">--</span>
+                            </div>
+                            <div class="result-row">
+                                <span class="result-label">Chiều cao tại đỉnh mái:</span>
+                                <span class="result-value" id="chieuCaoToiDaTaiDinhMai">--</span>
+                            </div>
+                            <div class="result-row">
+                                <span class="result-label">Tầng lửng:</span>
+                                <span class="result-value" id="thongTinTangLung">--</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Ban công và ô văng -->
+                <div class="section-block">
+                    <div class="collapsible-header">
+                        <h3 class="font-semibold"><i class="fas fa-home mr-2"></i> Ban công và ô văng</h3>
+                        <i class="fas fa-chevron-down toggle-icon"></i>
+                    </div>
+                    <div class="collapsible-content">
+                        <div class="result-card p-4">
+                            <div class="result-row">
+                                <span class="result-label">Độ vươn tối đa của ban công:</span>
+                                <span class="result-value" id="doVuonBanCong">--</span>
+                            </div>
+                            <div class="result-row">
+                                <span class="result-label">Diện tích ban công:</span>
+                                <span class="result-value" id="dienTichBanCong">--</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Điều kiện đặc biệt -->
+                <div class="section-block" id="dieu-kien-dac-biet-section">
+                    <div class="collapsible-header bg-yellow-800">
+                        <h3 class="font-semibold"><i class="fas fa-exclamation-triangle mr-2 text-yellow-400"></i> Điều kiện đặc biệt</h3>
+                        <i class="fas fa-chevron-down toggle-icon"></i>
+                    </div>
+                    <div class="collapsible-content">
+                        <div class="p-4 bg-yellow-900 rounded-lg">
+                            <p class="mb-2 text-yellow-200" id="dieu-kien-content">
+                                Không có điều kiện đặc biệt áp dụng cho lô đất này.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="p-4 bg-blue-900 border-l-4 border-blue-500 rounded-lg mt-4">
+                    <div class="flex">
+                        <div class="flex-shrink-0">
+                            <i class="fas fa-info-circle text-blue-300"></i>
+                        </div>
+                        <div class="ml-3">
+                            <h3 class="text-sm font-medium text-blue-300">Lưu ý:</h3>
+                            <div class="mt-1 text-sm text-blue-200">
+                                <p>Kết quả tính toán chỉ mang tính tham khảo theo QĐ số 56/2021/QĐ-UBND.</p>
                             </div>
                         </div>
                     </div>
@@ -791,1162 +690,1090 @@
             </div>
         </div>
 
-        <!-- Kết quả tính toán -->
-        <div class="tab-content" id="ket-qua">
-            <div class="result-section">
-                <div class="result-title">
-                    <i class="fas fa-ruler-combined mr-1"></i> Diện tích và mật độ
-                </div>
-                <div class="result-row">
-                    <span class="result-label">Diện tích lô đất:</span>
-                    <span class="result-value" id="dienTichLoDat">--</span>
-                </div>
-                <div class="result-row">
-                    <span class="result-label">Diện tích được xây dựng:</span>
-                    <span class="result-value" id="dienTichXayDung">--</span>
-                </div>
-                <div class="result-row">
-                    <span class="result-label">Mật độ xây dựng:</span>
-                    <span class="result-value" id="matDoXayDung">--</span>
-                </div>
-            </div>
-            <div class="result-section">
-                <div class="result-title">
-                    <i class="fas fa-arrows-alt-h mr-1"></i> Khoảng lùi
-                </div>
-                <div class="result-row">
-                    <span class="result-label">Khoảng lùi phía sau:</span>
-                    <span class="result-value" id="khoangLuiSau">--</span>
-                </div>
-                <div class="result-row">
-                    <span class="result-label">Diện tích sân sau:</span>
-                    <span class="result-value" id="dienTichSanSau">--</span>
-                </div>
-            </div>
-            <div class="result-section">
-                <div class="result-title">
-                    <i class="fas fa-building mr-1"></i> Chiều cao và số tầng
-                </div>
-                <div class="result-row">
-                    <span class="result-label">Số tầng tối đa:</span>
-                    <span class="result-value" id="soTangToiDa">--</span>
-                </div>
-                <div class="result-row">
-                    <span class="result-label">Chiều cao tại CGXD:</span>
-                    <span class="result-value" id="chieuCaoToiDaTaiCGXD">--</span>
-                </div>
-                <div class="result-row">
-                    <span class="result-label">Chiều cao tại đỉnh mái:</span>
-                    <span class="result-value" id="chieuCaoToiDaTaiDinhMai">--</span>
-                </div>
-                <div class="result-row">
-                    <span class="result-label">Tầng lửng:</span>
-                    <span class="result-value" id="thongTinTangLung">--</span>
-                </div>
-            </div>
-            <div class="result-section">
-                <div class="result-title">
-                    <i class="fas fa-home mr-1"></i> Ban công và ô văng
-                </div>
-                <div class="result-row">
-                    <span class="result-label">Độ vươn ban công:</span>
-                    <span class="result-value" id="doVuonBanCong">--</span>
-                </div>
-                <div class="result-row">
-                    <span class="result-label">Diện tích ban công:</span>
-                    <span class="result-value" id="dienTichBanCong">--</span>
-                </div>
-            </div>
-            <div class="p-2 alert-yellow border-l-4 mt-3 text-xs rounded">
-                <div class="flex">
-                    <div class="flex-shrink-0">
-                        <i class="fas fa-exclamation-triangle text-yellow-dark"></i>
-                    </div>
-                    <div class="ml-3">
-                        <h3 class="text-xs font-medium text-yellow-dark">Lưu ý quan trọng:</h3>
-                        <p class="mt-1 text-gray-300">Kết quả mang tính tham khảo. Vui lòng liên hệ cơ quan có thẩm quyền để được hướng dẫn cụ thể.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Khái toán chi phí -->
-        <div class="tab-content" id="khai-toan">
-            <div class="overflow-x-auto">
-                <table class="khai-toan-table" id="khaiToanTable">
-                    <thead>
-                        <tr>
-                            <th>STT</th>
-                            <th>Hạng mục</th>
-                            <th>DT (m²)</th>
-                            <th>Hệ số</th>
-                            <th>XD (m²)</th>
-                            <th>Xây</th>
-                        </tr>
-                    </thead>
-                    <tbody id="khaiToanBody">
-                        <tr>
-                            <td colspan="6" class="text-center py-4 text-xs">
-                                Nhập thông tin và nhấn "Tính toán" để xem kết quả
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="mt-3 p-3 bg-blue-900 bg-opacity-30 rounded-lg">
-                <div class="flex justify-between items-center mb-2">
-                    <span class="font-medium text-xs">Chi phí thiết kế:</span>
-                    <span id="chiPhiThietKe" class="font-semibold text-primary-light text-xs">--</span>
-                </div>
-                <div class="flex justify-between items-center mb-2">
-                    <span class="font-medium text-xs">Chi phí phần thô:</span>
-                    <span id="chiPhiPhanTho" class="font-semibold text-primary-light text-xs">--</span>
-                </div>
-                <div class="flex justify-between items-center mb-2">
-                    <span class="font-medium text-xs">Chi phí hoàn thiện:</span>
-                    <span id="chiPhiHoanThien" class="font-semibold text-primary-light text-xs">--</span>
-                </div>
-                <div class="flex justify-between items-center">
-                    <span class="font-medium text-xs">Chi phí nội thất:</span>
-                    <span id="chiPhiNoiThat" class="font-semibold text-primary-light text-xs">--</span>
-                </div>
-            </div>
-            <div class="flex justify-between items-center mt-3 p-3 bg-green-900 bg-opacity-60 rounded-lg text-white">
-                <span class="font-bold text-sm">Tổng chi phí:</span>
-                <span id="tongChiPhi" class="font-bold text-sm">--</span>
-            </div>
-        </div>
-
-        <!-- Hướng dẫn sử dụng -->
-        <div class="tab-content" id="huong-dan">
-            <div class="collapsible-section">
-                <div class="collapsible-header">
-                    <div class="font-bold text-sm">
-                        <i class="fas fa-table mr-2"></i> Mật độ xây dựng
-                    </div>
-                    <i class="fas fa-chevron-down text-xs"></i>
-                </div>
-                <div class="collapsible-content">
-                    <table class="khai-toan-table text-xs mb-2">
-                        <tr>
-                            <th>Diện tích lô đất (m²)</th>
-                            <th>Mật độ tối đa (%)</th>
-                        </tr>
-                        <tr><td>≤ 50</td><td>100</td></tr>
-                        <tr><td>100</td><td>90</td></tr>
-                        <tr><td>200</td><td>70</td></tr>
-                        <tr><td>300</td><td>60</td></tr>
-                        <tr><td>500</td><td>50</td></tr>
+        <div class="tab-content" id="tab-cost">
+            <div class="p-4">
+                <h2 class="text-lg font-bold mb-3">Khái toán chi phí xây dựng</h2>
+                
+                <div class="mb-4 overflow-x-auto">
+                    <table class="data-table" id="khaiToanTable">
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>Hạng mục</th>
+                                <th>DT (m²)</th>
+                                <th>Hệ số</th>
+                                <th>XD (m²)</th>
+                                <th>Xây</th>
+                            </tr>
+                        </thead>
+                        <tbody id="khaiToanBody">
+                            <tr>
+                                <td colspan="6" class="text-center py-4">
+                                    Nhập thông tin và nhấn "Tính toán" để xem kết quả
+                                </td>
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
-            </div>
-            
-            <div class="collapsible-section">
-                <div class="collapsible-header">
-                    <div class="font-bold text-sm">
-                        <i class="fas fa-arrows-alt-h mr-2"></i> Khoảng lùi phía sau
+                
+                <div class="result-card p-4 mb-6">
+                    <div class="section-block">
+                        <div class="collapsible-header">
+                            <h3 class="font-semibold"><i class="fas fa-money-bill-wave mr-2"></i> Chi tiết chi phí</h3>
+                            <i class="fas fa-chevron-down toggle-icon"></i>
+                        </div>
+                        <div class="collapsible-content show">
+                            <div class="mt-3">
+                                <div class="flex justify-between items-center mb-3">
+                                    <span class="font-medium">Chi phí thiết kế:</span>
+                                    <span id="chiPhiThietKe" class="font-semibold text-primary">--</span>
+                                </div>
+                                <div class="flex justify-between items-center mb-3">
+                                    <span class="font-medium">Chi phí phần thô:</span>
+                                    <span id="chiPhiPhanTho" class="font-semibold text-primary">--</span>
+                                </div>
+                                <div class="flex justify-between items-center mb-3">
+                                    <span class="font-medium">Chi phí hoàn thiện:</span>
+                                    <span id="chiPhiHoanThien" class="font-semibold text-primary">--</span>
+                                </div>
+                                <div class="flex justify-between items-center mb-3">
+                                    <span class="font-medium">Chi phí nội thất:</span>
+                                    <span id="chiPhiNoiThat" class="font-semibold text-primary">--</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <i class="fas fa-chevron-down text-xs"></i>
                 </div>
-                <div class="collapsible-content">
-                    <ul class="list-disc pl-4 space-y-1 text-xs">
-                        <li>D ≥ 16m: Khoảng lùi tối thiểu 2m</li>
-                        <li>9m ≤ D < 16m: Khoảng lùi tối thiểu 1m</li>
-                        <li>D < 9m: Khuyến khích tạo khoảng trống phía sau</li>
+                
+                <div class="flex justify-between items-center p-4 bg-green-800 rounded-lg text-white mb-6">
+                    <span class="font-bold text-lg">Tổng chi phí:</span>
+                    <span id="tongChiPhi" class="font-bold text-lg">--</span>
+                </div>
+                
+                <div class="text-sm text-gray-400">
+                    <h3 class="font-medium mb-2">Ghi chú:</h3>
+                    <ul class="list-disc pl-5 space-y-1">
+                        <li>Chi phí thiết kế = Tổng diện tích thiết kế × Đơn giá thiết kế</li>
+                        <li>Chi phí phần thô = Tổng diện tích xây dựng × Đơn giá phần thô</li>
+                        <li>Chi phí hoàn thiện = Tổng diện tích xây dựng × Đơn giá hoàn thiện</li>
+                        <li>Chi phí nội thất = Tổng diện tích xây dựng × 0,85 × Đơn giá nội thất</li>
+                        <li>Chi phí chưa bao gồm thuế VAT và các chi phí phát sinh khác</li>
                     </ul>
                 </div>
             </div>
-            
-            <div class="collapsible-section">
-                <div class="collapsible-header">
-                    <div class="font-bold text-sm">
-                        <i class="fas fa-building mr-2"></i> Số tầng cao độ
+        </div>
+
+        <div class="tab-content" id="tab-info">
+            <div class="p-4">
+                <h2 class="text-lg font-bold mb-3">Thông tin phụ lục</h2>
+                
+                <!-- Lô đất đặc biệt -->
+                <div class="section-block">
+                    <div class="collapsible-header">
+                        <h3 class="font-semibold"><i class="fas fa-map-marked-alt mr-2"></i> Lô đất đặc biệt</h3>
+                        <i class="fas fa-chevron-down toggle-icon"></i>
                     </div>
-                    <i class="fas fa-chevron-down text-xs"></i>
-                </div>
-                <div class="collapsible-content">
-                    <ul class="list-disc pl-4 space-y-1 text-xs">
-                        <li>L ≥ 25m: 6 tầng</li>
-                        <li>16m ≤ L < 25m: 5 tầng + tầng cộng thêm (nếu có điều kiện)</li>
-                        <li>6m ≤ L < 16m: 4 tầng + tầng cộng thêm (nếu có điều kiện)</li>
-                        <li>3.5m ≤ L < 6m: 3 tầng + tầng cộng thêm (nếu có điều kiện)</li>
-                        <li>L < 3.5m: 3 tầng (không cộng thêm)</li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="collapsible-section">
-                <div class="collapsible-header">
-                    <div class="font-bold text-sm">
-                        <i class="fas fa-home mr-2"></i> Ban công và ô văng
-                    </div>
-                    <i class="fas fa-chevron-down text-xs"></i>
-                </div>
-                <div class="collapsible-content">
-                    <table class="khai-toan-table text-xs">
-                        <tr>
-                            <th>Chiều rộng lộ giới (m)</th>
-                            <th>Độ vươn tối đa (m)</th>
-                        </tr>
-                        <tr><td>L < 7</td><td>0</td></tr>
-                        <tr><td>7 ≤ L < 12</td><td>0,9</td></tr>
-                        <tr><td>12 ≤ L < 20</td><td>1,2</td></tr>
-                        <tr><td>L ≥ 20</td><td>1,4</td></tr>
-                    </table>
-                </div>
-            </div>
-            
-            <!-- Liên hệ tư vấn -->
-            <div class="collapsible-section mt-5" id="lien-he">
-                <div class="collapsible-header">
-                    <div class="font-bold text-sm">
-                        <i class="fas fa-envelope mr-2"></i> Liên hệ tư vấn
-                    </div>
-                    <i class="fas fa-chevron-down text-xs"></i>
-                </div>
-                <div class="collapsible-content">
-                    <form>
-                        <div class="mb-3">
-                            <label for="hoTen" class="form-label text-sm">Họ và tên</label>
-                            <input type="text" id="hoTen" class="form-input" placeholder="Nhập họ tên">
-                        </div>
-                        <div class="mb-3">
-                            <label for="soDienThoai" class="form-label text-sm">Số điện thoại</label>
-                            <input type="tel" id="soDienThoai" class="form-input" placeholder="Nhập SĐT" inputmode="tel">
-                        </div>
-                        <div class="mb-3">
-                            <label for="noiDung" class="form-label text-sm">Nội dung</label>
-                            <textarea id="noiDung" class="form-input" rows="3" placeholder="Nhập nội dung cần tư vấn"></textarea>
-                        </div>
-                        <button type="button" class="btn-primary px-4 py-2 rounded-lg w-full">
-                            <i class="fas fa-paper-plane mr-2"></i> Gửi thông tin
-                        </button>
-                    </form>
-                </div>
-            </div>
-            
-            <!-- Về chúng tôi -->
-            <div class="collapsible-section" id="gioi-thieu">
-                <div class="collapsible-header">
-                    <div class="font-bold text-sm">
-                        <i class="fas fa-building mr-2"></i> Về chúng tôi
-                    </div>
-                    <i class="fas fa-chevron-down text-xs"></i>
-                </div>
-                <div class="collapsible-content">
-                    <div class="flex flex-col items-center mb-3">
-                        <img src="https://raw.githubusercontent.com/vtzai2024/TinhMatDoXayDung/refs/heads/main/LOGO%20VUONG%20NEN%20TRONG%20SUOT%20-chu%20trang-small.png" alt="Logo VTZ Spaxe" class="h-16 w-16 mb-2">
-                        <div class="text-center">
-                            <div class="font-bold text-sm">Công ty TNHH Thiết kế và xây dựng VTZ Spaxe</div>
-                            <p class="text-xs text-gray-400">TIÊN PHONG - TẬN TÂM - TRUNG THỰC - TRÍ TUỆ</p>
+                    <div class="collapsible-content">
+                        <div class="mt-3 space-y-4">
+                            <p>Lô đất có vị trí đặc biệt là lô đất có vị trí tại góc giao của hai hoặc ba đường (hoặc hẻm) hoặc tiếp giáp hai đường (hoặc hẻm) có quy định khác nhau về tầng cao.</p>
+                            
+                            <p class="font-medium text-primary">Nếu chiều rộng lô đất (tại vị trí tiếp giáp ranh lộ giới) tối thiểu 3,0m quay về phía đường lớn:</p>
+                            <ul class="list-disc pl-5 space-y-1">
+                                <li>Được phép xây dựng số tầng, chiều cao, ban công theo quy định của đường lớn.</li>
+                                <li>Phần công trình tiếp giáp đường nhỏ được phép xây dựng số tầng, chiều cao, ban công theo quy định của đường lớn trong phạm vi 25m từ góc giao lộ.</li>
+                            </ul>
+                            
+                            <p class="font-medium text-primary">Nếu chiều rộng lô đất nhỏ hơn 3,0m quay về phía đường lớn:</p>
+                            <ul class="list-disc pl-5 space-y-1">
+                                <li>Các chỉ tiêu quy hoạch kiến trúc được xác định theo quy định đối với đường nhỏ.</li>
+                            </ul>
                         </div>
                     </div>
-                    <p class="text-xs mb-2">VTZ Spaxe chuyên thiết kế, thi công xây dựng nhà phố, biệt thự, căn hộ với chất lượng cao và thiết kế hiện đại.</p>
+                </div>
+                
+                <!-- Lô đất dưới 36m² -->
+                <div class="section-block">
+                    <div class="collapsible-header">
+                        <h3 class="font-semibold"><i class="fas fa-compress-arrows-alt mr-2"></i> Lô đất dưới 36m²</h3>
+                        <i class="fas fa-chevron-down toggle-icon"></i>
+                    </div>
+                    <div class="collapsible-content">
+                        <div class="mt-3 space-y-4">
+                            <p>Các lô đất dự kiến xây dựng loại hình công trình nhà liên kế phải đảm bảo các điều kiện sau:</p>
+                            
+                            <p class="font-medium text-primary">Yêu cầu tối thiểu:</p>
+                            <ul class="list-disc pl-5 space-y-1">
+                                <li>Lô đất có quy mô diện tích phù hợp quy hoạch tối thiểu 36m²</li>
+                                <li>Chiều rộng mặt tiền tại vị trí tiếp giáp lộ giới không nhỏ hơn 3,0m</li>
+                                <li>Chiều sâu so với chỉ giới xây dựng không nhỏ hơn 3,0m</li>
+                            </ul>
+                            
+                            <p class="font-medium text-primary">Đối với lô đất không đảm bảo yêu cầu:</p>
+                            <ul class="list-disc pl-5 space-y-1">
+                                <li>Chiều rộng mặt tiền/chiều sâu < 3,0m: Chỉ được cải tạo, sửa chữa theo hiện trạng hoặc xây mới với chiều cao tối đa tại CGXD 7,0m, tại đỉnh mái 9,0m</li>
+                                <li>Diện tích < 15m² (chiều rộng/chiều sâu ≥ 3,0m): Chỉ được cải tạo, sửa chữa theo hiện trạng hoặc xây mới với chiều cao tại đỉnh mái không quá 7,0m</li>
+                                <li>Diện tích 15-36m² (chiều rộng/chiều sâu ≥ 3,0m):
+                                    <ul class="list-disc pl-5 space-y-1 mt-2">
+                                        <li>Lộ giới ≥ 6m: Chiều cao tối đa tại CGXD 11,6m, tại đỉnh mái 13,6m</li>
+                                        <li>Lộ giới < 6m: Chiều cao tối đa tại đỉnh mái 11,6m</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Quy định chiều cao -->
+                <div class="section-block">
+                    <div class="collapsible-header">
+                        <h3 class="font-semibold"><i class="fas fa-ruler-vertical mr-2"></i> Quy định chiều cao</h3>
+                        <i class="fas fa-chevron-down toggle-icon"></i>
+                    </div>
+                    <div class="collapsible-content">
+                        <div class="mt-3 overflow-x-auto">
+                            <table class="data-table">
+                                <tr>
+                                    <th>Chiều rộng lộ giới</th>
+                                    <th>Số tầng</th>
+                                    <th>Chiều cao tại CGXD</th>
+                                    <th>Chiều cao tại đỉnh mái</th>
+                                </tr>
+                                <tr>
+                                    <td>L ≥ 25m</td>
+                                    <td>6 tầng</td>
+                                    <td>25,0m</td>
+                                    <td>27,0m</td>
+                                </tr>
+                                <tr>
+                                    <td>16m ≤ L < 25m</td>
+                                    <td>5 tầng (+1)</td>
+                                    <td>21,6m</td>
+                                    <td>23,6m (27,0m)</td>
+                                </tr>
+                                <tr>
+                                    <td>6m ≤ L < 16m</td>
+                                    <td>4 tầng (+1)</td>
+                                    <td>17,0m</td>
+                                    <td>19,0m (22,4m)</td>
+                                </tr>
+                                <tr>
+                                    <td>3,5m ≤ L < 6m</td>
+                                    <td>3 tầng (+1)</td>
+                                    <td>11,6m</td>
+                                    <td>13,6m (15,6m)</td>
+                                </tr>
+                                <tr>
+                                    <td>L < 3,5m</td>
+                                    <td>3 tầng</td>
+                                    <td>11,6m</td>
+                                    <td>13,6m</td>
+                                </tr>
+                            </table>
+                            <p class="mt-2 text-sm text-gray-400">(+1): Có thể cộng thêm 1 tầng nếu thuộc quận trung tâm, trục đường thương mại, hoặc mặt tiền > 8m</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Bottom Navigation Bar -->
-    <div class="bottom-nav">
-        <a href="#nhap-thong-tin" class="bottom-nav-item active" data-target="nhap-thong-tin">
+    <!-- Mobile Nav -->
+    <nav class="mobile-nav p-safe">
+        <a class="nav-item active" data-tab="tab-input">
             <i class="fas fa-edit"></i>
             <span>Nhập liệu</span>
         </a>
-        <a href="#ket-qua" class="bottom-nav-item" data-target="ket-qua">
-            <i class="fas fa-calculator"></i>
+        <a class="nav-item" data-tab="tab-results">
+            <i class="fas fa-poll"></i>
             <span>Kết quả</span>
         </a>
-        <a href="#khai-toan" class="bottom-nav-item" data-target="khai-toan">
-            <i class="fas fa-file-invoice-dollar"></i>
+        <a class="nav-item" data-tab="tab-cost">
+            <i class="fas fa-calculator"></i>
             <span>Khái toán</span>
         </a>
-        <a href="#huong-dan" class="bottom-nav-item" data-target="huong-dan">
-            <i class="fas fa-book"></i>
-            <span>Hướng dẫn</span>
+        <a class="nav-item" data-tab="tab-info">
+            <i class="fas fa-info-circle"></i>
+            <span>Thông tin</span>
         </a>
-    </div>
+    </nav>
 
-    <!-- Floating Action Button -->
-    <button id="tinhToanBtn" class="fab">
-        <i class="fas fa-calculator"></i>
+    <!-- Sticky Calculate Button -->
+    <button id="floatingCalcBtn" class="sticky-calculate hidden">
+        <i class="fas fa-calculator mr-2"></i>
+        <span>Tính toán</span>
     </button>
 
     <!-- Back to top button -->
-    <button id="backToTop" class="back-to-top">
+    <button class="back-to-top" id="backToTop">
         <i class="fas fa-arrow-up"></i>
     </button>
 
+    <!-- Notification Element -->
+    <div id="notification" class="notification">
+        <div class="notification-icon"><i class="fas fa-info-circle"></i></div>
+        <div class="notification-message">Thông báo</div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-center py-4 text-sm text-gray-400 mt-4">
+        <p class="mb-1">Ứng dụng được phát minh bởi công ty TNHH Thiết kế và xây dựng VTZ Spaxe</p>
+        <p>© 2023-2025 VTZ Spaxe. Đã đăng ký bản quyền.</p>
+    </footer>
+    
     <script>
-        // Xử lý sidebar di động
-        const menuToggle = document.getElementById('menuToggle');
-        const closeSidebar = document.getElementById('closeSidebar');
-        const mobileSidebar = document.getElementById('mobileSidebar');
-        const overlay = document.getElementById('overlay');
-        const navItems = document.querySelectorAll('.nav-item');
-        
-        // Mở sidebar
-        menuToggle.addEventListener('click', function() {
-            mobileSidebar.classList.add('open');
-            overlay.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        });
-        
-        // Đóng sidebar
-        function closeMobileSidebar() {
-            mobileSidebar.classList.remove('open');
-            overlay.classList.remove('active');
-            document.body.style.overflow = '';
-        }
-        
-        closeSidebar.addEventListener('click', closeMobileSidebar);
-        overlay.addEventListener('click', closeMobileSidebar);
-        
-        // Đóng sidebar khi click vào mục điều hướng
-        navItems.forEach(item => {
-            item.addEventListener('click', function() {
-                navItems.forEach(navItem => {
-                    navItem.classList.remove('active');
-                });
-                this.classList.add('active');
-                closeMobileSidebar();
-            });
-        });
-
-        // Xử lý tabs
-        const tabButtons = document.querySelectorAll('.tab-button');
-        const tabContents = document.querySelectorAll('.tab-content');
-        const bottomNavItems = document.querySelectorAll('.bottom-nav-item');
-        
-        function changeTab(targetId) {
-            // Ẩn tất cả tab content
-            tabContents.forEach(content => {
-                content.classList.remove('active');
-            });
-            
-            // Hiển thị tab content được chọn
-            const targetContent = document.getElementById(targetId);
-            if (targetContent) {
-                targetContent.classList.add('active');
-            }
-            
-            // Cập nhật trạng thái active của tab buttons
-            tabButtons.forEach(button => {
-                if (button.dataset.target === targetId) {
-                    button.classList.add('active');
-                } else {
-                    button.classList.remove('active');
-                }
-            });
-            
-            // Cập nhật trạng thái active của bottom nav items
-            bottomNavItems.forEach(item => {
-                if (item.dataset.target === targetId) {
-                    item.classList.add('active');
-                } else {
-                    item.classList.remove('active');
-                }
-            });
-        }
-        
-        // Event listener cho tab buttons
-        tabButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                const targetId = this.dataset.target;
-                changeTab(targetId);
-            });
-        });
-        
-        // Event listener cho bottom nav items
-        bottomNavItems.forEach(item => {
-            item.addEventListener('click', function(e) {
-                e.preventDefault();
-                const targetId = this.dataset.target;
-                changeTab(targetId);
-            });
-        });
-
-        // Xử lý collapsible sections
-        const collapsibleHeaders = document.querySelectorAll('.collapsible-header');
-        
-        collapsibleHeaders.forEach(header => {
-            header.addEventListener('click', function() {
-                const content = this.nextElementSibling;
-                const isExpanded = content.classList.contains('expanded');
-                const icon = this.querySelector('i.fa-chevron-down');
-                
-                if (isExpanded) {
-                    content.classList.remove('expanded');
-                    icon.style.transform = 'rotate(0deg)';
-                } else {
-                    content.classList.add('expanded');
-                    icon.style.transform = 'rotate(180deg)';
-                }
-            });
-        });
-
-        // Nút back to top
-        const backToTopButton = document.getElementById('backToTop');
-        
-        window.addEventListener('scroll', function() {
-            if (window.pageYOffset > 300) {
-                backToTopButton.classList.add('show');
-            } else {
-                backToTopButton.classList.remove('show');
-            }
-        });
-        
-        backToTopButton.addEventListener('click', function() {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        });
-
-        // Hàm định dạng số với dấu chấm phần nghìn
-        function formatNumber(number) {
-            return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-        }
-
-        // Hàm định dạng tiền tệ với VNĐ
-        function formatCurrency(number) {
-            return formatNumber(Math.round(number)) + ' VNĐ';
-        }
-
-        // Chuyển đổi chuỗi có định dạng về số
-        function parseFormattedNumber(formattedNumber) {
-            if (typeof formattedNumber === 'string') {
-                return parseInt(formattedNumber.replace(/\./g, ''));
-            }
-            return formattedNumber;
-        }
-
-        // Hiển thị thông báo lỗi
-        function showError(fieldId, message) {
-            const errorElement = document.getElementById(`${fieldId}-error`);
-            if (errorElement) {
-                errorElement.textContent = message;
-                errorElement.style.display = 'block';
-                document.getElementById(fieldId).classList.add('border-red-500');
-            }
-        }
-
-        // Ẩn thông báo lỗi
-        function hideError(fieldId) {
-            const errorElement = document.getElementById(`${fieldId}-error`);
-            if (errorElement) {
-                errorElement.style.display = 'none';
-                document.getElementById(fieldId).classList.remove('border-red-500');
-            }
-        }
-
-        // Hiển thị thông báo
-        function showNotification(message, type) {
-            const notification = document.createElement('div');
-            notification.className = `notification ${type}`;
-            notification.innerHTML = `
-                <div class="notification-icon">
-                    ${type === 'success' ? '✓' : '✗'}
-                </div>
-                <div class="notification-message">${message}</div>
-            `;
-            document.body.appendChild(notification);
-            setTimeout(() => {
-                notification.classList.add('show');
-            }, 10);
-            setTimeout(() => {
-                notification.classList.remove('show');
-                setTimeout(() => {
-                    document.body.removeChild(notification);
-                }, 300);
-            }, 3000);
-        }
-
-        // Kiểm tra và cập nhật trạng thái tầng lửng dựa trên chiều rộng lộ giới
-        function updateTangLungAvailability(chieuRongLoGioi) {
-            const tangLungCheckbox = document.getElementById('coTangLung');
-            const tangLungInfo = document.getElementById('tangLungInfo');
-            if (chieuRongLoGioi < 6) {
-                // Nếu chiều rộng lộ giới < 6m, không được phép có tầng lửng
-                tangLungCheckbox.checked = false;
-                tangLungCheckbox.disabled = true;
-                tangLungInfo.classList.add('text-red-500');
-                tangLungInfo.classList.remove('text-gray-400');
-            } else {
-                // Nếu chiều rộng lộ giới ≥ 6m, được phép có tầng lửng
-                tangLungCheckbox.disabled = false;
-                tangLungInfo.classList.remove('text-red-500');
-                tangLungInfo.classList.add('text-gray-400');
-            }
-        }
-
-        // Tính mật độ xây dựng
-        function tinhMatDoXayDung(dienTichDat) {
-            if (dienTichDat <= 50) {
-                return 100;
-            } else if (dienTichDat <= 100) {
-                return Math.round(100 - (dienTichDat - 50) * (10 / 50));
-            } else if (dienTichDat <= 200) {
-                return Math.round(90 - (dienTichDat - 100) * (20 / 100));
-            } else if (dienTichDat <= 300) {
-                return Math.round(70 - (dienTichDat - 200) * (10 / 100));
-            } else if (dienTichDat <= 500) {
-                return Math.round(60 - (dienTichDat - 300) * (10 / 200));
-            } else {
-                return 50;
-            }
-        }
-
-        // Tính khoảng lùi phía sau
-        function tinhKhoangLuiSau(chieuSauDat) {
-            if (chieuSauDat >= 16) {
-                return 2; // 2 mét
-            } else if (chieuSauDat >= 9) {
-                return 1; // 1 mét
-            } else {
-                return 0.5; // Giả định 0.5m cho khoảng trống phía sau
-            }
-        }
-
-        // Lấy khoảng lùi phía sau dạng text để hiển thị
-        function getKhoangLuiSauText(chieuSauDat) {
-            if (chieuSauDat >= 16) {
-                return "Tối thiểu 2m";
-            } else if (chieuSauDat >= 9) {
-                return "Tối thiểu 1m";
-            } else {
-                return "Khuyến khích tạo khoảng trống phía sau";
-            }
-        }
-
-        // Tính số tầng tối đa
-        function tinhSoTangToiDa(chieuRongLoGioi, quanTrungTam, trucDuongThuongMai, matTienTren8m) {
-            let soTangCoBan = 0;
-            let soTangCongThem = 0;
-
-            // Xác định số tầng cơ bản theo chiều rộng lộ giới
-            if (chieuRongLoGioi >= 25) {
-                soTangCoBan = 6;
-            } else if (chieuRongLoGioi >= 16) {
-                soTangCoBan = 5;
-                // Xét điều kiện cộng thêm
-                if (quanTrungTam) soTangCongThem += 1;
-                if (trucDuongThuongMai) soTangCongThem += 1;
-                if (matTienTren8m) soTangCongThem += 1;
-            } else if (chieuRongLoGioi >= 6) {
-                soTangCoBan = 4;
-                // Xét điều kiện cộng thêm
-                if (quanTrungTam) soTangCongThem += 1;
-                if (matTienTren8m) soTangCongThem += 1;
-            } else if (chieuRongLoGioi >= 3.5) {
-                soTangCoBan = 3;
-                // Xét điều kiện cộng thêm
-                if (quanTrungTam) soTangCongThem += 1;
-                if (matTienTren8m) soTangCongThem += 1;
-            } else {
-                soTangCoBan = 3;
-                // Không cộng thêm
-            }
-
-            // Giới hạn tối đa tầng
-            let soTangToiDa = soTangCoBan;
-            if (chieuRongLoGioi >= 16) {
-                soTangToiDa = Math.min(soTangCoBan + soTangCongThem, 6);
-            } else if (chieuRongLoGioi >= 6) {
-                soTangToiDa = Math.min(soTangCoBan + soTangCongThem, 5);
-            } else if (chieuRongLoGioi >= 3.5) {
-                soTangToiDa = Math.min(soTangCoBan + soTangCongThem, 4);
-            } else {
-                soTangToiDa = 3; // Không cộng thêm
-            }
-
-            return soTangToiDa;
-        }
-
-        // Tính chiều cao tối đa
-        function tinhChieuCaoToiDa(chieuRongLoGioi, soTang) {
-            let chieuCaoTaiCGXD = ""; // Chiều cao tại chỉ giới xây dựng
-            let chieuCaoTaiDinhMai = ""; // Chiều cao tại đỉnh mái
-
-            // Xác định chiều cao theo Bảng 3
-            if (chieuRongLoGioi >= 25) {
-                chieuCaoTaiCGXD = "25,0m";
-                chieuCaoTaiDinhMai = soTang > 6 ? "27,0m" : "25,0m";
-            } else if (chieuRongLoGioi >= 16) {
-                chieuCaoTaiCGXD = "21,6m";
-                chieuCaoTaiDinhMai = soTang > 5 ? "27,0m" : "23,6m";
-            } else if (chieuRongLoGioi >= 6) {
-                chieuCaoTaiCGXD = "17,0m";
-                chieuCaoTaiDinhMai = soTang > 4 ? "22,4m" : "19,0m";
-            } else if (chieuRongLoGioi >= 3.5) {
-                chieuCaoTaiCGXD = "11,6m";
-                chieuCaoTaiDinhMai = soTang > 3 ? "15,6m" : "13,6m";
-            } else {
-                chieuCaoTaiCGXD = "Không quy định riêng";
-                chieuCaoTaiDinhMai = "11,6m";
-            }
-
-            return {
-                taiCGXD: chieuCaoTaiCGXD,
-                taiDinhMai: chieuCaoTaiDinhMai
-            };
-        }
-
-        // Xác định thông tin về tầng lửng
-        function xacDinhTangLung(chieuRongLoGioi) {
-            if (chieuRongLoGioi >= 6) {
-                if (chieuRongLoGioi >= 25) {
-                    return "Cho phép, cao tối đa 7,0m";
-                } else if (chieuRongLoGioi >= 16) {
-                    return "Cho phép, cao tối đa 7,0m";
-                } else {
-                    return "Cho phép, cao tối đa 5,8m";
-                }
-            } else {
-                return "Không được phép (lộ giới < 6m)";
-            }
-        }
-
-        // Tính độ vươn ban công
-        function tinhDoVuonBanCong(chieuRongLoGioi) {
-            let doVuon = 0;
-            if (chieuRongLoGioi < 7) {
-                doVuon = 0;
-            } else if (chieuRongLoGioi < 12) {
-                doVuon = 0.9;
-            } else if (chieuRongLoGioi < 20) {
-                doVuon = 1.2;
-            } else {
-                doVuon = 1.4;
-            }
-            return doVuon;
-        }
-
-        // Lấy độ vươn ban công dạng text để hiển thị
-        function getDoVuonBanCongText(chieuRongLoGioi) {
-            let doVuon = tinhDoVuonBanCong(chieuRongLoGioi);
-            if (doVuon === 0) {
-                return "0m (không được phép)";
-            } else {
-                return doVuon.toFixed(1) + "m";
-            }
-        }
-
-        // Tính diện tích ban công
-        function tinhDienTichBanCong(chieuRongLoGioi, chieuRongMatTien, soTang) {
-            const doVuonBanCong = tinhDoVuonBanCong(chieuRongLoGioi);
-            // Tính số tầng có ban công (từ tầng 1 trở lên)
-            const soTangCoBanCong = soTang > 0 ? soTang - 1 : 0;
-            return doVuonBanCong * chieuRongMatTien * soTangCoBanCong;
-        }
-
-        // Tính khái toán chi phí
-        function tinhKhaiToanChiPhi(dienTichDat, soTang, matDo, chieuRongLoGioi, chieuRongMatTien, chieuSauDat) {
-            // Lấy trạng thái checkbox từ giao diện
-            const coTangLung = document.getElementById('coTangLung').checked && !document.getElementById('coTangLung').disabled;
-            const coTangDinhMai = document.getElementById('coTangDinhMai').checked;
-            const coSanThuong = document.getElementById('coSanThuong').checked;
-            const coMaiBTCT = document.getElementById('coMaiBTCT').checked;
-            
-            // Lấy thông tin từ phần diện tích xây dựng
-            const coTangHam = document.querySelector('input[name="tangHam"]:checked').value === 'ham';
-            const doSauHam = coTangHam ? parseFloat(document.querySelector('input[name="doSauHam"]:checked')?.value || 0) : 0;
-            const hamNho = document.getElementById('hamNho').checked;
-            const loaiMong = parseFloat(document.querySelector('input[name="loaiMong"]:checked').value || 0.3);
-            const loaiMai = parseFloat(document.querySelector('input[name="loaiMai"]:checked').value || 0.5);
-
-            // Diện tích XD tối đa theo mật độ xây dựng
-            const dienTichXDMax = dienTichDat * matDo / 100;
-            
-            // Tính khoảng lùi sau và diện tích sân sau
-            const khoangLuiSau = tinhKhoangLuiSau(chieuSauDat);
-            const dienTichSanSau = khoangLuiSau * chieuRongMatTien;
-            
-            // Tính diện tích ban công
-            const dienTichBanCong = tinhDienTichBanCong(chieuRongLoGioi, chieuRongMatTien, soTang);
-
-            // Tạo bảng khái toán
-            const khaiToanTable = [];
-            let tongDienTichThietKe = 0;
-            let tongDienTichXayDung = 0;
-            let stt = 1;
-
-            // Thêm móng nhà (dùng diện tích xây dựng tối đa làm diện tích cơ sở)
-            khaiToanTable.push({
-                stt: stt++,
-                hangMuc: 'Móng nhà',
-                dienTichDat: dienTichXDMax,
-                heSo: loaiMong,
-                dienTichXD: dienTichXDMax * loaiMong
-            });
-            // Không cộng vào tongDienTichThietKe như yêu cầu
-            tongDienTichXayDung += dienTichXDMax * loaiMong;
-
-            // Thêm tầng hầm nếu có
-            if (coTangHam) {
-                let heSoHam = doSauHam;
-                if (hamNho) {
-                    heSoHam += 0.2; // Cộng thêm 20% nếu hầm nhỏ
-                }
-                khaiToanTable.push({
-                    stt: stt++,
-                    hangMuc: 'Tầng hầm',
-                    dienTichDat: dienTichXDMax,
-                    heSo: heSoHam,
-                    dienTichXD: dienTichXDMax * heSoHam
-                });
-                tongDienTichThietKe += dienTichXDMax;
-                tongDienTichXayDung += dienTichXDMax * heSoHam;
-            }
-
-            // Thêm các tầng 1 đến số tầng tối đa
-            for (let i = 1; i <= soTang; i++) {
-                khaiToanTable.push({
-                    stt: stt++,
-                    hangMuc: `Tầng ${i}`,
-                    dienTichDat: dienTichXDMax,
-                    heSo: 1,
-                    dienTichXD: dienTichXDMax
-                });
-                tongDienTichThietKe += dienTichXDMax;
-                tongDienTichXayDung += dienTichXDMax;
-            }
-
-            // Thêm tầng lửng nếu được chọn và được phép
-            if (coTangLung) {
-                khaiToanTable.push({
-                    stt: stt++,
-                    hangMuc: 'Tầng lửng',
-                    dienTichDat: dienTichXDMax,
-                    heSo: 0.65,
-                    dienTichXD: dienTichXDMax * 0.65
-                });
-                tongDienTichThietKe += dienTichXDMax * 0.65;
-                tongDienTichXayDung += dienTichXDMax * 0.65;
-            }
-
-            // Tầng đỉnh mái (luôn được tính)
-            if (coTangDinhMai) {
-                khaiToanTable.push({
-                    stt: stt++,
-                    hangMuc: 'Tầng đỉnh mái',
-                    dienTichDat: dienTichXDMax,
-                    heSo: 0.35,
-                    dienTichXD: dienTichXDMax * 0.35
-                });
-                tongDienTichThietKe += dienTichXDMax * 0.35;
-                tongDienTichXayDung += dienTichXDMax * 0.35;
-            }
-
-            // Sân thượng
-            if (coSanThuong) {
-                khaiToanTable.push({
-                    stt: stt++,
-                    hangMuc: 'Sân thượng',
-                    dienTichDat: dienTichXDMax,
-                    heSo: 0.325,
-                    dienTichXD: dienTichXDMax * 0.325
-                });
-                tongDienTichThietKe += dienTichXDMax * 0.325;
-                tongDienTichXayDung += dienTichXDMax * 0.325;
-            }
-
-            // Ban công (nếu có)
-            if (dienTichBanCong > 0) {
-                khaiToanTable.push({
-                    stt: stt++,
-                    hangMuc: 'Ban công',
-                    dienTichDat: dienTichBanCong,
-                    heSo: 0.5,
-                    dienTichXD: dienTichBanCong * 0.5
-                });
-                tongDienTichThietKe += dienTichBanCong * 0.5;
-                tongDienTichXayDung += dienTichBanCong * 0.5;
-            }
-
-            // Sân sau
-            if (dienTichSanSau > 0) {
-                khaiToanTable.push({
-                    stt: stt++,
-                    hangMuc: 'Sân sau',
-                    dienTichDat: dienTichSanSau,
-                    heSo: 0.7,
-                    dienTichXD: dienTichSanSau * 0.7
-                });
-                tongDienTichThietKe += dienTichSanSau * 0.7;
-                tongDienTichXayDung += dienTichSanSau * 0.7;
-            }
-
-            // Thêm hàng tổng
-            khaiToanTable.push({
-                stt: stt,
-                hangMuc: 'Tổng',
-                dienTichDat: '',
-                heSo: '',
-                dienTichXD: tongDienTichXayDung
-            });
-
-            return {
-                khaiToanTable: khaiToanTable,
-                tongDienTichThietKe: tongDienTichThietKe,
-                tongDienTichXayDung: tongDienTichXayDung
-            };
-        }
-
-        // Hiển thị bảng khái toán
-        function renderKhaiToanTable(khaiToanTable) {
-            const tableBody = document.getElementById('khaiToanBody');
-            tableBody.innerHTML = '';
-
-            // Thêm các hàng vào bảng
-            khaiToanTable.forEach((item, index) => {
-                const row = document.createElement('tr');
-                
-                // Lưu dữ liệu vào thuộc tính dataset của row
-                row.dataset.dienTichDat = item.dienTichDat || 0;
-                row.dataset.heSo = item.heSo || 0;
-                row.dataset.dienTichXD = item.dienTichXD || 0;
-                
-                // Kiểm tra xem có phải là dòng tổng không
-                const isTotalRow = item.hangMuc.includes('Tổng');
-                
-                // Thêm class cho dòng tổng
-                if (isTotalRow) {
-                    row.classList.add('total-row');
-                }
-                
-                // Tạo cột STT
-                const sttCell = document.createElement('td');
-                sttCell.textContent = item.stt;
-                row.appendChild(sttCell);
-                
-                // Tạo cột Hạng mục
-                const hangMucCell = document.createElement('td');
-                hangMucCell.textContent = item.hangMuc;
-                row.appendChild(hangMucCell);
-                
-                // Tạo cột Diện tích cơ sở
-                const dienTichDatCell = document.createElement('td');
-                dienTichDatCell.textContent = item.dienTichDat ? item.dienTichDat.toFixed(1) : '';
-                row.appendChild(dienTichDatCell);
-                
-                // Tạo cột Hệ số
-                const heSoCell = document.createElement('td');
-                heSoCell.textContent = item.heSo ? item.heSo : '';
-                row.appendChild(heSoCell);
-                
-                // Tạo cột Diện tích XD
-                const dienTichXDCell = document.createElement('td');
-                dienTichXDCell.textContent = item.dienTichXD ? item.dienTichXD.toFixed(1) : '';
-                row.appendChild(dienTichXDCell);
-                
-                // Tạo cột Xây dựng (checkbox)
-                const xayDungCell = document.createElement('td');
-                // Nếu không phải dòng tổng thì thêm checkbox
-                if (!isTotalRow) {
-                    const checkbox = document.createElement('input');
-                    checkbox.type = 'checkbox';
-                    checkbox.checked = true;
-                    checkbox.classList.add('build-checkbox');
-                    checkbox.addEventListener('change', updateCostBasedOnSelection);
-                    
-                    // Nếu là tầng đỉnh mái thì không cho bỏ chọn
-                    if (item.hangMuc === 'Tầng đỉnh mái') {
-                        checkbox.disabled = true;
-                        checkbox.checked = true;
-                        const label = document.createElement('span');
-                        label.textContent = ' BT';
-                        label.style.fontSize = '0.7em';
-                        label.style.color = 'var(--primary-light)';
-                        xayDungCell.appendChild(checkbox);
-                        xayDungCell.appendChild(label);
-                    } else {
-                        xayDungCell.appendChild(checkbox);
-                    }
-                }
-                row.appendChild(xayDungCell);
-                
-                tableBody.appendChild(row);
-            });
-
-            // Gán sự kiện cho các checkbox
-            document.querySelectorAll('.build-checkbox').forEach(checkbox => {
-                checkbox.addEventListener('change', updateCostBasedOnSelection);
-            });
-        }
-
-        // Xử lý sự kiện khi tick/untick tầng cần xây dựng
-        function updateCostBasedOnSelection() {
-            // Lấy tất cả các checkbox tầng cần xây dựng
-            const buildCheckboxes = document.querySelectorAll('.build-checkbox');
-            let tongDienTichThietKe = 0;
-            let tongDienTichXayDung = 0;
-            
-            // Tính lại tổng diện tích dựa trên các hạng mục được chọn
-            buildCheckboxes.forEach(checkbox => {
-                if (checkbox.checked) {
-                    const row = checkbox.closest('tr');
-                    const dienTichXD = parseFloat(row.dataset.dienTichXD || 0);
-                    const heSo = parseFloat(row.dataset.heSo || 0);
-                    const dienTichDat = parseFloat(row.dataset.dienTichDat || 0);
-                    
-                    tongDienTichXayDung += dienTichXD;
-                    
-                    // Chỉ tính vào diện tích thiết kế nếu không phải móng nhà
-                    const hangMuc = row.cells[1].textContent;
-                    if (hangMuc !== 'Móng nhà' && heSo > 0 && dienTichDat > 0) {
-                        tongDienTichThietKe += dienTichXD;
-                    }
-                }
-            });
-            
-            // Cập nhật lại các chi phí
-            const donGiaThietKe = parseFormattedNumber(document.getElementById('donGiaThietKe').value) || 250000;
-            const donGiaPhanTho = parseFormattedNumber(document.getElementById('donGiaPhanTho').value) || 4000000;
-            const donGiaHoanThien = parseFormattedNumber(document.getElementById('donGiaHoanThien').value) || 2500000;
-            const donGiaNoiThat = parseFormattedNumber(document.getElementById('donGiaNoiThat').value) || 2000000;
-            
-            const chiPhiThietKe = tongDienTichThietKe * donGiaThietKe;
-            const chiPhiPhanTho = tongDienTichXayDung * donGiaPhanTho;
-            const chiPhiHoanThien = tongDienTichXayDung * donGiaHoanThien;
-            const chiPhiNoiThat = tongDienTichXayDung * 0.85 * donGiaNoiThat;
-            
-            const tongChiPhi = chiPhiThietKe + chiPhiPhanTho + chiPhiHoanThien + chiPhiNoiThat;
-            
-            // Tính phần trăm của từng chi phí
-            const percentThietKe = ((chiPhiThietKe / tongChiPhi) * 100).toFixed(1);
-            const percentPhanTho = ((chiPhiPhanTho / tongChiPhi) * 100).toFixed(1);
-            const percentHoanThien = ((chiPhiHoanThien / tongChiPhi) * 100).toFixed(1);
-            const percentNoiThat = ((chiPhiNoiThat / tongChiPhi) * 100).toFixed(1);
-            
-            // Hiển thị lại các chi phí với phần trăm
-            document.getElementById('chiPhiThietKe').innerHTML = `${formatCurrency(chiPhiThietKe)} <span class="percent-badge">${percentThietKe}%</span>`;
-            document.getElementById('chiPhiPhanTho').innerHTML = `${formatCurrency(chiPhiPhanTho)} <span class="percent-badge">${percentPhanTho}%</span>`;
-            document.getElementById('chiPhiHoanThien').innerHTML = `${formatCurrency(chiPhiHoanThien)} <span class="percent-badge">${percentHoanThien}%</span>`;
-            document.getElementById('chiPhiNoiThat').innerHTML = `${formatCurrency(chiPhiNoiThat)} <span class="percent-badge">${percentNoiThat}%</span>`;
-            document.getElementById('tongChiPhi').textContent = formatCurrency(tongChiPhi);
-        }
-
-        // Kiểm tra và sử dụng giá trị mặc định nếu cần
-        function getFormattedPrice(inputElement, defaultValue) {
-            const rawValue = inputElement.value.replace(/\./g, '');
-            if (!rawValue || isNaN(parseFloat(rawValue))) {
-                inputElement.value = formatNumber(defaultValue);
-                return defaultValue;
-            }
-            return parseFloat(rawValue);
-        }
-
-        // Khởi tạo giá trị mặc định cho các trường đơn giá
-        function setDefaultPrices() {
-            const donGiaThietKeEl = document.getElementById('donGiaThietKe');
-            const donGiaPhanThoEl = document.getElementById('donGiaPhanTho');
-            const donGiaHoanThienEl = document.getElementById('donGiaHoanThien');
-            const donGiaNoiThatEl = document.getElementById('donGiaNoiThat');
-            
-            if (!donGiaThietKeEl.value) {
-                donGiaThietKeEl.value = formatNumber(250000);
-            }
-            if (!donGiaPhanThoEl.value) {
-                donGiaPhanThoEl.value = formatNumber(4000000);
-            }
-            if (!donGiaHoanThienEl.value) {
-                donGiaHoanThienEl.value = formatNumber(2500000);
-            }
-            if (!donGiaNoiThatEl.value) {
-                donGiaNoiThatEl.value = formatNumber(2000000);
-            }
-        }
-
-        // Xử lý sự kiện khi trang được tải
         document.addEventListener('DOMContentLoaded', function() {
-            // Cập nhật trạng thái tầng lửng khi trang được tải
-            const chieuRongLoGioi = parseFloat(document.getElementById('chieuRongLoGioi').value) || 0;
-            updateTangLungAvailability(chieuRongLoGioi);
+            // Tab Navigation
+            const tabButtons = document.querySelectorAll('.nav-item');
+            const tabContents = document.querySelectorAll('.tab-content');
             
-            // Xử lý sự kiện khi thay đổi chiều rộng lộ giới
-            document.getElementById('chieuRongLoGioi').addEventListener('input', function() {
-                const chieuRongLoGioi = parseFloat(this.value) || 0;
-                updateTangLungAvailability(chieuRongLoGioi);
-            });
+            function setActiveTab(tabId) {
+                // Deactivate all tabs
+                tabContents.forEach(content => {
+                    content.classList.remove('active');
+                });
+                tabButtons.forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                
+                // Activate selected tab
+                document.getElementById(tabId).classList.add('active');
+                document.querySelector(`[data-tab="${tabId}"]`).classList.add('active');
+            }
             
-            // Xử lý sự kiện khi thay đổi chiều rộng mặt tiền
-            document.getElementById('chieuRongMatTien').addEventListener('input', function() {
-                const chieuRongMatTien = parseFloat(this.value) || 0;
-                if (chieuRongMatTien > 8.0) {
-                    document.getElementById('matTienTren8m').checked = true;
-                } else {
-                    document.getElementById('matTienTren8m').checked = false;
-                }
-            });
-            
-            // Xử lý sự kiện khi thay đổi option tầng hầm
-            document.querySelectorAll('input[name="tangHam"]').forEach(radio => {
-                radio.addEventListener('change', function() {
-                    const tangHamOptions = document.getElementById('tangHamOptions');
-                    if (this.value === 'ham') {
-                        tangHamOptions.classList.remove('hidden');
-                        // Đảm bảo rằng có một độ sâu hầm được chọn
-                        if (!document.querySelector('input[name="doSauHam"]:checked')) {
-                            document.getElementById('doSau1').checked = true;
-                        }
-                    } else {
-                        tangHamOptions.classList.add('hidden');
-                    }
+            tabButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+                    setActiveTab(tabId);
+                    window.scrollTo(0, 0);
                 });
             });
             
-            // Định dạng các trường đơn giá khi blur
-            document.querySelectorAll('.currency-input').forEach(input => {
+            // Collapsible sections
+            const collapsibleHeaders = document.querySelectorAll('.collapsible-header');
+            
+            collapsibleHeaders.forEach(header => {
+                header.addEventListener('click', function() {
+                    // Toggle icon rotation
+                    const toggleIcon = this.querySelector('.toggle-icon');
+                    toggleIcon.classList.toggle('rotate');
+                    
+                    // Toggle content visibility
+                    const content = this.nextElementSibling;
+                    content.classList.toggle('show');
+                });
+            });
+            
+            // Back to top button
+            const backToTopButton = document.getElementById('backToTop');
+            
+            window.addEventListener('scroll', function() {
+                if (window.pageYOffset > 300) {
+                    backToTopButton.classList.add('visible');
+                } else {
+                    backToTopButton.classList.remove('visible');
+                }
+            });
+            
+            backToTopButton.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+            
+            // Floating calculate button
+            const floatingCalcBtn = document.getElementById('floatingCalcBtn');
+            const mainCalcBtn = document.getElementById('tinhToanBtn');
+            
+            window.addEventListener('scroll', function() {
+                // Show floating button when main button is out of view
+                const mainBtnRect = mainCalcBtn.getBoundingClientRect();
+                
+                if (mainBtnRect.bottom < 0 && document.getElementById('tab-input').classList.contains('active')) {
+                    floatingCalcBtn.classList.remove('hidden');
+                } else {
+                    floatingCalcBtn.classList.add('hidden');
+                }
+            });
+            
+            // Attach calculate event to floating button
+            floatingCalcBtn.addEventListener('click', performCalculation);
+            
+            // Format currency inputs
+            const currencyInputs = [
+                document.getElementById('donGiaThietKe'),
+                document.getElementById('donGiaPhanTho'),
+                document.getElementById('donGiaHoanThien'),
+                document.getElementById('donGiaNoiThat')
+            ];
+            
+            currencyInputs.forEach(input => {
                 input.addEventListener('blur', function() {
-                    const rawValue = this.value.replace(/\./g, '');
-                    if (rawValue && !isNaN(parseFloat(rawValue))) {
-                        this.value = formatNumber(parseFloat(rawValue));
-                    }
+                    formatCurrencyInput(this);
                 });
                 
                 input.addEventListener('focus', function() {
-                    const rawValue = this.value.replace(/\./g, '');
-                    if (rawValue && !isNaN(parseFloat(rawValue))) {
-                        this.value = rawValue;
-                    }
+                    // Remove formatting when focused
+                    this.value = this.value.replace(/\./g, '');
                 });
+                
+                // Initialize with formatting
+                formatCurrencyInput(input);
             });
             
-            // Thiết lập giá trị mặc định cho các trường đơn giá
-            setDefaultPrices();
+            function formatCurrencyInput(input) {
+                const value = input.value.replace(/\./g, '');
+                if (value && !isNaN(parseFloat(value))) {
+                    input.value = formatNumber(parseFloat(value));
+                }
+            }
             
-            // Xử lý sự kiện khi nhấn nút Tính toán
-            document.getElementById('tinhToanBtn').addEventListener('click', function() {
-                // Kiểm tra dữ liệu đầu vào
+            // Format number with thousands separator
+            function formatNumber(number) {
+                return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            }
+            
+            // Format currency with VND
+            function formatCurrency(number) {
+                return formatNumber(Math.round(number)) + ' VNĐ';
+            }
+            
+            // Parse formatted number back to numeric value
+            function parseFormattedNumber(formattedNumber) {
+                if (typeof formattedNumber === 'string') {
+                    return parseInt(formattedNumber.replace(/\./g, ''));
+                }
+                return formattedNumber;
+            }
+            
+            // Show notification
+            function showNotification(message, type = 'info') {
+                const notification = document.getElementById('notification');
+                const notificationIcon = notification.querySelector('.notification-icon i');
+                const notificationMessage = notification.querySelector('.notification-message');
+                
+                // Set icon based on type
+                if (type === 'success') {
+                    notificationIcon.className = 'fas fa-check-circle';
+                    notification.className = 'notification success';
+                } else if (type === 'error') {
+                    notificationIcon.className = 'fas fa-exclamation-circle';
+                    notification.className = 'notification error';
+                } else {
+                    notificationIcon.className = 'fas fa-info-circle';
+                    notification.className = 'notification';
+                }
+                
+                notificationMessage.textContent = message;
+                notification.classList.add('show');
+                
+                // Hide notification after 3 seconds
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 3000);
+            }
+            
+            // Show input error
+            function showInputError(inputId, message) {
+                const input = document.getElementById(inputId);
+                const errorElement = document.getElementById(`${inputId}-error`);
+                
+                if (input && errorElement) {
+                    input.classList.add('input-error');
+                    errorElement.textContent = message;
+                    errorElement.style.display = 'block';
+                }
+            }
+            
+            // Hide input error
+            function hideInputError(inputId) {
+                const input = document.getElementById(inputId);
+                const errorElement = document.getElementById(`${inputId}-error`);
+                
+                if (input && errorElement) {
+                    input.classList.remove('input-error');
+                    errorElement.style.display = 'none';
+                }
+            }
+            
+            // Validate inputs before calculation
+            function validateInputs() {
                 let isValid = true;
-                const dienTichDat = parseFloat(document.getElementById('dienTichDat').value);
-                const chieuSauDat = parseFloat(document.getElementById('chieuSauDat').value);
-                const chieuRongLoGioi = parseFloat(document.getElementById('chieuRongLoGioi').value);
-                const chieuRongMatTien = parseFloat(document.getElementById('chieuRongMatTien').value);
                 
-                // Kiểm tra và hiển thị thông báo lỗi nếu cần
-                if (isNaN(dienTichDat) || dienTichDat <= 0) {
-                    showError('dienTichDat', 'Vui lòng nhập diện tích lô đất hợp lệ');
-                    isValid = false;
+                // Required fields to validate
+                const requiredFields = [
+                    { id: 'dienTichDat', message: 'Vui lòng nhập diện tích lô đất' },
+                    { id: 'chieuSauDat', message: 'Vui lòng nhập chiều sâu lô đất' },
+                    { id: 'chieuRongLoGioi', message: 'Vui lòng nhập chiều rộng lộ giới' },
+                    { id: 'chieuRongMatTien', message: 'Vui lòng nhập chiều rộng mặt tiền' }
+                ];
+                
+                // Check each required field
+                requiredFields.forEach(field => {
+                    const input = document.getElementById(field.id);
+                    const value = input.value.trim();
+                    
+                    if (!value || value === '0' || isNaN(parseFloat(value))) {
+                        showInputError(field.id, field.message);
+                        isValid = false;
+                    } else {
+                        hideInputError(field.id);
+                    }
+                });
+                
+                return isValid;
+            }
+            
+            // Calculation functions
+            function tinhMatDoXayDung(dienTichDat) {
+                if (dienTichDat <= 50) {
+                    return 100;
+                } else if (dienTichDat <= 100) {
+                    return Math.round(100 - (dienTichDat - 50) * (10 / 50));
+                } else if (dienTichDat <= 200) {
+                    return Math.round(90 - (dienTichDat - 100) * (20 / 100));
+                } else if (dienTichDat <= 300) {
+                    return Math.round(70 - (dienTichDat - 200) * (10 / 100));
+                } else if (dienTichDat <= 500) {
+                    return Math.round(60 - (dienTichDat - 300) * (10 / 200));
                 } else {
-                    hideError('dienTichDat');
+                    return 50;
                 }
-                
-                if (isNaN(chieuSauDat) || chieuSauDat <= 0) {
-                    showError('chieuSauDat', 'Vui lòng nhập chiều sâu lô đất hợp lệ');
-                    isValid = false;
+            }
+            
+            function tinhKhoangLuiSau(chieuSauDat) {
+                if (chieuSauDat >= 16) {
+                    return 2; // 2 mét
+                } else if (chieuSauDat >= 9) {
+                    return 1; // 1 mét
                 } else {
-                    hideError('chieuSauDat');
+                    return 0.5; // Giả định 0.5m cho khoảng trống phía sau
                 }
-                
-                if (isNaN(chieuRongLoGioi) || chieuRongLoGioi <= 0) {
-                    showError('chieuRongLoGioi', 'Vui lòng nhập chiều rộng lộ giới hợp lệ');
-                    isValid = false;
+            }
+            
+            function getKhoangLuiSauText(chieuSauDat) {
+                if (chieuSauDat >= 16) {
+                    return "Tối thiểu 2m";
+                } else if (chieuSauDat >= 9) {
+                    return "Tối thiểu 1m";
                 } else {
-                    hideError('chieuRongLoGioi');
+                    return "Khuyến khích tạo khoảng trống phía sau";
+                }
+            }
+            
+            function tinhSoTangToiDa(chieuRongLoGioi, quanTrungTam, trucDuongThuongMai, matTienTren8m, dienTichDat, chieuRongMatTien, chieuSauDat) {
+                // Kiểm tra trường hợp lô đất dưới 36m²
+                if (dienTichDat < 36) {
+                    if (chieuRongMatTien < 3.0 || chieuSauDat < 3.0) {
+                        return 2; // Trường hợp đặc biệt cho lô đất không đủ điều kiện
+                    } else if (dienTichDat < 15) {
+                        return 2; // Lô đất < 15m² chỉ được xây max 2 tầng (chiều cao 7m)
+                    } else if (dienTichDat >= 15 && dienTichDat < 36) {
+                        if (chieuRongLoGioi >= 6) {
+                            return 3; // Lô đất 15-36m² với lộ giới ≥ 6m
+                        } else {
+                            return 3; // Lô đất 15-36m² với lộ giới < 6m
+                        }
+                    }
                 }
                 
-                if (isNaN(chieuRongMatTien) || chieuRongMatTien <= 0) {
-                    showError('chieuRongMatTien', 'Vui lòng nhập chiều rộng mặt tiền hợp lệ');
-                    isValid = false;
+                // Trường hợp thông thường
+                let soTangCoBan = 0;
+                let soTangCongThem = 0;
+                
+                if (chieuRongLoGioi >= 25) {
+                    soTangCoBan = 6;
+                } else if (chieuRongLoGioi >= 16) {
+                    soTangCoBan = 5;
+                    // Xét điều kiện cộng thêm
+                    if (quanTrungTam) soTangCongThem = Math.min(soTangCongThem + 1, 1);
+                    if (trucDuongThuongMai) soTangCongThem = Math.min(soTangCongThem + 1, 1);
+                    if (matTienTren8m) soTangCongThem = Math.min(soTangCongThem + 1, 1);
+                } else if (chieuRongLoGioi >= 6) {
+                    soTangCoBan = 4;
+                    // Xét điều kiện cộng thêm
+                    if (quanTrungTam) soTangCongThem = Math.min(soTangCongThem + 1, 1);
+                    if (matTienTren8m) soTangCongThem = Math.min(soTangCongThem + 1, 1);
+                } else if (chieuRongLoGioi >= 3.5) {
+                    soTangCoBan = 3;
+                    // Xét điều kiện cộng thêm
+                    if (quanTrungTam) soTangCongThem = Math.min(soTangCongThem + 1, 1);
+                    if (matTienTren8m) soTangCongThem = Math.min(soTangCongThem + 1, 1);
                 } else {
-                    hideError('chieuRongMatTien');
+                    soTangCoBan = 3;
+                    // Không cộng thêm
                 }
                 
-                // Đảm bảo các đơn giá có giá trị mặc định
-                setDefaultPrices();
-                
-                if (!isValid) {
-                    showNotification('Vui lòng nhập đầy đủ thông tin lô đất', 'error');
-                    return;
+                // Giới hạn tối đa tầng
+                let soTangToiDa = soTangCoBan;
+                if (chieuRongLoGioi >= 16) {
+                    soTangToiDa = Math.min(soTangCoBan + soTangCongThem, 6);
+                } else if (chieuRongLoGioi >= 6) {
+                    soTangToiDa = Math.min(soTangCoBan + soTangCongThem, 5);
+                } else if (chieuRongLoGioi >= 3.5) {
+                    soTangToiDa = Math.min(soTangCoBan + soTangCongThem, 4);
+                } else {
+                    soTangToiDa = 3; // Không cộng thêm
                 }
                 
-                // Tính toán
-                // Lấy giá trị từ các checkbox
-                const quanTrungTam = document.getElementById('quanTrungTam').checked;
-                const trucDuongThuongMai = document.getElementById('trucDuongThuongMai').checked;
-                const matTienTren8m = document.getElementById('matTienTren8m').checked || chieuRongMatTien > 8.0;
+                return soTangToiDa;
+            }
+            
+            function tinhChieuCaoToiDa(chieuRongLoGioi, soTang, dienTichDat, chieuRongMatTien, chieuSauDat) {
+                let chieuCaoTaiCGXD = "";
+                let chieuCaoTaiDinhMai = "";
                 
-                // Tính mật độ xây dựng
-                const matDo = tinhMatDoXayDung(dienTichDat);
+                // Kiểm tra trường hợp lô đất dưới 36m²
+                if (dienTichDat < 36) {
+                    if (chieuRongMatTien < 3.0 || chieuSauDat < 3.0) {
+                        // Lô đất có chiều rộng mặt tiền hoặc chiều sâu < 3.0m
+                        chieuCaoTaiCGXD = "7,0m";
+                        chieuCaoTaiDinhMai = "9,0m";
+                        return { taiCGXD: chieuCaoTaiCGXD, taiDinhMai: chieuCaoTaiDinhMai };
+                    } else if (dienTichDat < 15) {
+                        // Lô đất < 15m² có chiều rộng/chiều sâu ≥ 3.0m
+                        chieuCaoTaiCGXD = "5,0m";
+                        chieuCaoTaiDinhMai = "7,0m";
+                        return { taiCGXD: chieuCaoTaiCGXD, taiDinhMai: chieuCaoTaiDinhMai };
+                    } else if (dienTichDat >= 15 && dienTichDat < 36) {
+                        if (chieuRongLoGioi >= 6) {
+                            // Lô đất 15-36m² với lộ giới ≥ 6m
+                            chieuCaoTaiCGXD = "11,6m";
+                            chieuCaoTaiDinhMai = "13,6m";
+                            return { taiCGXD: chieuCaoTaiCGXD, taiDinhMai: chieuCaoTaiDinhMai };
+                        } else {
+                            // Lô đất 15-36m² với lộ giới < 6m
+                            chieuCaoTaiCGXD = "9,6m";
+                            chieuCaoTaiDinhMai = "11,6m";
+                            return { taiCGXD: chieuCaoTaiCGXD, taiDinhMai: chieuCaoTaiDinhMai };
+                        }
+                    }
+                }
                 
-                // Tính diện tích được xây dựng
-                const dienTichXD = (dienTichDat * matDo / 100).toFixed(2);
+                // Trường hợp thông thường
+                if (chieuRongLoGioi >= 25) {
+                    chieuCaoTaiCGXD = "25,0m";
+                    chieuCaoTaiDinhMai = soTang > 6 ? "27,0m" : "25,0m";
+                } else if (chieuRongLoGioi >= 16) {
+                    chieuCaoTaiCGXD = "21,6m";
+                    chieuCaoTaiDinhMai = soTang > 5 ? "27,0m" : "23,6m";
+                } else if (chieuRongLoGioi >= 6) {
+                    chieuCaoTaiCGXD = "17,0m";
+                    chieuCaoTaiDinhMai = soTang > 4 ? "22,4m" : "19,0m";
+                } else if (chieuRongLoGioi >= 3.5) {
+                    chieuCaoTaiCGXD = "11,6m";
+                    chieuCaoTaiDinhMai = soTang > 3 ? "15,6m" : "13,6m";
+                } else {
+                    chieuCaoTaiCGXD = "9,6m";
+                    chieuCaoTaiDinhMai = "11,6m";
+                }
                 
-                // Tính khoảng lùi phía sau
-                const khoangLuiSau = tinhKhoangLuiSau(chieuSauDat);
-                const khoangLuiSauText = getKhoangLuiSauText(chieuSauDat);
-                
-                // Tính diện tích sân sau
-                const dienTichSanSau = (khoangLuiSau * chieuRongMatTien).toFixed(2);
-                
-                // Tính số tầng tối đa
-                const soTang = tinhSoTangToiDa(chieuRongLoGioi, quanTrungTam, trucDuongThuongMai, matTienTren8m);
-                
-                // Tính chiều cao tối đa
-                const chieuCao = tinhChieuCaoToiDa(chieuRongLoGioi, soTang);
-                
-                // Xác định thông tin về tầng lửng
-                const thongTinTangLung = xacDinhTangLung(chieuRongLoGioi);
-                
-                // Tính độ vươn của ban công
+                return {
+                    taiCGXD: chieuCaoTaiCGXD,
+                    taiDinhMai: chieuCaoTaiDinhMai
+                };
+            }
+            
+            function xacDinhTangLung(chieuRongLoGioi) {
+                if (chieuRongLoGioi >= 6) {
+                    if (chieuRongLoGioi >= 25) {
+                        return "Cho phép có tầng lửng, tổng chiều cao tầng 1 (bao gồm tầng lửng) tối đa 7,0m";
+                    } else if (chieuRongLoGioi >= 16) {
+                        return "Cho phép có tầng lửng, tổng chiều cao tầng 1 (bao gồm tầng lửng) tối đa 7,0m";
+                    } else {
+                        return "Cho phép có tầng lửng, tổng chiều cao tầng 1 (bao gồm tầng lửng) tối đa 5,8m";
+                    }
+                } else {
+                    return "Không được phép có tầng lửng (chiều rộng lộ giới < 6m)";
+                }
+            }
+            
+            function tinhDoVuonBanCong(chieuRongLoGioi) {
+                let doVuon = 0;
+                if (chieuRongLoGioi < 7) {
+                    doVuon = 0;
+                } else if (chieuRongLoGioi < 12) {
+                    doVuon = 0.9;
+                } else if (chieuRongLoGioi < 20) {
+                    doVuon = 1.2;
+                } else {
+                    doVuon = 1.4;
+                }
+                return doVuon;
+            }
+            
+            function getDoVuonBanCongText(chieuRongLoGioi) {
+                let doVuon = tinhDoVuonBanCong(chieuRongLoGioi);
+                if (doVuon === 0) {
+                    return "0m (không được phép)";
+                } else {
+                    return doVuon.toFixed(1) + "m";
+                }
+            }
+            
+            function tinhDienTichBanCong(chieuRongLoGioi, chieuRongMatTien, soTang) {
                 const doVuonBanCong = tinhDoVuonBanCong(chieuRongLoGioi);
-                const doVuonBanCongText = getDoVuonBanCongText(chieuRongLoGioi);
+                // Tính số tầng có ban công (từ tầng 1 trở lên)
+                const soTangCoBanCong = soTang > 0 ? soTang - 1 : 0;
+                return doVuonBanCong * chieuRongMatTien * soTangCoBanCong;
+            }
+            
+            // Render the khái toán table
+            function renderKhaiToanTable(khaiToanTable) {
+                const tableBody = document.getElementById('khaiToanBody');
+                tableBody.innerHTML = '';
                 
-                // Tính diện tích ban công
-                const dienTichBanCong = tinhDienTichBanCong(chieuRongLoGioi, chieuRongMatTien, soTang);
+                // Add rows to the table
+                khaiToanTable.forEach((item, index) => {
+                    const row = document.createElement('tr');
+                    
+                    // Set data attributes for row
+                    row.dataset.dienTichDat = item.dienTichDat || 0;
+                    row.dataset.heSo = item.heSo || 0;
+                    row.dataset.dienTichXD = item.dienTichXD || 0;
+                    
+                    // Check if this is the total row
+                    const isTotalRow = item.hangMuc.includes('Tổng');
+                    
+                    // Add class for total row
+                    if (isTotalRow) {
+                        row.classList.add('total-row');
+                    }
+                    
+                    // Create STT cell
+                    const sttCell = document.createElement('td');
+                    sttCell.textContent = item.stt;
+                    row.appendChild(sttCell);
+                    
+                    // Create Hạng mục cell
+                    const hangMucCell = document.createElement('td');
+                    hangMucCell.textContent = item.hangMuc;
+                    row.appendChild(hangMucCell);
+                    
+                    // Create Diện tích cơ sở cell
+                    const dienTichDatCell = document.createElement('td');
+                    dienTichDatCell.textContent = item.dienTichDat ? item.dienTichDat.toFixed(1) : '';
+                    row.appendChild(dienTichDatCell);
+                    
+                    // Create Hệ số cell
+                    const heSoCell = document.createElement('td');
+                    heSoCell.textContent = item.heSo ? item.heSo : '';
+                    row.appendChild(heSoCell);
+                    
+                    // Create Diện tích XD cell
+                    const dienTichXDCell = document.createElement('td');
+                    dienTichXDCell.textContent = item.dienTichXD ? item.dienTichXD.toFixed(1) : '';
+                    row.appendChild(dienTichXDCell);
+                    
+                    // Create Xây dựng cell with checkbox
+                    const xayDungCell = document.createElement('td');
+                    if (!isTotalRow) {
+                        const checkbox = document.createElement('input');
+                        checkbox.type = 'checkbox';
+                        checkbox.checked = true;
+                        checkbox.classList.add('table-checkbox', 'build-checkbox');
+                        checkbox.addEventListener('change', updateCostBasedOnSelection);
+                        
+                        // If this is the "Tầng đỉnh mái" row, make it mandatory
+                        if (item.hangMuc === 'Tầng đỉnh mái') {
+                            checkbox.disabled = true;
+                            checkbox.checked = true;
+                            
+                            const label = document.createElement('span');
+                            label.textContent = ' BT';
+                            label.style.fontSize = '0.8em';
+                            label.style.color = '#3B82F6';
+                            
+                            xayDungCell.appendChild(checkbox);
+                            xayDungCell.appendChild(label);
+                        } else {
+                            xayDungCell.appendChild(checkbox);
+                        }
+                    }
+                    row.appendChild(xayDungCell);
+                    
+                    tableBody.appendChild(row);
+                });
+            }
+            
+            // Update cost calculation based on checkbox selection
+            function updateCostBasedOnSelection() {
+                const buildCheckboxes = document.querySelectorAll('.build-checkbox');
+                let tongDienTichThietKe = 0;
+                let tongDienTichXayDung = 0;
                 
-                // Tính khái toán chi phí
-                const khaiToan = tinhKhaiToanChiPhi(dienTichDat, soTang, matDo, chieuRongLoGioi, chieuRongMatTien, chieuSauDat);
+                buildCheckboxes.forEach(checkbox => {
+                    if (checkbox.checked) {
+                        const row = checkbox.closest('tr');
+                        const dienTichXD = parseFloat(row.dataset.dienTichXD || 0);
+                        const heSo = parseFloat(row.dataset.heSo || 0);
+                        const dienTichDat = parseFloat(row.dataset.dienTichDat || 0);
+                        
+                        tongDienTichXayDung += dienTichXD;
+                        
+                        // Only include in design area if not "Móng nhà"
+                        const hangMuc = row.cells[1].textContent;
+                        if (hangMuc !== 'Móng nhà' && heSo > 0 && dienTichDat > 0) {
+                            tongDienTichThietKe += dienTichXD;
+                        }
+                    }
+                });
                 
-                // Hiển thị kết quả
-                document.getElementById('dienTichLoDat').textContent = dienTichDat + ' m²';
-                document.getElementById('dienTichXayDung').textContent = dienTichXD + ' m²';
-                document.getElementById('matDoXayDung').textContent = matDo + ' %';
-                document.getElementById('khoangLuiSau').textContent = khoangLuiSauText;
-                document.getElementById('dienTichSanSau').textContent = dienTichSanSau + ' m²';
-                document.getElementById('soTangToiDa').textContent = soTang + ' tầng';
-                document.getElementById('chieuCaoToiDaTaiCGXD').textContent = chieuCao.taiCGXD;
-                document.getElementById('chieuCaoToiDaTaiDinhMai').textContent = chieuCao.taiDinhMai;
-                document.getElementById('thongTinTangLung').textContent = thongTinTangLung;
-                document.getElementById('doVuonBanCong').textContent = doVuonBanCongText;
-                document.getElementById('dienTichBanCong').textContent = dienTichBanCong.toFixed(2) + ' m²';
+                // Get unit prices
+                const donGiaThietKe = parseFormattedNumber(document.getElementById('donGiaThietKe').value) || 250000;
+                const donGiaPhanTho = parseFormattedNumber(document.getElementById('donGiaPhanTho').value) || 4000000;
+                const donGiaHoanThien = parseFormattedNumber(document.getElementById('donGiaHoanThien').value) || 2500000;
+                const donGiaNoiThat = parseFormattedNumber(document.getElementById('donGiaNoiThat').value) || 2000000;
                 
-                // Hiển thị bảng khái toán
-                renderKhaiToanTable(khaiToan.khaiToanTable);
-                
-                // Tính và hiển thị chi phí
-                const donGiaThietKe = getFormattedPrice(document.getElementById('donGiaThietKe'), 250000);
-                const donGiaPhanTho = getFormattedPrice(document.getElementById('donGiaPhanTho'), 4000000);
-                const donGiaHoanThien = getFormattedPrice(document.getElementById('donGiaHoanThien'), 2500000);
-                const donGiaNoiThat = getFormattedPrice(document.getElementById('donGiaNoiThat'), 2000000);
-                
-                const chiPhiThietKe = khaiToan.tongDienTichThietKe * donGiaThietKe;
-                const chiPhiPhanTho = khaiToan.tongDienTichXayDung * donGiaPhanTho;
-                const chiPhiHoanThien = khaiToan.tongDienTichXayDung * donGiaHoanThien;
-                const chiPhiNoiThat = khaiToan.tongDienTichXayDung * 0.85 * donGiaNoiThat;
+                // Calculate costs
+                const chiPhiThietKe = tongDienTichThietKe * donGiaThietKe;
+                const chiPhiPhanTho = tongDienTichXayDung * donGiaPhanTho;
+                const chiPhiHoanThien = tongDienTichXayDung * donGiaHoanThien;
+                const chiPhiNoiThat = tongDienTichXayDung * 0.85 * donGiaNoiThat;
                 
                 const tongChiPhi = chiPhiThietKe + chiPhiPhanTho + chiPhiHoanThien + chiPhiNoiThat;
                 
-                // Tính phần trăm của từng chi phí
+                // Calculate percentages
                 const percentThietKe = ((chiPhiThietKe / tongChiPhi) * 100).toFixed(1);
                 const percentPhanTho = ((chiPhiPhanTho / tongChiPhi) * 100).toFixed(1);
                 const percentHoanThien = ((chiPhiHoanThien / tongChiPhi) * 100).toFixed(1);
                 const percentNoiThat = ((chiPhiNoiThat / tongChiPhi) * 100).toFixed(1);
                 
-                // Hiển thị lại các chi phí với phần trăm
-                document.getElementById('chiPhiThietKe').innerHTML = `${formatCurrency(chiPhiThietKe)} <span class="percent-badge">${percentThietKe}%</span>`;
-                document.getElementById('chiPhiPhanTho').innerHTML = `${formatCurrency(chiPhiPhanTho)} <span class="percent-badge">${percentPhanTho}%</span>`;
-                document.getElementById('chiPhiHoanThien').innerHTML = `${formatCurrency(chiPhiHoanThien)} <span class="percent-badge">${percentHoanThien}%</span>`;
-                document.getElementById('chiPhiNoiThat').innerHTML = `${formatCurrency(chiPhiNoiThat)} <span class="percent-badge">${percentNoiThat}%</span>`;
+                // Update the displayed costs
+                document.getElementById('chiPhiThietKe').innerHTML = `${formatCurrency(chiPhiThietKe)} <span class="text-sm text-gray-400">${percentThietKe}%</span>`;
+                document.getElementById('chiPhiPhanTho').innerHTML = `${formatCurrency(chiPhiPhanTho)} <span class="text-sm text-gray-400">${percentPhanTho}%</span>`;
+                document.getElementById('chiPhiHoanThien').innerHTML = `${formatCurrency(chiPhiHoanThien)} <span class="text-sm text-gray-400">${percentHoanThien}%</span>`;
+                document.getElementById('chiPhiNoiThat').innerHTML = `${formatCurrency(chiPhiNoiThat)} <span class="text-sm text-gray-400">${percentNoiThat}%</span>`;
                 document.getElementById('tongChiPhi').textContent = formatCurrency(tongChiPhi);
                 
-                // Hiển thị thông báo thành công
-                showNotification('Đã tính toán thành công!', 'success');
+                // Update the total row in the khái toán table
+                const totalCell = document.querySelector('.total-row td:nth-child(5)');
+                if (totalCell) {
+                    totalCell.textContent = tongDienTichXayDung.toFixed(1);
+                }
+            }
+            
+            function tinhKhaiToanChiPhi(dienTichDat, soTang, matDoXayDung, chieuRongLoGioi, chieuRongMatTien, chieuSauDat) {
+                // Lấy trạng thái checkbox từ giao diện
+                const coTangLung = document.getElementById('coTangLung').checked && !document.getElementById('coTangLung').disabled;
+                const coTangDinhMai = document.getElementById('coTangDinhMai').checked;
+                const coSanThuong = document.getElementById('coSanThuong').checked;
                 
-                // Chuyển sang tab kết quả
-                changeTab('ket-qua');
+                // Diện tích XD tối đa theo mật độ xây dựng
+                const dienTichXDMax = dienTichDat * matDoXayDung / 100;
+                
+                // Tính khoảng lùi sau và diện tích sân sau
+                const khoangLuiSau = tinhKhoangLuiSau(chieuSauDat);
+                const dienTichSanSau = khoangLuiSau * chieuRongMatTien;
+                
+                // Tính diện tích ban công
+                const dienTichBanCong = tinhDienTichBanCong(chieuRongLoGioi, chieuRongMatTien, soTang);
+                
+                // Tạo bảng khái toán
+                const khaiToanTable = [];
+                let tongDienTichThietKe = 0;
+                let tongDienTichXayDung = 0;
+                let stt = 1;
+                
+                // Thêm móng nhà (dùng diện tích xây dựng tối đa làm diện tích cơ sở)
+                const heSoMong = 0.5; // Sử dụng hệ số móng mặc định
+                khaiToanTable.push({
+                    stt: stt++,
+                    hangMuc: 'Móng nhà',
+                    dienTichDat: dienTichXDMax,
+                    heSo: heSoMong,
+                    dienTichXD: dienTichXDMax * heSoMong
+                });
+                // Không cộng vào tongDienTichThietKe như yêu cầu
+                tongDienTichXayDung += dienTichXDMax * heSoMong;
+                
+                // Thêm các tầng 1 đến số tầng tối đa
+                for (let i = 1; i <= soTang; i++) {
+                    khaiToanTable.push({
+                        stt: stt++,
+                        hangMuc: `Tầng ${i}`,
+                        dienTichDat: dienTichXDMax,
+                        heSo: 1,
+                        dienTichXD: dienTichXDMax
+                    });
+                    tongDienTichThietKe += dienTichXDMax;
+                    tongDienTichXayDung += dienTichXDMax;
+                }
+                
+                // Thêm tầng lửng nếu được chọn và được phép
+                if (coTangLung) {
+                    khaiToanTable.push({
+                        stt: stt++,
+                        hangMuc: 'Tầng lửng',
+                        dienTichDat: dienTichXDMax,
+                        heSo: 0.65,
+                        dienTichXD: dienTichXDMax * 0.65
+                    });
+                    tongDienTichThietKe += dienTichXDMax * 0.65;
+                    tongDienTichXayDung += dienTichXDMax * 0.65;
+                }
+                
+                // Tầng đỉnh mái (luôn được tính)
+                if (coTangDinhMai) {
+                    khaiToanTable.push({
+                        stt: stt++,
+                        hangMuc: 'Tầng đỉnh mái',
+                        dienTichDat: dienTichXDMax,
+                        heSo: 0.35,
+                        dienTichXD: dienTichXDMax * 0.35
+                    });
+                    tongDienTichThietKe += dienTichXDMax * 0.35;
+                    tongDienTichXayDung += dienTichXDMax * 0.35;
+                }
+                
+                // Sân thượng
+                if (coSanThuong) {
+                    khaiToanTable.push({
+                        stt: stt++,
+                        hangMuc: 'Sân thượng',
+                        dienTichDat: dienTichXDMax,
+                        heSo: 0.325,
+                        dienTichXD: dienTichXDMax * 0.325
+                    });
+                    tongDienTichThietKe += dienTichXDMax * 0.325;
+                    tongDienTichXayDung += dienTichXDMax * 0.325;
+                }
+                
+                // Ban công (nếu có)
+                if (dienTichBanCong > 0) {
+                    khaiToanTable.push({
+                        stt: stt++,
+                        hangMuc: 'Ban công',
+                        dienTichDat: dienTichBanCong,
+                        heSo: 0.5,
+                        dienTichXD: dienTichBanCong * 0.5
+                    });
+                    tongDienTichThietKe += dienTichBanCong * 0.5;
+                    tongDienTichXayDung += dienTichBanCong * 0.5;
+                }
+                
+                // Sân sau
+                if (dienTichSanSau > 0) {
+                    khaiToanTable.push({
+                        stt: stt++,
+                        hangMuc: 'Sân sau',
+                        dienTichDat: dienTichSanSau,
+                        heSo: 0.7,
+                        dienTichXD: dienTichSanSau * 0.7
+                    });
+                    tongDienTichThietKe += dienTichSanSau * 0.7;
+                    tongDienTichXayDung += dienTichSanSau * 0.7;
+                }
+                
+                // Thêm hàng tổng
+                khaiToanTable.push({
+                    stt: stt,
+                    hangMuc: 'Tổng diện tích',
+                    dienTichDat: '',
+                    heSo: '',
+                    dienTichXD: tongDienTichXayDung
+                });
+                
+                return {
+                    khaiToanTable: khaiToanTable,
+                    tongDienTichThietKe: tongDienTichThietKe,
+                    tongDienTichXayDung: tongDienTichXayDung
+                };
+            }
+            
+            // Check and update tầng lửng availability
+            function updateTangLungAvailability(chieuRongLoGioi) {
+                const tangLungCheckbox = document.getElementById('coTangLung');
+                const tangLungInfo = document.getElementById('tangLungInfo');
+                
+                if (chieuRongLoGioi < 6) {
+                    // Nếu chiều rộng lộ giới < 6m, không được phép có tầng lửng
+                    tangLungCheckbox.checked = false;
+                    tangLungCheckbox.disabled = true;
+                    tangLungInfo.classList.add('text-red-500');
+                    tangLungInfo.classList.remove('text-gray-400');
+                } else {
+                    // Nếu chiều rộng lộ giới ≥ 6m, được phép có tầng lửng
+                    tangLungCheckbox.disabled = false;
+                    tangLungInfo.classList.remove('text-red-500');
+                    tangLungInfo.classList.add('text-gray-400');
+                }
+            }
+            
+            // Check for special conditions (lô đất dưới 36m² or lô góc)
+            function checkSpecialConditions(dienTichDat, chieuRongMatTien, chieuSauDat, loGoc) {
+                const dieuKienSection = document.getElementById('dieu-kien-dac-biet-section');
+                const dieuKienContent = document.getElementById('dieu-kien-content');
+                
+                if (dienTichDat < 36) {
+                    dieuKienSection.querySelector('.collapsible-header').classList.add('bg-yellow-800');
+                    
+                    // Check specific case
+                    if (chieuRongMatTien < 3.0 || chieuSauDat < 3.0) {
+                        dieuKienContent.innerHTML = 
+                            `<strong class="text-white">Lô đất không đủ điều kiện xây dựng nhà liên kế!</strong><br>
+                            Lô đất có chiều rộng mặt tiền hoặc chiều sâu < 3,0m chỉ được cải tạo, sửa chữa theo quy mô hiện trạng
+                            hoặc xây dựng mới với chiều cao tối đa tại CGXD 7,0m và tại đỉnh mái không quá 9,0m.`;
+                    } else if (dienTichDat < 15) {
+                        dieuKienContent.innerHTML = 
+                            `<strong class="text-white">Lô đất có diện tích < 15m²:</strong><br>
+                            Chỉ được cải tạo, sửa chữa theo hiện trạng hoặc xây dựng mới với chiều cao tối đa tại đỉnh mái không quá 7,0m.`;
+                    } else {
+                        // 15-36m²
+                        if (chieuRongMatTien >= 3.0 && chieuSauDat >= 3.0) {
+                            if (chieuRongLoGioi >= 6) {
+                                dieuKienContent.innerHTML = 
+                                    `<strong class="text-white">Lô đất có diện tích từ 15m² đến dưới 36m²:</strong><br>
+                                    Tiếp giáp đường có lộ giới ≥ 6m: chiều cao tối đa tại CGXD không quá 11,6m và 
+                                    chiều cao tối đa tại đỉnh mái không quá 13,6m.`;
+                            } else {
+                                dieuKienContent.innerHTML = 
+                                    `<strong class="text-white">Lô đất có diện tích từ 15m² đến dưới 36m²:</strong><br>
+                                    Tiếp giáp đường có lộ giới < 6m: chiều cao tối đa tại đỉnh mái không quá 11,6m.`;
+                            }
+                        }
+                    }
+                    
+                    // Show special condition section
+                    dieuKienSection.style.display = 'block';
+                    // Expand the section
+                    if (!dieuKienSection.querySelector('.collapsible-content').classList.contains('show')) {
+                        dieuKienSection.querySelector('.collapsible-header').click();
+                    }
+                } else if (loGoc) {
+                    dieuKienSection.querySelector('.collapsible-header').classList.add('bg-blue-900');
+                    dieuKienContent.innerHTML = 
+                        `<strong class="text-white">Lô đất góc tiếp giáp hai đường:</strong><br>
+                        Nếu chiều rộng lô đất (tại vị trí tiếp giáp ranh lộ giới) tối thiểu 3,0m quay về phía đường lớn, 
+                        được phép xây dựng số tầng, chiều cao, ban công theo quy định của đường lớn. 
+                        Phần tiếp giáp đường nhỏ được áp dụng quy định của đường lớn trong phạm vi 25m từ góc giao lộ.`;
+                    
+                    // Show special condition section
+                    dieuKienSection.style.display = 'block';
+                    // Expand the section
+                    if (!dieuKienSection.querySelector('.collapsible-content').classList.contains('show')) {
+                        dieuKienSection.querySelector('.collapsible-header').click();
+                    }
+                } else {
+                    // Hide special condition section if no special conditions apply
+                    dieuKienSection.style.display = 'none';
+                }
+            }
+            
+            // Main calculation function
+            function performCalculation() {
+                // Show loading in button
+                const calcBtn = document.getElementById('tinhToanBtn');
+                const originalBtnText = calcBtn.innerHTML;
+                calcBtn.innerHTML = '<div class="loader"></div> Đang tính...';
+                calcBtn.disabled = true;
+                
+                // Validate inputs
+                if (!validateInputs()) {
+                    calcBtn.innerHTML = originalBtnText;
+                    calcBtn.disabled = false;
+                    showNotification('Vui lòng nhập đầy đủ thông tin lô đất', 'error');
+                    return;
+                }
+                
+                // Delay calculation slightly to show loading effect
+                setTimeout(() => {
+                    try {
+                        // Get input values
+                        const dienTichDat = parseFloat(document.getElementById('dienTichDat').value);
+                        const chieuSauDat = parseFloat(document.getElementById('chieuSauDat').value);
+                        const chieuRongLoGioi = parseFloat(document.getElementById('chieuRongLoGioi').value);
+                        const chieuRongMatTien = parseFloat(document.getElementById('chieuRongMatTien').value);
+                        
+                        // Get checkbox values
+                        const quanTrungTam = document.getElementById('quanTrungTam').checked;
+                        const trucDuongThuongMai = document.getElementById('trucDuongThuongMai').checked;
+                        const matTienTren8m = document.getElementById('matTienTren8m').checked || chieuRongMatTien > 8.0;
+                        const loGoc = document.getElementById('loGoc').checked;
+                        
+                        // Update tầng lửng availability
+                        updateTangLungAvailability(chieuRongLoGioi);
+                        
+                        // Check for special conditions (lô đất < 36m² or lô góc)
+                        checkSpecialConditions(dienTichDat, chieuRongMatTien, chieuSauDat, loGoc);
+                        
+                        // Calculate mật độ xây dựng
+                        const matDo = tinhMatDoXayDung(dienTichDat);
+                        
+                        // Calculate diện tích được xây dựng
+                        const dienTichXD = (dienTichDat * matDo / 100).toFixed(1);
+                        
+                        // Calculate khoảng lùi phía sau
+                        const khoangLuiSauText = getKhoangLuiSauText(chieuSauDat);
+                        
+                        // Calculate diện tích sân sau
+                        const khoangLuiSau = tinhKhoangLuiSau(chieuSauDat);
+                        const dienTichSanSau = (khoangLuiSau * chieuRongMatTien).toFixed(1);
+                        
+                        // Calculate số tầng tối đa
+                        const soTang = tinhSoTangToiDa(chieuRongLoGioi, quanTrungTam, trucDuongThuongMai, matTienTren8m, dienTichDat, chieuRongMatTien, chieuSauDat);
+                        
+                        // Calculate chiều cao tối đa
+                        const chieuCao = tinhChieuCaoToiDa(chieuRongLoGioi, soTang, dienTichDat, chieuRongMatTien, chieuSauDat);
+                        
+                        // Get thông tin tầng lửng
+                        const thongTinTangLung = xacDinhTangLung(chieuRongLoGioi);
+                        
+                        // Calculate ban công
+                        const doVuonBanCongText = getDoVuonBanCongText(chieuRongLoGioi);
+                        const dienTichBanCong = tinhDienTichBanCong(chieuRongLoGioi, chieuRongMatTien, soTang).toFixed(1);
+                        
+                        // Calculate khái toán chi phí
+                        const khaiToan = tinhKhaiToanChiPhi(dienTichDat, soTang, matDo, chieuRongLoGioi, chieuRongMatTien, chieuSauDat);
+                        
+                        // Display results
+                        document.getElementById('dienTichLoDat').textContent = dienTichDat.toFixed(1) + ' m²';
+                        document.getElementById('dienTichXayDung').textContent = dienTichXD + ' m²';
+                        document.getElementById('matDoXayDung').textContent = matDo + ' %';
+                        document.getElementById('khoangLuiSau').textContent = khoangLuiSauText;
+                        document.getElementById('dienTichSanSau').textContent = dienTichSanSau + ' m²';
+                        document.getElementById('soTangToiDa').textContent = soTang + ' tầng';
+                        document.getElementById('chieuCaoToiDaTaiCGXD').textContent = chieuCao.taiCGXD;
+                        document.getElementById('chieuCaoToiDaTaiDinhMai').textContent = chieuCao.taiDinhMai;
+                        document.getElementById('thongTinTangLung').textContent = thongTinTangLung;
+                        document.getElementById('doVuonBanCong').textContent = doVuonBanCongText;
+                        document.getElementById('dienTichBanCong').textContent = dienTichBanCong + ' m²';
+                        
+                        // Display khái toán table
+                        renderKhaiToanTable(khaiToan.khaiToanTable);
+                        
+                        // Calculate and display costs
+                        updateCostBasedOnSelection();
+                        
+                        // Switch to results tab
+                        setActiveTab('tab-results');
+                        
+                        // Show success notification
+                        showNotification('Tính toán thành công!', 'success');
+                    } catch (error) {
+                        console.error('Calculation error:', error);
+                        showNotification('Có lỗi xảy ra trong quá trình tính toán. Vui lòng thử lại!', 'error');
+                    } finally {
+                        // Reset button state
+                        calcBtn.innerHTML = originalBtnText;
+                        calcBtn.disabled = false;
+                    }
+                }, 500); // Short delay for loading effect
+            }
+            
+            // Attach calculate event to main button
+            document.getElementById('tinhToanBtn').addEventListener('click', performCalculation);
+            
+            // Update mặt tiền > 8m checkbox when changing chiều rộng mặt tiền
+            document.getElementById('chieuRongMatTien').addEventListener('input', function() {
+                const chieuRongMatTien = parseFloat(this.value) || 0;
+                document.getElementById('matTienTren8m').checked = chieuRongMatTien > 8.0;
+            });
+            
+            // Update tầng lửng when changing chiều rộng lộ giới
+            document.getElementById('chieuRongLoGioi').addEventListener('input', function() {
+                const chieuRongLoGioi = parseFloat(this.value) || 0;
+                updateTangLungAvailability(chieuRongLoGioi);
             });
         });
     </script>
