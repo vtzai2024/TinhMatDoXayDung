@@ -23,11 +23,58 @@
             font-family: 'Segoe UI', Arial, sans-serif;
             background-color: var(--background);
             color: var(--text-primary);
+            -webkit-tap-highlight-color: transparent;
         }
         
-        .sidebar {
+        /* Mobile sidebar */
+        .mobile-sidebar {
+            width: 85%;
+            max-width: 300px;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+            transform: translateX(-105%);
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
             background-color: var(--background-alt);
             border-right: 1px solid var(--border-color);
+            overflow-y: auto;
+        }
+        
+        .mobile-sidebar.open {
+            transform: translateX(0);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+        
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .mobile-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background-color: white;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1rem;
         }
         
         .nav-item {
@@ -54,6 +101,7 @@
             border: 1px solid var(--border-color);
             border-radius: 0.5rem;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            margin-bottom: 1rem;
         }
         
         .card-header {
@@ -72,16 +120,29 @@
             transform: translateY(-1px);
         }
         
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+        
         .checkbox-item input[type="checkbox"] {
             accent-color: var(--primary);
+            width: 18px;
+            height: 18px;
+        }
+        
+        .radio-item input[type="radio"] {
+            accent-color: var(--primary);
+            width: 18px;
+            height: 18px;
         }
         
         .form-input {
             border: 1px solid var(--border-color);
             border-radius: 0.375rem;
-            padding: 0.5rem 0.75rem;
+            padding: 0.75rem;
             width: 100%;
             color: var(--text-primary);
+            font-size: 16px; /* Better for mobile */
         }
         
         .form-input:focus {
@@ -148,11 +209,13 @@
             margin-bottom: 0.5rem;
             padding-bottom: 0.5rem;
             border-bottom: 1px dashed var(--border-color);
+            flex-wrap: wrap;
         }
         
         .result-label {
             color: var(--text-secondary);
             font-weight: 500;
+            margin-right: 0.5rem;
         }
         
         .result-value {
@@ -163,6 +226,7 @@
         .khai-toan-table {
             width: 100%;
             border-collapse: collapse;
+            font-size: 0.875rem;
         }
         
         .khai-toan-table th {
@@ -170,12 +234,12 @@
             color: var(--text-primary);
             font-weight: 600;
             text-align: left;
-            padding: 0.75rem;
+            padding: 0.75rem 0.5rem;
             border: 1px solid var(--border-color);
         }
         
         .khai-toan-table td {
-            padding: 0.75rem;
+            padding: 0.75rem 0.5rem;
             border: 1px solid var(--border-color);
             color: var(--text-primary);
         }
@@ -279,8 +343,8 @@
         
         .construction-area-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 1rem;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 0.5rem;
         }
         
         .construction-radio-item {
@@ -298,6 +362,7 @@
             display: flex;
             justify-content: space-between;
             width: 100%;
+            font-size: 0.9rem;
         }
         
         .radio-coefficient {
@@ -306,28 +371,116 @@
             font-size: 0.875rem;
         }
         
-        /* Responsive design */
+        /* Floating action button */
+        .fab {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            z-index: 50;
+            transition: all 0.3s ease;
+        }
+        
+        .fab:active {
+            transform: scale(0.95);
+        }
+        
+        .back-to-top {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--primary);
+            z-index: 50;
+            transition: all 0.3s ease;
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .back-to-top:active {
+            transform: scale(0.95);
+        }
+        
+        /* Mobile optimizations */
         @media (max-width: 768px) {
-            .sidebar {
-                width: 100%;
-                position: static;
-                height: auto;
+            .card {
+                border-radius: 0.75rem;
+                margin-bottom: 1.25rem;
             }
             
-            .content {
-                margin-left: 0;
+            .result-row {
+                padding: 0.5rem 0;
             }
             
-            .hide-sm {
-                display: none;
+            .form-input {
+                font-size: 16px;
+                padding: 0.75rem;
+            }
+            
+            .checkbox-item, .construction-radio-item {
+                margin-bottom: 0.75rem;
+            }
+            
+            .tab-container {
+                overflow-x: auto;
+                white-space: nowrap;
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            .tab-button {
+                padding: 0.75rem 1rem;
+            }
+            
+            .khai-toan-table {
+                font-size: 0.8rem;
+            }
+            
+            .khai-toan-table th, .khai-toan-table td {
+                padding: 0.5rem 0.4rem;
             }
         }
     </style>
 </head>
-<body class="min-h-screen flex">
-    <!-- Sidebar -->
-    <div class="sidebar fixed w-64 h-full overflow-y-auto">
-        <div class="p-4 flex items-center border-b border-grey-200">
+<body class="pb-16">
+    <!-- Mobile Header -->
+    <header class="mobile-header">
+        <button id="menuToggle" class="p-2">
+            <i class="fas fa-bars text-xl"></i>
+        </button>
+        <div class="flex items-center">
+            <img src="https://raw.githubusercontent.com/vtzai2024/TinhMatDoXayDung/refs/heads/main/LOGO%20VUONG%20NEN%20TRONG%20SUOT%20-chu%20trang-small.png" alt="Logo VTZ Spaxe" class="h-8 w-8 mr-2">
+            <div>
+                <div class="font-bold text-sm text-primary">VTZ Spaxe</div>
+                <div class="text-xs text-gray-500">Thiết kế & Xây dựng</div>
+            </div>
+        </div>
+        <div class="w-8"><!-- Placeholder for spacing --></div>
+    </header>
+
+    <!-- Mobile Sidebar -->
+    <div class="overlay" id="overlay"></div>
+    <div class="mobile-sidebar" id="mobileSidebar">
+        <div class="p-4 flex items-center justify-between border-b border-grey-200">
             <a href="https://vtzspaxe.com/" target="_blank" class="flex items-center">
                 <img src="https://raw.githubusercontent.com/vtzai2024/TinhMatDoXayDung/refs/heads/main/LOGO%20VUONG%20NEN%20TRONG%20SUOT%20-chu%20trang-small.png" alt="Logo VTZ Spaxe" class="h-10 w-10 mr-2">
                 <div>
@@ -335,8 +488,11 @@
                     <div class="text-xs text-gray-500">Thiết kế & Xây dựng</div>
                 </div>
             </a>
+            <button id="closeSidebar" class="p-2">
+                <i class="fas fa-times text-xl"></i>
+            </button>
         </div>
-        <nav class="mt-4">
+        <nav class="mt-2">
             <div class="px-4 mb-2 text-xs text-gray-500 uppercase">Thông tin chính</div>
             <a href="#thong-tin" class="nav-item px-4 py-3 flex items-center active">
                 <i class="fas fa-info-circle mr-3"></i>
@@ -362,7 +518,7 @@
                 <i class="fas fa-book mr-3"></i>
                 <span>Hướng dẫn sử dụng</span>
             </a>
-            <div class="px-4 mt-6 mb-2 text-xs text-gray-500 uppercase">Thông tin khác</div>
+            <div class="px-4 mt-4 mb-2 text-xs text-gray-500 uppercase">Thông tin khác</div>
             <a href="#lien-he" class="nav-item px-4 py-3 flex items-center">
                 <i class="fas fa-envelope mr-3"></i>
                 <span>Liên hệ tư vấn</span>
@@ -375,135 +531,129 @@
     </div>
 
     <!-- Main content -->
-    <div class="content ml-64 flex-grow p-6">
-        <header class="mb-6 flex justify-between items-center">
-            <h1 class="text-2xl font-bold">
+    <div class="content p-4">
+        <header class="mb-4">
+            <h1 class="text-xl font-bold">
                 Máy tính Quy định xây dựng TP. HCM
-                <div class="text-sm font-normal text-gray-500">Theo Phụ lục 18 - Quyết định số 56/2021/QĐ-UBND</div>
             </h1>
-            <button id="tinhToanBtn" class="btn-primary px-6 py-3 rounded-lg flex items-center">
-                <i class="fas fa-calculator mr-2"></i>
-                <span>Tính toán</span>
-            </button>
+            <div class="text-sm font-normal text-gray-500">Theo Phụ lục 18 - QĐ số 56/2021/QĐ-UBND</div>
         </header>
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <!-- Thông tin lô đất -->
-            <section id="thong-tin" class="card p-6">
-                <h2 class="text-xl font-bold mb-4 card-header pb-3">
-                    <i class="fas fa-info-circle mr-2"></i> Thông tin lô đất
-                </h2>
+        <!-- Thông tin lô đất -->
+        <section id="thong-tin" class="card p-4">
+            <h2 class="text-lg font-bold mb-3 card-header pb-3">
+                <i class="fas fa-info-circle mr-2"></i> Thông tin lô đất
+            </h2>
+            <div class="mt-3">
+                <div class="mb-4">
+                    <label for="dienTichDat" class="form-label">Diện tích lô đất (m²):</label>
+                    <input type="number" id="dienTichDat" class="form-input" placeholder="Nhập diện tích lô đất" min="0" step="0.01" inputmode="decimal">
+                    <div class="input-hint">Diện tích lô đất ảnh hưởng đến mật độ xây dựng tối đa</div>
+                    <div id="dienTichDat-error" class="error-message"></div>
+                </div>
+                <div class="mb-4">
+                    <label for="chieuSauDat" class="form-label">Chiều sâu lô đất (m):</label>
+                    <input type="number" id="chieuSauDat" class="form-input" placeholder="Nhập chiều sâu lô đất" min="0" step="0.01" inputmode="decimal">
+                    <div class="input-hint">Chiều sâu lô đất ảnh hưởng đến yêu cầu khoảng lùi</div>
+                    <div id="chieuSauDat-error" class="error-message"></div>
+                </div>
+                <div class="mb-4">
+                    <label for="chieuRongLoGioi" class="form-label">Chiều rộng lộ giới (m):</label>
+                    <input type="number" id="chieuRongLoGioi" class="form-input" placeholder="Nhập chiều rộng lộ giới" min="0" step="0.01" inputmode="decimal">
+                    <div class="input-hint">Chiều rộng lộ giới ảnh hưởng đến số tầng, chiều cao</div>
+                    <div id="chieuRongLoGioi-error" class="error-message"></div>
+                </div>
+                <div class="mb-4">
+                    <label for="chieuRongMatTien" class="form-label">Chiều rộng mặt tiền (m):</label>
+                    <input type="number" id="chieuRongMatTien" class="form-input" placeholder="Nhập chiều rộng mặt tiền" min="0" step="0.01" inputmode="decimal">
+                    <div id="chieuRongMatTien-error" class="error-message"></div>
+                </div>
                 <div class="mt-4">
-                    <div class="mb-4">
-                        <label for="dienTichDat" class="form-label">Diện tích lô đất (m²):</label>
-                        <input type="number" id="dienTichDat" class="form-input" placeholder="Nhập diện tích lô đất" min="0" step="0.01">
-                        <div class="input-hint">Diện tích lô đất ảnh hưởng đến mật độ xây dựng tối đa</div>
-                        <div id="dienTichDat-error" class="error-message"></div>
+                    <p class="font-medium mb-2">Điều kiện đặc biệt:</p>
+                    <div class="checkbox-item mb-3">
+                        <input type="checkbox" id="quanTrungTam" name="viTri" class="mr-2">
+                        <label for="quanTrungTam">Thuộc Quận trung tâm hoặc Trung tâm cấp quận</label>
                     </div>
-                    <div class="mb-4">
-                        <label for="chieuSauDat" class="form-label">Chiều sâu lô đất (m):</label>
-                        <input type="number" id="chieuSauDat" class="form-input" placeholder="Nhập chiều sâu lô đất" min="0" step="0.01">
-                        <div class="input-hint">Chiều sâu lô đất ảnh hưởng đến yêu cầu khoảng lùi</div>
-                        <div id="chieuSauDat-error" class="error-message"></div>
+                    <div class="checkbox-item mb-3">
+                        <input type="checkbox" id="trucDuongThuongMai" name="viTri" class="mr-2">
+                        <label for="trucDuongThuongMai">Thuộc trục đường thương mại - dịch vụ</label>
                     </div>
-                    <div class="mb-4">
-                        <label for="chieuRongLoGioi" class="form-label">Chiều rộng lộ giới (m):</label>
-                        <input type="number" id="chieuRongLoGioi" class="form-input" placeholder="Nhập chiều rộng lộ giới" min="0" step="0.01">
-                        <div class="input-hint">Chiều rộng lộ giới ảnh hưởng đến số tầng, chiều cao và ban công</div>
-                        <div id="chieuRongLoGioi-error" class="error-message"></div>
-                    </div>
-                    <div class="mb-4">
-                        <label for="chieuRongMatTien" class="form-label">Chiều rộng mặt tiền (m):</label>
-                        <input type="number" id="chieuRongMatTien" class="form-input" placeholder="Nhập chiều rộng mặt tiền" min="0" step="0.01">
-                        <div id="chieuRongMatTien-error" class="error-message"></div>
-                    </div>
-                    <div class="mt-6">
-                        <p class="font-medium mb-3">Điều kiện đặc biệt:</p>
-                        <div class="checkbox-item mb-2">
-                            <input type="checkbox" id="quanTrungTam" name="viTri" class="mr-2">
-                            <label for="quanTrungTam">Thuộc Quận trung tâm hoặc Trung tâm cấp quận</label>
-                        </div>
-                        <div class="checkbox-item mb-2">
-                            <input type="checkbox" id="trucDuongThuongMai" name="viTri" class="mr-2">
-                            <label for="trucDuongThuongMai">Thuộc trục đường thương mại - dịch vụ</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="matTienTren8m" name="viTri" class="mr-2">
-                            <label for="matTienTren8m">Có chiều rộng mặt tiền > 8,0m</label>
-                        </div>
+                    <div class="checkbox-item mb-2">
+                        <input type="checkbox" id="matTienTren8m" name="viTri" class="mr-2">
+                        <label for="matTienTren8m">Có chiều rộng mặt tiền > 8,0m</label>
                     </div>
                 </div>
-            </section>
+            </div>
+        </section>
 
-            <!-- Đơn giá thi công -->
-            <section id="don-gia" class="card p-6">
-                <h2 class="text-xl font-bold mb-4 card-header pb-3">
-                    <i class="fas fa-dollar-sign mr-2"></i> Đơn giá thi công
-                </h2>
+        <!-- Đơn giá thi công -->
+        <section id="don-gia" class="card p-4">
+            <h2 class="text-lg font-bold mb-3 card-header pb-3">
+                <i class="fas fa-dollar-sign mr-2"></i> Đơn giá thi công
+            </h2>
+            <div class="mt-3">
+                <div class="mb-4">
+                    <label for="donGiaThietKe" class="form-label">Đơn giá thiết kế (VNĐ/m²):</label>
+                    <input type="text" id="donGiaThietKe" class="form-input currency-input" value="250.000" placeholder="VNĐ/m²" inputmode="decimal">
+                </div>
+                <div class="mb-4">
+                    <label for="donGiaPhanTho" class="form-label">Đơn giá phần thô (VNĐ/m²):</label>
+                    <input type="text" id="donGiaPhanTho" class="form-input currency-input" value="4.000.000" placeholder="VNĐ/m²" inputmode="decimal">
+                </div>
+                <div class="mb-4">
+                    <label for="donGiaHoanThien" class="form-label">Đơn giá hoàn thiện (VNĐ/m²):</label>
+                    <input type="text" id="donGiaHoanThien" class="form-input currency-input" value="2.500.000" placeholder="VNĐ/m²" inputmode="decimal">
+                </div>
+                <div class="mb-4">
+                    <label for="donGiaNoiThat" class="form-label">Đơn giá hoàn thiện nội thất (VNĐ/m²):</label>
+                    <input type="text" id="donGiaNoiThat" class="form-input currency-input" value="2.000.000" placeholder="VNĐ/m²" inputmode="decimal">
+                </div>
                 <div class="mt-4">
-                    <div class="mb-4">
-                        <label for="donGiaThietKe" class="form-label">Đơn giá thiết kế (VNĐ/m²):</label>
-                        <input type="text" id="donGiaThietKe" class="form-input currency-input" value="250.000" placeholder="VNĐ/m²">
+                    <p class="font-medium mb-2">Tùy chọn bổ sung:</p>
+                    <div class="checkbox-item mb-3">
+                        <input type="checkbox" id="coTangLung" name="tangLung" class="mr-2" checked>
+                        <label for="coTangLung">Có tầng lửng</label>
+                        <div id="tangLungInfo" class="text-sm text-gray-500 mt-1">Chỉ được phép khi chiều rộng lộ giới ≥ 6m</div>
                     </div>
-                    <div class="mb-4">
-                        <label for="donGiaPhanTho" class="form-label">Đơn giá phần thô (VNĐ/m²):</label>
-                        <input type="text" id="donGiaPhanTho" class="form-input currency-input" value="4.000.000" placeholder="VNĐ/m²">
+                    <div class="checkbox-item mb-3">
+                        <input type="checkbox" id="coTangDinhMai" name="tangDinhMai" class="mr-2" checked disabled>
+                        <label for="coTangDinhMai">Có tầng đỉnh mái</label>
+                        <span class="ml-2 px-2 py-0.5 bg-blue-100 text-primary text-xs rounded">Bắt buộc</span>
                     </div>
-                    <div class="mb-4">
-                        <label for="donGiaHoanThien" class="form-label">Đơn giá hoàn thiện (VNĐ/m²):</label>
-                        <input type="text" id="donGiaHoanThien" class="form-input currency-input" value="2.500.000" placeholder="VNĐ/m²">
+                    <div class="checkbox-item mb-3">
+                        <input type="checkbox" id="coSanThuong" name="sanThuong" class="mr-2" checked>
+                        <label for="coSanThuong">Có sân thượng</label>
                     </div>
-                    <div class="mb-4">
-                        <label for="donGiaNoiThat" class="form-label">Đơn giá hoàn thiện nội thất (VNĐ/m²):</label>
-                        <input type="text" id="donGiaNoiThat" class="form-input currency-input" value="2.000.000" placeholder="VNĐ/m²">
-                    </div>
-                    <div class="mt-6">
-                        <p class="font-medium mb-3">Tùy chọn bổ sung:</p>
-                        <div class="checkbox-item mb-2">
-                            <input type="checkbox" id="coTangLung" name="tangLung" class="mr-2" checked>
-                            <label for="coTangLung">Có tầng lửng</label>
-                            <span id="tangLungInfo" class="ml-2 text-sm text-gray-500">Chỉ được phép khi chiều rộng lộ giới ≥ 6m</span>
-                        </div>
-                        <div class="checkbox-item mb-2">
-                            <input type="checkbox" id="coTangDinhMai" name="tangDinhMai" class="mr-2" checked disabled>
-                            <label for="coTangDinhMai">Có tầng đỉnh mái</label>
-                            <span class="ml-2 px-2 py-0.5 bg-blue-100 text-primary text-xs rounded">Bắt buộc</span>
-                        </div>
-                        <div class="checkbox-item mb-2">
-                            <input type="checkbox" id="coSanThuong" name="sanThuong" class="mr-2" checked>
-                            <label for="coSanThuong">Có sân thượng</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="coMaiBTCT" name="maiBTCT" class="mr-2" checked>
-                            <label for="coMaiBTCT">Có mái BTCT</label>
-                        </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="coMaiBTCT" name="maiBTCT" class="mr-2" checked>
+                        <label for="coMaiBTCT">Có mái BTCT</label>
                     </div>
                 </div>
-            </section>
-        </div>
+            </div>
+        </section>
 
         <!-- Diện tích xây dựng -->
-        <section id="dien-tich-xay-dung" class="card p-6 mt-6">
-            <h2 class="text-xl font-bold mb-4 card-header pb-3">
+        <section id="dien-tich-xay-dung" class="card p-4">
+            <h2 class="text-lg font-bold mb-3 card-header pb-3">
                 <i class="fas fa-ruler-combined mr-2"></i> Diện tích xây dựng
             </h2>
-            <div class="mt-4">
+            <div class="mt-3">
                 <!-- Tầng hầm -->
                 <div class="construction-area-section">
                     <h3 class="construction-area-title">
                         <i class="fas fa-arrow-down mr-2"></i> Tầng hầm
                     </h3>
                     <div class="radio-group mb-2">
-                        <label class="inline-flex items-center mr-4">
-                            <input type="radio" name="tangHam" value="none" checked class="mr-2">
-                            <span>Không có tầng hầm</span>
-                        </label>
-                        <label class="inline-flex items-center mr-4">
-                            <input type="radio" name="tangHam" value="ham" class="mr-2">
-                            <span>Có tầng hầm</span>
-                        </label>
+                        <div class="radio-item mb-2">
+                            <input type="radio" name="tangHam" id="khongTangHam" value="none" checked class="mr-2">
+                            <label for="khongTangHam">Không có tầng hầm</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="tangHam" id="coTangHam" value="ham" class="mr-2">
+                            <label for="coTangHam">Có tầng hầm</label>
+                        </div>
                     </div>
-                    <div id="tangHamOptions" class="pl-4 mt-2 hidden">
+                    <div id="tangHamOptions" class="pl-2 mt-3 hidden">
                         <div class="construction-area-grid">
                             <div class="construction-radio-item">
                                 <input type="radio" name="doSauHam" id="doSau1" value="1.5">
@@ -534,7 +684,7 @@
                                 </label>
                             </div>
                         </div>
-                        <div class="checkbox-item mt-2">
+                        <div class="checkbox-item mt-3">
                             <input type="checkbox" id="hamNho" class="mr-2">
                             <label for="hamNho">Hầm có diện tích sử dụng < 70m²</label>
                             <span class="ml-2 px-2 py-0.5 bg-blue-100 text-primary text-xs rounded">+20%</span>
@@ -588,7 +738,7 @@
                         <div class="construction-radio-item">
                             <input type="radio" name="loaiMai" id="maiBTCT" value="0.5" checked>
                             <label for="maiBTCT" class="radio-label">
-                                <span>Mái bê tông cốt thép</span>
+                                <span>Mái BTCT</span>
                                 <span class="radio-coefficient">50%</span>
                             </label>
                         </div>
@@ -619,11 +769,11 @@
         </section>
 
         <!-- Kết quả tính toán -->
-        <section id="results" class="card p-6 mt-6">
-            <h2 class="text-xl font-bold mb-4 card-header pb-3">
+        <section id="results" class="card p-4">
+            <h2 class="text-lg font-bold mb-3 card-header pb-3">
                 <i class="fas fa-calculator mr-2"></i> Kết quả tính toán
             </h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+            <div class="mt-3">
                 <div class="result-section">
                     <div class="result-title">
                         <i class="fas fa-ruler-combined mr-2"></i> Diện tích và mật độ xây dựng
@@ -689,15 +839,15 @@
                     </div>
                 </div>
             </div>
-            <div class="p-4 bg-yellow-50 border-l-4 border-yellow-400 mt-6">
+            <div class="p-3 bg-yellow-50 border-l-4 border-yellow-400 mt-4 text-sm">
                 <div class="flex">
                     <div class="flex-shrink-0">
                         <i class="fas fa-exclamation-triangle text-yellow-600"></i>
                     </div>
                     <div class="ml-3">
                         <h3 class="text-sm font-medium text-yellow-800">Lưu ý quan trọng:</h3>
-                        <div class="mt-2 text-sm text-yellow-700">
-                            <p>Kết quả tính toán chỉ mang tính tham khảo theo quy định tại Phụ lục 18 - Quyết định số 56/2021/QĐ-UBND.</p>
+                        <div class="mt-1 text-sm text-yellow-700">
+                            <p>Kết quả chỉ mang tính tham khảo theo quy định tại Phụ lục 18 - QĐ số 56/2021/QĐ-UBND.</p>
                             <p class="mt-1">Vui lòng liên hệ cơ quan có thẩm quyền để được hướng dẫn cụ thể khi thực hiện xây dựng.</p>
                         </div>
                     </div>
@@ -706,81 +856,76 @@
         </section>
 
         <!-- Khái toán chi phí -->
-        <section id="khai-toan" class="card p-6 mt-6">
-            <h2 class="text-xl font-bold mb-4 card-header pb-3">
-                <i class="fas fa-file-invoice-dollar mr-2"></i> Khái toán chi phí xây dựng
+        <section id="khai-toan" class="card p-4">
+            <h2 class="text-lg font-bold mb-3 card-header pb-3">
+                <i class="fas fa-file-invoice-dollar mr-2"></i> Khái toán chi phí
             </h2>
-            <div class="overflow-x-auto mt-4">
+            <div class="overflow-x-auto mt-3">
                 <table class="khai-toan-table" id="khaiToanTable">
                     <thead>
                         <tr>
                             <th>STT</th>
                             <th>Hạng mục</th>
-                            <th>Diện tích cơ sở (m²)</th>
+                            <th>Diện tích (m²)</th>
                             <th>Hệ số</th>
-                            <th>Diện tích XD (m²)</th>
-                            <th>Xây dựng</th>
+                            <th>XD (m²)</th>
+                            <th>Xây</th>
                         </tr>
                     </thead>
                     <tbody id="khaiToanBody">
                         <tr>
                             <td colspan="6" class="text-center py-4">
-                                Nhập thông tin và nhấn nút "Tính toán" để xem kết quả
+                                Nhập thông tin và nhấn "Tính toán" để xem kết quả
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6 bg-blue-50 p-4 rounded-lg">
-                <div>
-                    <div class="flex justify-between items-center mb-3">
-                        <span class="font-medium">Chi phí thiết kế:</span>
-                        <span id="chiPhiThietKe" class="font-semibold text-primary">--</span>
-                    </div>
-                    <div class="flex justify-between items-center mb-3">
-                        <span class="font-medium">Chi phí phần thô:</span>
-                        <span id="chiPhiPhanTho" class="font-semibold text-primary">--</span>
-                    </div>
+            <div class="mt-4 p-3 bg-blue-50 rounded-lg">
+                <div class="flex justify-between items-center mb-2">
+                    <span class="font-medium text-sm">Chi phí thiết kế:</span>
+                    <span id="chiPhiThietKe" class="font-semibold text-primary text-sm">--</span>
                 </div>
-                <div>
-                    <div class="flex justify-between items-center mb-3">
-                        <span class="font-medium">Chi phí hoàn thiện:</span>
-                        <span id="chiPhiHoanThien" class="font-semibold text-primary">--</span>
-                    </div>
-                    <div class="flex justify-between items-center mb-3">
-                        <span class="font-medium">Chi phí hoàn thiện nội thất:</span>
-                        <span id="chiPhiNoiThat" class="font-semibold text-primary">--</span>
-                    </div>
+                <div class="flex justify-between items-center mb-2">
+                    <span class="font-medium text-sm">Chi phí phần thô:</span>
+                    <span id="chiPhiPhanTho" class="font-semibold text-primary text-sm">--</span>
+                </div>
+                <div class="flex justify-between items-center mb-2">
+                    <span class="font-medium text-sm">Chi phí hoàn thiện:</span>
+                    <span id="chiPhiHoanThien" class="font-semibold text-primary text-sm">--</span>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="font-medium text-sm">Chi phí nội thất:</span>
+                    <span id="chiPhiNoiThat" class="font-semibold text-primary text-sm">--</span>
                 </div>
             </div>
-            <div class="flex justify-between items-center mt-4 p-3 bg-green-500 rounded-lg text-white">
-                <span class="font-bold text-lg">Tổng chi phí:</span>
-                <span id="tongChiPhi" class="font-bold text-lg">--</span>
+            <div class="flex justify-between items-center mt-3 p-3 bg-green-500 rounded-lg text-white">
+                <span class="font-bold">Tổng chi phí:</span>
+                <span id="tongChiPhi" class="font-bold">--</span>
             </div>
-            <div class="mt-4 text-sm text-gray-600">
-                <h3 class="font-medium mb-2">Ghi chú:</h3>
-                <ul class="list-disc pl-5 space-y-1">
+            <div class="mt-3 text-xs text-gray-600">
+                <h3 class="font-medium mb-1">Ghi chú:</h3>
+                <ul class="list-disc pl-4 space-y-1">
                     <li>Chi phí thiết kế = Tổng diện tích thiết kế × Đơn giá thiết kế</li>
                     <li>Chi phí phần thô = Tổng diện tích xây dựng × Đơn giá phần thô</li>
                     <li>Chi phí hoàn thiện = Tổng diện tích xây dựng × Đơn giá hoàn thiện</li>
-                    <li>Chi phí hoàn thiện nội thất = Tổng diện tích xây dựng × 0,85 × Đơn giá hoàn thiện nội thất</li>
-                    <li>Chi phí trên chưa bao gồm thuế VAT và các chi phí phát sinh khác</li>
+                    <li>Chi phí nội thất = Tổng diện tích xây dựng × 0,85 × Đơn giá nội thất</li>
                     <li><span class="font-medium text-blue-600">Lưu ý:</span> Tổng diện tích thiết kế không bao gồm diện tích móng nhà</li>
                 </ul>
             </div>
         </section>
 
         <!-- Hướng dẫn sử dụng -->
-        <section id="guide" class="card p-6 mt-6">
-            <h2 class="text-xl font-bold mb-4 card-header pb-3">
+        <section id="guide" class="card p-4">
+            <h2 class="text-lg font-bold mb-3 card-header pb-3">
                 <i class="fas fa-book mr-2"></i> Hướng dẫn sử dụng
             </h2>
-            <div class="space-y-6 mt-4">
+            <div class="space-y-4 mt-3">
                 <div>
-                    <h3 class="font-bold text-lg mb-3">Mật độ xây dựng</h3>
-                    <p class="mb-2">Được tính dựa trên diện tích lô đất theo Bảng 1 của Phụ lục 18:</p>
+                    <h3 class="font-bold text-md mb-2">Mật độ xây dựng</h3>
+                    <p class="mb-2 text-sm">Được tính dựa trên diện tích lô đất:</p>
                     <div class="overflow-x-auto">
-                        <table class="khai-toan-table">
+                        <table class="khai-toan-table text-sm">
                             <tr>
                                 <th>Diện tích lô đất (m²)</th>
                                 <th>Mật độ xây dựng tối đa (%)</th>
@@ -792,53 +937,32 @@
                             <tr><td>500</td><td>50</td></tr>
                         </table>
                     </div>
-                    <p class="mt-2 text-sm italic text-gray-600">Chú thích: Với diện tích đất nằm giữa các giá trị trong bảng, mật độ xây dựng được tính theo phương pháp nội suy.</p>
                 </div>
                 <div>
-                    <h3 class="font-bold text-lg mb-3">Khoảng lùi phía sau</h3>
-                    <p class="mb-2">Được tính dựa trên chiều sâu lô đất (D) theo mục 6 của Phụ lục 18:</p>
-                    <ul class="list-disc pl-5 space-y-1">
+                    <h3 class="font-bold text-md mb-2">Khoảng lùi phía sau</h3>
+                    <p class="mb-2 text-sm">Được tính dựa trên chiều sâu lô đất (D):</p>
+                    <ul class="list-disc pl-4 space-y-1 text-sm">
                         <li>D ≥ 16m: Khoảng lùi tối thiểu 2m</li>
                         <li>9m ≤ D < 16m: Khoảng lùi tối thiểu 1m</li>
-                        <li>D < 9m: Khuyến khích tạo khoảng trống phía sau nhà</li>
+                        <li>D < 9m: Khuyến khích tạo khoảng trống phía sau</li>
                     </ul>
                 </div>
                 <div>
-                    <h3 class="font-bold text-lg mb-3">Số tầng cao độ</h3>
-                    <p class="mb-2">Dựa trên chiều rộng lộ giới (L) và các điều kiện đặc biệt theo Bảng 2:</p>
-                    <ul class="list-disc pl-5 space-y-1">
+                    <h3 class="font-bold text-md mb-2">Số tầng cao độ</h3>
+                    <p class="mb-2 text-sm">Dựa trên chiều rộng lộ giới (L):</p>
+                    <ul class="list-disc pl-4 space-y-1 text-sm">
                         <li>L ≥ 25m: 6 tầng</li>
                         <li>16m ≤ L < 25m: 5 tầng + tầng cộng thêm (nếu có điều kiện)</li>
                         <li>6m ≤ L < 16m: 4 tầng + tầng cộng thêm (nếu có điều kiện)</li>
                         <li>3.5m ≤ L < 6m: 3 tầng + tầng cộng thêm (nếu có điều kiện)</li>
                         <li>L < 3.5m: 3 tầng (không cộng thêm)</li>
                     </ul>
-                    <p class="mt-2 text-sm italic text-gray-600">Điều kiện cộng thêm tầng: Thuộc Quận trung tâm/Trung tâm cấp quận, thuộc trục đường thương mại - dịch vụ, hoặc có chiều rộng mặt tiền > 8.0m.</p>
                 </div>
                 <div>
-                    <h3 class="font-bold text-lg mb-3">Chiều cao tại đỉnh mái</h3>
-                    <p class="mb-2">Theo Bảng 3 của Phụ lục 18, chiều cao tối đa tại đỉnh mái phụ thuộc vào chiều rộng lộ giới và số tầng:</p>
+                    <h3 class="font-bold text-md mb-2">Ban công và ô văng</h3>
+                    <p class="mb-2 text-sm">Độ vươn của ban công, ô văng:</p>
                     <div class="overflow-x-auto">
-                        <table class="khai-toan-table">
-                            <tr>
-                                <th>Chiều rộng lộ giới L (m)</th>
-                                <th>Chiều cao tối đa tại đỉnh mái (m)</th>
-                                <th>Chiều cao tối đa tại đỉnh mái (nếu có cộng tầng) (m)</th>
-                            </tr>
-                            <tr><td>L ≥ 25</td><td>25,0</td><td>27,0</td></tr>
-                            <tr><td>16 ≤ L < 25</td><td>23,6</td><td>27,0</td></tr>
-                            <tr><td>6 ≤ L < 16</td><td>19,0</td><td>22,4</td></tr>
-                            <tr><td>3,5 ≤ L < 6</td><td>13,6</td><td>15,6</td></tr>
-                            <tr><td>L < 3,5</td><td>11,6</td><td>-</td></tr>
-                        </table>
-                    </div>
-                    <p class="mt-2 text-sm italic text-gray-600">Lưu ý quan trọng: Theo quy định, tầng đỉnh mái là bắt buộc và được tính vào chiều cao tối đa của công trình. Trong khái toán chi phí, tầng đỉnh mái luôn được tính với hệ số 0,35.</p>
-                </div>
-                <div>
-                    <h3 class="font-bold text-lg mb-3">Ban công và ô văng</h3>
-                    <p class="mb-2">Độ vươn của ban công, ô văng nhô ra trên không gian lộ giới phụ thuộc vào chiều rộng của lộ giới theo Bảng 4 mục 10:</p>
-                    <div class="overflow-x-auto">
-                        <table class="khai-toan-table">
+                        <table class="khai-toan-table text-sm">
                             <tr>
                                 <th>Chiều rộng lộ giới L (m)</th>
                                 <th>Độ vươn tối đa (m)</th>
@@ -849,17 +973,16 @@
                             <tr><td>L ≥ 20</td><td>1,4</td></tr>
                         </table>
                     </div>
-                    <p class="mt-2 text-sm italic text-gray-600">Lưu ý: Độ vươn phải nhỏ hơn chiều rộng vỉa hè ít nhất 1,0m. Mặt dưới của ban công, ô văng phải cao hơn mặt vỉa hè hiện hữu ổn định tối thiểu 3,5m.</p>
                 </div>
             </div>
         </section>
 
         <!-- Liên hệ tư vấn -->
-        <section id="lien-he" class="card p-6 mt-6">
-            <h2 class="text-xl font-bold mb-4 card-header pb-3">
+        <section id="lien-he" class="card p-4">
+            <h2 class="text-lg font-bold mb-3 card-header pb-3">
                 <i class="fas fa-envelope mr-2"></i> Liên hệ tư vấn
             </h2>
-            <p class="mb-4">Vui lòng để lại thông tin liên hệ để được tư vấn miễn phí về dự án xây dựng của bạn.</p>
+            <p class="mb-3 text-sm">Vui lòng để lại thông tin liên hệ để được tư vấn miễn phí về dự án xây dựng của bạn.</p>
             <form>
                 <div class="mb-4">
                     <label for="hoTen" class="form-label">Họ và tên:</label>
@@ -867,70 +990,134 @@
                 </div>
                 <div class="mb-4">
                     <label for="soDienThoai" class="form-label">Số điện thoại:</label>
-                    <input type="tel" id="soDienThoai" class="form-input" placeholder="Nhập số điện thoại">
+                    <input type="tel" id="soDienThoai" class="form-input" placeholder="Nhập số điện thoại" inputmode="tel">
                 </div>
                 <div class="mb-4">
                     <label for="email" class="form-label">Email:</label>
-                    <input type="email" id="email" class="form-input" placeholder="Nhập địa chỉ email">
+                    <input type="email" id="email" class="form-input" placeholder="Nhập địa chỉ email" inputmode="email">
                 </div>
                 <div class="mb-4">
                     <label for="noiDung" class="form-label">Nội dung:</label>
-                    <textarea id="noiDung" class="form-input" rows="4" placeholder="Nhập nội dung cần tư vấn"></textarea>
+                    <textarea id="noiDung" class="form-input" rows="3" placeholder="Nhập nội dung cần tư vấn"></textarea>
                 </div>
-                <button type="button" class="btn-primary px-6 py-2 rounded-lg">
+                <button type="button" class="btn-primary px-6 py-3 rounded-lg w-full">
                     <i class="fas fa-paper-plane mr-2"></i> Gửi thông tin
                 </button>
             </form>
         </section>
 
         <!-- Về chúng tôi -->
-        <section id="about" class="card p-6 mt-6">
-            <h2 class="text-xl font-bold mb-4 card-header pb-3">
+        <section id="about" class="card p-4">
+            <h2 class="text-lg font-bold mb-3 card-header pb-3">
                 <i class="fas fa-building mr-2"></i> Về chúng tôi
             </h2>
-            <div class="flex flex-col md:flex-row items-center mb-6">
-                <a href="https://vtzspaxe.com/" target="_blank" class="mb-4 md:mb-0 md:mr-6">
-                    <img src="https://raw.githubusercontent.com/vtzai2024/TinhMatDoXayDung/refs/heads/main/LOGO%20VUONG%20NEN%20TRONG%20SUOT%20-chu%20trang-small.png" alt="VTZ Spaxe Logo" class="h-24 w-24">
+            <div class="flex flex-col items-center mb-4">
+                <a href="https://vtzspaxe.com/" target="_blank" class="mb-3">
+                    <img src="https://raw.githubusercontent.com/vtzai2024/TinhMatDoXayDung/refs/heads/main/LOGO%20VUONG%20NEN%20TRONG%20SUOT%20-chu%20trang-small.png" alt="VTZ Spaxe Logo" class="h-20 w-20">
                 </a>
-                <div>
-                    <h3 class="text-lg font-bold">Công ty TNHH Thiết kế và xây dựng VTZ Spaxe</h3>
-                    <p class="text-sm text-gray-600 mb-2">TIÊN PHONG - TẬN TÂM - TRÁCH NHIỆM - TRUNG THỰC - TRÍ TUỆ</p>
-                    <p class="mb-2">VTZ Spaxe là đơn vị chuyên thiết kế, thi công xây dựng nhà phố, biệt thự, căn hộ với chất lượng cao và thiết kế hiện đại.</p>
-                    <p>Với đội ngũ kiến trúc sư, kỹ sư giàu kinh nghiệm, chúng tôi cam kết mang đến những công trình đạt chất lượng và thẩm mỹ cao nhất, đúng tiến độ và chi phí hợp lý.</p>
+                <div class="text-center">
+                    <h3 class="text-md font-bold">Công ty TNHH Thiết kế và xây dựng VTZ Spaxe</h3>
+                    <p class="text-xs text-gray-600 mb-2">TIÊN PHONG - TẬN TÂM - TRÁCH NHIỆM - TRUNG THỰC - TRÍ TUỆ</p>
                 </div>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+            <p class="mb-2 text-sm">VTZ Spaxe là đơn vị chuyên thiết kế, thi công xây dựng nhà phố, biệt thự, căn hộ với chất lượng cao và thiết kế hiện đại.</p>
+            <div class="grid grid-cols-3 gap-2 mt-4">
                 <div class="text-center">
-                    <div class="h-12 w-12 bg-blue-100 text-primary rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i class="fas fa-drafting-compass text-xl"></i>
+                    <div class="h-10 w-10 bg-blue-100 text-primary rounded-full flex items-center justify-center mx-auto mb-2">
+                        <i class="fas fa-drafting-compass"></i>
                     </div>
-                    <h3 class="font-bold mb-2">Thiết kế kiến trúc</h3>
-                    <p class="text-sm text-gray-600">Giải pháp thiết kế hiện đại, phù hợp công năng sử dụng</p>
+                    <h3 class="font-bold text-xs mb-1">Thiết kế kiến trúc</h3>
                 </div>
                 <div class="text-center">
-                    <div class="h-12 w-12 bg-blue-100 text-primary rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i class="fas fa-hard-hat text-xl"></i>
+                    <div class="h-10 w-10 bg-blue-100 text-primary rounded-full flex items-center justify-center mx-auto mb-2">
+                        <i class="fas fa-hard-hat"></i>
                     </div>
-                    <h3 class="font-bold mb-2">Thi công xây dựng</h3>
-                    <p class="text-sm text-gray-600">Đội ngũ kỹ sư giám sát chuyên nghiệp, thợ thi công lành nghề</p>
+                    <h3 class="font-bold text-xs mb-1">Thi công xây dựng</h3>
                 </div>
                 <div class="text-center">
-                    <div class="h-12 w-12 bg-blue-100 text-primary rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i class="fas fa-couch text-xl"></i>
+                    <div class="h-10 w-10 bg-blue-100 text-primary rounded-full flex items-center justify-center mx-auto mb-2">
+                        <i class="fas fa-couch"></i>
                     </div>
-                    <h3 class="font-bold mb-2">Thiết kế nội thất</h3>
-                    <p class="text-sm text-gray-600">Thiết kế và thi công nội thất theo phong cách riêng của bạn</p>
+                    <h3 class="font-bold text-xs mb-1">Thiết kế nội thất</h3>
                 </div>
             </div>
         </section>
 
-        <footer class="mt-8 pt-6 border-t border-gray-200 text-center text-sm text-gray-600">
-            <p>© 2025 - Công ty TNHH Thiết kế và xây dựng VTZ Spaxe. Đã đăng ký bản quyền.</p>
-            <p class="mt-1">Ứng dụng tính toán thông số xây dựng theo QĐ-56-2021-UBND</p>
+        <footer class="mt-6 pt-4 border-t border-gray-200 text-center text-xs text-gray-600">
+            <p>© 2025 - Công ty TNHH Thiết kế và xây dựng VTZ Spaxe.</p>
+            <p class="mt-1">Ứng dụng tính toán theo QĐ-56-2021-UBND</p>
         </footer>
     </div>
 
+    <!-- Floating Action Button -->
+    <button id="tinhToanBtn" class="fab">
+        <i class="fas fa-calculator"></i>
+    </button>
+
+    <!-- Back to top button -->
+    <button id="backToTop" class="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
     <script>
+        // Xử lý sidebar di động
+        const menuToggle = document.getElementById('menuToggle');
+        const closeSidebar = document.getElementById('closeSidebar');
+        const mobileSidebar = document.getElementById('mobileSidebar');
+        const overlay = document.getElementById('overlay');
+        const navItems = document.querySelectorAll('.nav-item');
+        
+        // Mở sidebar
+        menuToggle.addEventListener('click', function() {
+            mobileSidebar.classList.add('open');
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Ngăn cuộn trang khi mở sidebar
+        });
+        
+        // Đóng sidebar
+        function closeMobileSidebar() {
+            mobileSidebar.classList.remove('open');
+            overlay.classList.remove('active');
+            document.body.style.overflow = ''; // Cho phép cuộn trang trở lại
+        }
+        
+        closeSidebar.addEventListener('click', closeMobileSidebar);
+        overlay.addEventListener('click', closeMobileSidebar);
+        
+        // Đóng sidebar khi click vào mục điều hướng
+        navItems.forEach(item => {
+            item.addEventListener('click', function() {
+                // Loại bỏ active khỏi tất cả nav-item
+                navItems.forEach(navItem => {
+                    navItem.classList.remove('active');
+                });
+                
+                // Thêm active cho mục đã chọn
+                this.classList.add('active');
+                
+                // Đóng sidebar sau khi chọn mục
+                closeMobileSidebar();
+            });
+        });
+
+        // Nút back to top
+        const backToTopButton = document.getElementById('backToTop');
+        
+        window.addEventListener('scroll', function() {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.add('show');
+            } else {
+                backToTopButton.classList.remove('show');
+            }
+        });
+        
+        backToTopButton.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
         // Hàm định dạng số với dấu chấm phần nghìn
         function formatNumber(number) {
             return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
@@ -1124,11 +1311,11 @@
         function xacDinhTangLung(chieuRongLoGioi) {
             if (chieuRongLoGioi >= 6) {
                 if (chieuRongLoGioi >= 25) {
-                    return "Cho phép có tầng lửng, tổng chiều cao tầng 1 (bao gồm tầng lửng) tối đa 7,0m";
+                    return "Cho phép có tầng lửng, chiều cao tầng 1 tối đa 7,0m";
                 } else if (chieuRongLoGioi >= 16) {
-                    return "Cho phép có tầng lửng, tổng chiều cao tầng 1 (bao gồm tầng lửng) tối đa 7,0m";
+                    return "Cho phép có tầng lửng, chiều cao tầng 1 tối đa 7,0m";
                 } else {
-                    return "Cho phép có tầng lửng, tổng chiều cao tầng 1 (bao gồm tầng lửng) tối đa 5,8m";
+                    return "Cho phép có tầng lửng, chiều cao tầng 1 tối đa 5,8m";
                 }
             } else {
                 return "Không được phép có tầng lửng (chiều rộng lộ giới < 6m)";
@@ -1169,7 +1356,7 @@
         }
 
         // Tính khái toán chi phí
-        function tinhKhaiToanChiPhi(dienTichDat, soTang, matDoXayDung, chieuRongLoGioi, chieuRongMatTien, chieuSauDat) {
+        function tinhKhaiToanChiPhi(dienTichDat, soTang, matDo, chieuRongLoGioi, chieuRongMatTien, chieuSauDat) {
             // Lấy trạng thái checkbox từ giao diện
             const coTangLung = document.getElementById('coTangLung').checked && !document.getElementById('coTangLung').disabled;
             const coTangDinhMai = document.getElementById('coTangDinhMai').checked;
@@ -1184,7 +1371,7 @@
             const loaiMai = parseFloat(document.querySelector('input[name="loaiMai"]:checked').value || 0.5);
 
             // Diện tích XD tối đa theo mật độ xây dựng
-            const dienTichXDMax = dienTichDat * matDoXayDung / 100;
+            const dienTichXDMax = dienTichDat * matDo / 100;
             
             // Tính khoảng lùi sau và diện tích sân sau
             const khoangLuiSau = tinhKhoangLuiSau(chieuSauDat);
@@ -1355,7 +1542,7 @@
                 
                 // Tạo cột Diện tích cơ sở
                 const dienTichDatCell = document.createElement('td');
-                dienTichDatCell.textContent = item.dienTichDat ? item.dienTichDat.toFixed(2) : '';
+                dienTichDatCell.textContent = item.dienTichDat ? item.dienTichDat.toFixed(1) : '';
                 row.appendChild(dienTichDatCell);
                 
                 // Tạo cột Hệ số
@@ -1365,7 +1552,7 @@
                 
                 // Tạo cột Diện tích XD
                 const dienTichXDCell = document.createElement('td');
-                dienTichXDCell.textContent = item.dienTichXD ? item.dienTichXD.toFixed(2) : '';
+                dienTichXDCell.textContent = item.dienTichXD ? item.dienTichXD.toFixed(1) : '';
                 row.appendChild(dienTichXDCell);
                 
                 // Tạo cột Xây dựng (checkbox)
@@ -1383,8 +1570,8 @@
                         checkbox.disabled = true;
                         checkbox.checked = true;
                         const label = document.createElement('span');
-                        label.textContent = ' Bắt buộc';
-                        label.style.fontSize = '0.8em';
+                        label.textContent = ' BT';
+                        label.style.fontSize = '0.7em';
                         label.style.color = '#3B82F6';
                         xayDungCell.appendChild(checkbox);
                         xayDungCell.appendChild(label);
@@ -1543,19 +1730,6 @@
             
             // Thiết lập giá trị mặc định cho các trường đơn giá
             setDefaultPrices();
-            
-            // Điều hướng đến các tab khi click vào nav-item
-            document.querySelectorAll('.nav-item').forEach(item => {
-                item.addEventListener('click', function(e) {
-                    // Loại bỏ class active khỏi tất cả các nav-item
-                    document.querySelectorAll('.nav-item').forEach(navItem => {
-                        navItem.classList.remove('active');
-                    });
-                    
-                    // Thêm class active cho nav-item được click
-                    this.classList.add('active');
-                });
-            });
             
             // Xử lý sự kiện khi nhấn nút Tính toán
             document.getElementById('tinhToanBtn').addEventListener('click', function() {
