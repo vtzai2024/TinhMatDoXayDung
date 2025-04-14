@@ -352,6 +352,42 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+        
+        /* Badge for conditions met */
+        .condition-badge {
+            display: inline-block;
+            background-color: rgba(59, 130, 246, 0.2);
+            color: var(--primary);
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            margin-top: 0.25rem;
+            margin-right: 0.25rem;
+        }
+        
+        /* Condition details section */
+        .conditions-met {
+            margin-top: 0.5rem;
+            padding: 0.5rem;
+            background-color: rgba(59, 130, 246, 0.1);
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+        }
+        
+        .condition-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.25rem;
+        }
+        
+        .condition-icon {
+            margin-right: 0.5rem;
+            color: var(--green);
+        }
+        
+        .condition-icon.not-met {
+            color: var(--red);
+        }
     </style>
 </head>
 <body>
@@ -632,6 +668,10 @@
                         <div class="result-row">
                             <span class="result-label">Chiều cao tại đỉnh mái:</span>
                             <span class="result-value" id="chieuCaoToiDaTaiDinhMai">--</span>
+                        </div>
+                        <div id="conditionsMet" class="conditions-met js-hidden">
+                            <p class="text-sm font-semibold mb-2">Điều kiện cộng tầng đã đáp ứng:</p>
+                            <div id="conditionsList"></div>
                         </div>
                         <div class="result-row">
                             <span class="result-label">Tầng lửng:</span>
@@ -1043,33 +1083,76 @@
                 }
             }
             
+            // New function to get conditions for additional floors
+            function getDieuKienCongTang(chieuRongLoGioi, quanTrungTam, trucDuongThuongMai, matTienTren8m) {
+                const dieuKien = [];
+                let soTangCongThem = 0;
+                
+                if (chieuRongLoGioi < 3.5) {
+                    return { dieuKien, soTangCongThem };
+                }
+                
+                if (quanTrungTam) {
+                    dieuKien.push({
+                        text: "Thuộc Quận trung tâm hoặc Trung tâm cấp quận",
+                        met: true
+                    });
+                    soTangCongThem++;
+                } else {
+                    dieuKien.push({
+                        text: "Thuộc Quận trung tâm hoặc Trung tâm cấp quận",
+                        met: false
+                    });
+                }
+                
+                if (trucDuongThuongMai && chieuRongLoGioi >= 16) {
+                    dieuKien.push({
+                        text: "Thuộc trục đường thương mại - dịch vụ",
+                        met: true
+                    });
+                    soTangCongThem++;
+                } else if (chieuRongLoGioi >= 16) {
+                    dieuKien.push({
+                        text: "Thuộc trục đường thương mại - dịch vụ",
+                        met: false
+                    });
+                }
+                
+                if (matTienTren8m) {
+                    dieuKien.push({
+                        text: "Có chiều rộng mặt tiền > 8,0m",
+                        met: true
+                    });
+                    soTangCongThem++;
+                } else {
+                    dieuKien.push({
+                        text: "Có chiều rộng mặt tiền > 8,0m",
+                        met: false
+                    });
+                }
+                
+                return { dieuKien, soTangCongThem };
+            }
+            
             function tinhSoTangToiDa(chieuRongLoGioi, quanTrungTam, trucDuongThuongMai, matTienTren8m) {
                 let soTangCoBan = 0;
-                let soTangCongThem = 0;
                 
                 // Xác định số tầng cơ bản theo chiều rộng lộ giới
                 if (chieuRongLoGioi >= 25) {
                     soTangCoBan = 6;
                 } else if (chieuRongLoGioi >= 16) {
                     soTangCoBan = 5;
-                    // Xét điều kiện cộng thêm
-                    if (quanTrungTam) soTangCongThem += 1;
-                    if (trucDuongThuongMai) soTangCongThem += 1;
-                    if (matTienTren8m) soTangCongThem += 1;
                 } else if (chieuRongLoGioi >= 6) {
                     soTangCoBan = 4;
-                    // Xét điều kiện cộng thêm
-                    if (quanTrungTam) soTangCongThem += 1;
-                    if (matTienTren8m) soTangCongThem += 1;
                 } else if (chieuRongLoGioi >= 3.5) {
                     soTangCoBan = 3;
-                    // Xét điều kiện cộng thêm
-                    if (quanTrungTam) soTangCongThem += 1;
-                    if (matTienTren8m) soTangCongThem += 1;
                 } else {
                     soTangCoBan = 3;
                     // Không cộng thêm
                 }
+                
+                // Lấy thông tin về điều kiện cộng tầng
+                const { dieuKien, soTangCongThem } = getDieuKienCongTang(chieuRongLoGioi, quanTrungTam, trucDuongThuongMai, matTienTren8m);
                 
                 // Giới hạn tối đa tầng
                 let soTangToiDa = soTangCoBan;
@@ -1086,31 +1169,47 @@
                 return soTangToiDa;
             }
             
-            function tinhChieuCaoToiDa(chieuRongLoGioi, soTang) {
+            // Fixed function to correctly calculate maximum height at roof peak
+            function tinhChieuCaoToiDa(chieuRongLoGioi, quanTrungTam, trucDuongThuongMai, matTienTren8m) {
                 let chieuCaoTaiCGXD = ""; // Chiều cao tại chỉ giới xây dựng
                 let chieuCaoTaiDinhMai = ""; // Chiều cao tại đỉnh mái
+                let chieuCaoCoBan = ""; // Chiều cao cơ bản khi không có cộng tầng
                 
-                // Xác định chiều cao theo Bảng 3
+                // Lấy thông tin về điều kiện cộng tầng
+                const { dieuKien, soTangCongThem } = getDieuKienCongTang(chieuRongLoGioi, quanTrungTam, trucDuongThuongMai, matTienTren8m);
+                
+                // Có điều kiện cộng tầng hay không
+                const coDieuKienCongTang = soTangCongThem > 0;
+                
+                // Xác định chiều cao theo Bảng 3 của Phụ lục 18
                 if (chieuRongLoGioi >= 25) {
                     chieuCaoTaiCGXD = "25,0m";
-                    chieuCaoTaiDinhMai = soTang > 6 ? "27,0m" : "25,0m";
+                    chieuCaoCoBan = "25,0m";
+                    chieuCaoTaiDinhMai = coDieuKienCongTang ? "27,0m" : "25,0m";
                 } else if (chieuRongLoGioi >= 16) {
                     chieuCaoTaiCGXD = "21,6m";
-                    chieuCaoTaiDinhMai = soTang > 5 ? "27,0m" : "23,6m";
+                    chieuCaoCoBan = "23,6m";
+                    chieuCaoTaiDinhMai = coDieuKienCongTang ? "27,0m" : "23,6m";
                 } else if (chieuRongLoGioi >= 6) {
                     chieuCaoTaiCGXD = "17,0m";
-                    chieuCaoTaiDinhMai = soTang > 4 ? "22,4m" : "19,0m";
+                    chieuCaoCoBan = "19,0m";
+                    chieuCaoTaiDinhMai = coDieuKienCongTang ? "22,4m" : "19,0m";
                 } else if (chieuRongLoGioi >= 3.5) {
                     chieuCaoTaiCGXD = "11,6m";
-                    chieuCaoTaiDinhMai = soTang > 3 ? "15,6m" : "13,6m";
+                    chieuCaoCoBan = "13,6m";
+                    chieuCaoTaiDinhMai = coDieuKienCongTang ? "15,6m" : "13,6m";
                 } else {
                     chieuCaoTaiCGXD = "Không quy định riêng";
-                    chieuCaoTaiDinhMai = "11,6m";
+                    chieuCaoCoBan = "11,6m";
+                    chieuCaoTaiDinhMai = "11,6m"; // Không có cộng tầng
                 }
                 
                 return {
                     taiCGXD: chieuCaoTaiCGXD,
-                    taiDinhMai: chieuCaoTaiDinhMai
+                    taiDinhMai: chieuCaoTaiDinhMai,
+                    chieuCaoCoBan: chieuCaoCoBan,
+                    dieuKien: dieuKien,
+                    coDieuKienCongTang: coDieuKienCongTang
                 };
             }
             
@@ -1373,6 +1472,56 @@
                 });
             }
             
+            // Render the conditions met for additional floors
+            function renderConditionsMet(dieuKien, coDieuKienCongTang) {
+                const conditionsMet = document.getElementById('conditionsMet');
+                const conditionsList = document.getElementById('conditionsList');
+                
+                // Clear previous content
+                conditionsList.innerHTML = '';
+                
+                // Show/hide section based on whether there are conditions or not
+                if (dieuKien.length > 0) {
+                    conditionsMet.classList.remove('js-hidden');
+                    
+                    // Add each condition
+                    dieuKien.forEach(condition => {
+                        const conditionItem = document.createElement('div');
+                        conditionItem.className = 'condition-item';
+                        
+                        const icon = document.createElement('i');
+                        if (condition.met) {
+                            icon.className = 'fas fa-check-circle condition-icon';
+                        } else {
+                            icon.className = 'fas fa-times-circle condition-icon not-met';
+                        }
+                        
+                        const text = document.createElement('span');
+                        text.textContent = condition.text;
+                        if (!condition.met) {
+                            text.style.color = 'var(--text-secondary)';
+                        }
+                        
+                        conditionItem.appendChild(icon);
+                        conditionItem.appendChild(text);
+                        conditionsList.appendChild(conditionItem);
+                    });
+                    
+                    // Add an explanation about the effect on height
+                    const explanation = document.createElement('div');
+                    explanation.className = 'mt-2 text-sm';
+                    if (coDieuKienCongTang) {
+                        explanation.innerHTML = '<i class="fas fa-info-circle text-blue-400 mr-1"></i> Đã đáp ứng điều kiện cộng tầng, chiều cao tại đỉnh mái đã được tăng theo quy định.';
+                    } else {
+                        explanation.innerHTML = '<i class="fas fa-info-circle text-blue-400 mr-1"></i> Chưa đáp ứng điều kiện cộng tầng nào, áp dụng chiều cao cơ bản.';
+                        explanation.style.color = 'var(--text-secondary)';
+                    }
+                    conditionsList.appendChild(explanation);
+                } else {
+                    conditionsMet.classList.add('js-hidden');
+                }
+            }
+            
             function updateCostBasedOnSelection() {
                 // Lấy tất cả các checkbox đã chọn
                 const checkedCheckboxes = document.querySelectorAll('.build-checkbox:checked');
@@ -1499,7 +1648,10 @@
                         const khoangLuiSau = tinhKhoangLuiSau(chieuSauDat);
                         const dienTichSanSau = (khoangLuiSau * chieuRongMatTien).toFixed(1);
                         const soTang = tinhSoTangToiDa(chieuRongLoGioi, quanTrungTam, trucDuongThuongMai, matTienTren8m);
-                        const chieuCao = tinhChieuCaoToiDa(chieuRongLoGioi, soTang);
+                        
+                        // Calculate height with the updated function
+                        const chieuCao = tinhChieuCaoToiDa(chieuRongLoGioi, quanTrungTam, trucDuongThuongMai, matTienTren8m);
+                        
                         const thongTinTangLung = xacDinhTangLung(chieuRongLoGioi);
                         const doVuonBanCongText = getDoVuonBanCongText(chieuRongLoGioi);
                         const dienTichBanCong = tinhDienTichBanCong(chieuRongLoGioi, chieuRongMatTien, soTang).toFixed(1);
@@ -1516,6 +1668,10 @@
                         document.getElementById('soTangToiDa').textContent = soTang + ' tầng';
                         document.getElementById('chieuCaoToiDaTaiCGXD').textContent = chieuCao.taiCGXD;
                         document.getElementById('chieuCaoToiDaTaiDinhMai').textContent = chieuCao.taiDinhMai;
+                        
+                        // Display conditions for additional floors
+                        renderConditionsMet(chieuCao.dieuKien, chieuCao.coDieuKienCongTang);
+                        
                         document.getElementById('thongTinTangLung').textContent = thongTinTangLung;
                         document.getElementById('doVuonBanCong').textContent = doVuonBanCongText;
                         document.getElementById('dienTichBanCong').textContent = dienTichBanCong + ' m²';
