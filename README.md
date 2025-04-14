@@ -658,6 +658,14 @@
                     <div class="result-section">
                         <h3 class="result-title"><i class="fas fa-building mr-2"></i> Chiều cao và số tầng</h3>
                         <div class="result-row">
+                            <span class="result-label">Số tầng cơ bản:</span>
+                            <span class="result-value" id="soTangCoBan">--</span>
+                        </div>
+                        <div class="result-row">
+                            <span class="result-label">Số tầng cộng thêm:</span>
+                            <span class="result-value" id="soTangCongThem">--</span>
+                        </div>
+                        <div class="result-row">
                             <span class="result-label">Số tầng tối đa:</span>
                             <span class="result-value" id="soTangToiDa">--</span>
                         </div>
@@ -1083,58 +1091,10 @@
                 }
             }
             
-            // New function to get conditions for additional floors
+            // Revised function to get conditions for additional floors with max 1 additional floor
             function getDieuKienCongTang(chieuRongLoGioi, quanTrungTam, trucDuongThuongMai, matTienTren8m) {
                 const dieuKien = [];
-                let soTangCongThem = 0;
-                
-                if (chieuRongLoGioi < 3.5) {
-                    return { dieuKien, soTangCongThem };
-                }
-                
-                if (quanTrungTam) {
-                    dieuKien.push({
-                        text: "Thuộc Quận trung tâm hoặc Trung tâm cấp quận",
-                        met: true
-                    });
-                    soTangCongThem++;
-                } else {
-                    dieuKien.push({
-                        text: "Thuộc Quận trung tâm hoặc Trung tâm cấp quận",
-                        met: false
-                    });
-                }
-                
-                if (trucDuongThuongMai && chieuRongLoGioi >= 16) {
-                    dieuKien.push({
-                        text: "Thuộc trục đường thương mại - dịch vụ",
-                        met: true
-                    });
-                    soTangCongThem++;
-                } else if (chieuRongLoGioi >= 16) {
-                    dieuKien.push({
-                        text: "Thuộc trục đường thương mại - dịch vụ",
-                        met: false
-                    });
-                }
-                
-                if (matTienTren8m) {
-                    dieuKien.push({
-                        text: "Có chiều rộng mặt tiền > 8,0m",
-                        met: true
-                    });
-                    soTangCongThem++;
-                } else {
-                    dieuKien.push({
-                        text: "Có chiều rộng mặt tiền > 8,0m",
-                        met: false
-                    });
-                }
-                
-                return { dieuKien, soTangCongThem };
-            }
-            
-            function tinhSoTangToiDa(chieuRongLoGioi, quanTrungTam, trucDuongThuongMai, matTienTren8m) {
+                let dapUngDieuKien = 0;
                 let soTangCoBan = 0;
                 
                 // Xác định số tầng cơ bản theo chiều rộng lộ giới
@@ -1148,37 +1108,87 @@
                     soTangCoBan = 3;
                 } else {
                     soTangCoBan = 3;
-                    // Không cộng thêm
                 }
                 
-                // Lấy thông tin về điều kiện cộng tầng
-                const { dieuKien, soTangCongThem } = getDieuKienCongTang(chieuRongLoGioi, quanTrungTam, trucDuongThuongMai, matTienTren8m);
+                if (chieuRongLoGioi < 3.5) {
+                    return { dieuKien, soTangCongThem: 0, soTangCoBan };
+                }
                 
-                // Giới hạn tối đa tầng
-                let soTangToiDa = soTangCoBan;
-                if (chieuRongLoGioi >= 16) {
-                    soTangToiDa = Math.min(soTangCoBan + soTangCongThem, 6);
-                } else if (chieuRongLoGioi >= 6) {
-                    soTangToiDa = Math.min(soTangCoBan + soTangCongThem, 5);
-                } else if (chieuRongLoGioi >= 3.5) {
-                    soTangToiDa = Math.min(soTangCoBan + soTangCongThem, 4);
+                if (quanTrungTam) {
+                    dieuKien.push({
+                        text: "Thuộc Quận trung tâm hoặc Trung tâm cấp quận",
+                        met: true
+                    });
+                    dapUngDieuKien++;
                 } else {
-                    soTangToiDa = 3; // Không cộng thêm
+                    dieuKien.push({
+                        text: "Thuộc Quận trung tâm hoặc Trung tâm cấp quận",
+                        met: false
+                    });
                 }
+                
+                if (trucDuongThuongMai && chieuRongLoGioi >= 16) {
+                    dieuKien.push({
+                        text: "Thuộc trục đường thương mại - dịch vụ",
+                        met: true
+                    });
+                    dapUngDieuKien++;
+                } else if (chieuRongLoGioi >= 16) {
+                    dieuKien.push({
+                        text: "Thuộc trục đường thương mại - dịch vụ",
+                        met: false
+                    });
+                }
+                
+                if (matTienTren8m) {
+                    dieuKien.push({
+                        text: "Có chiều rộng mặt tiền > 8,0m",
+                        met: true
+                    });
+                    dapUngDieuKien++;
+                } else {
+                    dieuKien.push({
+                        text: "Có chiều rộng mặt tiền > 8,0m",
+                        met: false
+                    });
+                }
+                
+                // Giới hạn số tầng cộng thêm tối đa là 1, dù đáp ứng bao nhiêu điều kiện
+                const soTangCongThem = dapUngDieuKien > 0 ? 1 : 0;
+                
+                return { 
+                    dieuKien, 
+                    soTangCongThem, 
+                    soTangCoBan,
+                    dieuKienDapUng: dapUngDieuKien 
+                };
+            }
+            
+            // Updated function to incorporate the max 1 additional floor
+            function tinhSoTangToiDa(chieuRongLoGioi, quanTrungTam, trucDuongThuongMai, matTienTren8m) {
+                // Lấy thông tin về điều kiện cộng tầng và số tầng cơ bản
+                const { dieuKien, soTangCongThem, soTangCoBan } = getDieuKienCongTang(
+                    chieuRongLoGioi, quanTrungTam, trucDuongThuongMai, matTienTren8m
+                );
+                
+                // Tính tổng số tầng (tối đa cộng thêm 1 tầng)
+                let soTangToiDa = soTangCoBan + soTangCongThem;
                 
                 return soTangToiDa;
             }
             
-            // Fixed function to correctly calculate maximum height at roof peak
+            // Updated function to correctly calculate maximum height at roof peak with max 1 additional floor
             function tinhChieuCaoToiDa(chieuRongLoGioi, quanTrungTam, trucDuongThuongMai, matTienTren8m) {
                 let chieuCaoTaiCGXD = ""; // Chiều cao tại chỉ giới xây dựng
                 let chieuCaoTaiDinhMai = ""; // Chiều cao tại đỉnh mái
                 let chieuCaoCoBan = ""; // Chiều cao cơ bản khi không có cộng tầng
                 
                 // Lấy thông tin về điều kiện cộng tầng
-                const { dieuKien, soTangCongThem } = getDieuKienCongTang(chieuRongLoGioi, quanTrungTam, trucDuongThuongMai, matTienTren8m);
+                const { dieuKien, soTangCongThem, soTangCoBan, dieuKienDapUng } = getDieuKienCongTang(
+                    chieuRongLoGioi, quanTrungTam, trucDuongThuongMai, matTienTren8m
+                );
                 
-                // Có điều kiện cộng tầng hay không
+                // Có điều kiện cộng tầng hay không (đã bị giới hạn ở 1 tầng)
                 const coDieuKienCongTang = soTangCongThem > 0;
                 
                 // Xác định chiều cao theo Bảng 3 của Phụ lục 18
@@ -1209,7 +1219,10 @@
                     taiDinhMai: chieuCaoTaiDinhMai,
                     chieuCaoCoBan: chieuCaoCoBan,
                     dieuKien: dieuKien,
-                    coDieuKienCongTang: coDieuKienCongTang
+                    coDieuKienCongTang: coDieuKienCongTang,
+                    soTangCoBan: soTangCoBan,
+                    soTangCongThem: soTangCongThem,
+                    dieuKienDapUng: dieuKienDapUng
                 };
             }
             
@@ -1250,14 +1263,18 @@
                 }
             }
             
+            // Updated function to calculate balcony area including additional floor (max 1)
             function tinhDienTichBanCong(chieuRongLoGioi, chieuRongMatTien, soTang) {
                 const doVuonBanCong = tinhDoVuonBanCong(chieuRongLoGioi);
+                
                 // Tính số tầng có ban công (từ tầng 1 trở lên)
                 const soTangCoBanCong = soTang > 0 ? soTang - 1 : 0;
+                
                 return doVuonBanCong * chieuRongMatTien * soTangCoBanCong;
             }
             
-            function tinhKhaiToanChiPhi(dienTichDat, soTang, matDoXayDung, chieuRongLoGioi, chieuRongMatTien, chieuSauDat) {
+            // Updated function to include max 1 additional floor in calculation
+            function tinhKhaiToanChiPhi(dienTichDat, soTang, matDoXayDung, chieuRongLoGioi, chieuRongMatTien, chieuSauDat, soTangCoBan, soTangCongThem) {
                 // Lấy trạng thái checkbox và radio buttons
                 const coTangLung = document.getElementById('coTangLung').checked && !document.getElementById('coTangLung').disabled;
                 const coTangDinhMai = document.getElementById('coTangDinhMai').checked;
@@ -1315,11 +1332,25 @@
                     tongDienTichXayDung += dienTichXDMax * heSoHam;
                 }
                 
-                // Thêm các tầng 1 đến số tầng tối đa
-                for (let i = 1; i <= soTang; i++) {
+                // Thêm các tầng 1 đến số tầng cơ bản
+                for (let i = 1; i <= soTangCoBan; i++) {
                     khaiToanTable.push({
                         stt: stt++,
                         hangMuc: `Tầng ${i}`,
+                        dienTichDat: dienTichXDMax,
+                        heSo: 1,
+                        dienTichXD: dienTichXDMax
+                    });
+                    tongDienTichThietKe += dienTichXDMax;
+                    tongDienTichXayDung += dienTichXDMax;
+                }
+                
+                // Thêm tầng cộng thêm nếu có (tối đa 1 tầng)
+                if (soTangCongThem > 0) {
+                    // Tầng 7 (hoặc tầng cộng thêm) có hệ số 1 như các tầng cơ bản
+                    khaiToanTable.push({
+                        stt: stt++,
+                        hangMuc: `Tầng ${soTangCoBan + 1} (tầng cộng thêm)`,
                         dienTichDat: dienTichXDMax,
                         heSo: 1,
                         dienTichXD: dienTichXDMax
@@ -1472,8 +1503,8 @@
                 });
             }
             
-            // Render the conditions met for additional floors
-            function renderConditionsMet(dieuKien, coDieuKienCongTang) {
+            // Updated function to render conditions met for additional floors with clearer messaging
+            function renderConditionsMet(dieuKien, coDieuKienCongTang, soTangCongThem, dieuKienDapUng) {
                 const conditionsMet = document.getElementById('conditionsMet');
                 const conditionsList = document.getElementById('conditionsList');
                 
@@ -1507,11 +1538,13 @@
                         conditionsList.appendChild(conditionItem);
                     });
                     
-                    // Add an explanation about the effect on height
+                    // Add an explanation about the effect on height and additional floors
                     const explanation = document.createElement('div');
                     explanation.className = 'mt-2 text-sm';
                     if (coDieuKienCongTang) {
-                        explanation.innerHTML = '<i class="fas fa-info-circle text-blue-400 mr-1"></i> Đã đáp ứng điều kiện cộng tầng, chiều cao tại đỉnh mái đã được tăng theo quy định.';
+                        explanation.innerHTML = '<i class="fas fa-info-circle text-blue-400 mr-1"></i> Đã đáp ứng ' + 
+                        dieuKienDapUng + ' điều kiện cộng tầng, nhưng chỉ được cộng thêm tối đa 1 tầng theo quy định. ' + 
+                        'Chiều cao tại đỉnh mái đã được tăng theo quy định.';
                     } else {
                         explanation.innerHTML = '<i class="fas fa-info-circle text-blue-400 mr-1"></i> Chưa đáp ứng điều kiện cộng tầng nào, áp dụng chiều cao cơ bản.';
                         explanation.style.color = 'var(--text-secondary)';
@@ -1647,17 +1680,30 @@
                         const khoangLuiSauText = getKhoangLuiSauText(chieuSauDat);
                         const khoangLuiSau = tinhKhoangLuiSau(chieuSauDat);
                         const dienTichSanSau = (khoangLuiSau * chieuRongMatTien).toFixed(1);
-                        const soTang = tinhSoTangToiDa(chieuRongLoGioi, quanTrungTam, trucDuongThuongMai, matTienTren8m);
                         
-                        // Calculate height with the updated function
+                        // Calculate height with the updated function that also returns soTangCoBan and soTangCongThem
                         const chieuCao = tinhChieuCaoToiDa(chieuRongLoGioi, quanTrungTam, trucDuongThuongMai, matTienTren8m);
+                        const soTangCoBan = chieuCao.soTangCoBan;
+                        const soTangCongThem = chieuCao.soTangCongThem;
+                        const soTang = tinhSoTangToiDa(chieuRongLoGioi, quanTrungTam, trucDuongThuongMai, matTienTren8m);
                         
                         const thongTinTangLung = xacDinhTangLung(chieuRongLoGioi);
                         const doVuonBanCongText = getDoVuonBanCongText(chieuRongLoGioi);
+                        
+                        // Calculate balcony area
                         const dienTichBanCong = tinhDienTichBanCong(chieuRongLoGioi, chieuRongMatTien, soTang).toFixed(1);
                         
-                        // Calculate khái toán
-                        const khaiToan = tinhKhaiToanChiPhi(dienTichDat, soTang, matDo, chieuRongLoGioi, chieuRongMatTien, chieuSauDat);
+                        // Calculate khái toán with updated parameters
+                        const khaiToan = tinhKhaiToanChiPhi(
+                            dienTichDat, 
+                            soTang, 
+                            matDo, 
+                            chieuRongLoGioi, 
+                            chieuRongMatTien, 
+                            chieuSauDat,
+                            soTangCoBan,
+                            soTangCongThem
+                        );
                         
                         // Display results
                         document.getElementById('dienTichLoDat').textContent = dienTichDat.toFixed(1) + ' m²';
@@ -1665,12 +1711,17 @@
                         document.getElementById('matDoXayDung').textContent = matDo + ' %';
                         document.getElementById('khoangLuiSau').textContent = khoangLuiSauText;
                         document.getElementById('dienTichSanSau').textContent = dienTichSanSau + ' m²';
+                        
+                        // Display floor information
+                        document.getElementById('soTangCoBan').textContent = soTangCoBan + ' tầng';
+                        document.getElementById('soTangCongThem').textContent = soTangCongThem + ' tầng';
                         document.getElementById('soTangToiDa').textContent = soTang + ' tầng';
+                        
                         document.getElementById('chieuCaoToiDaTaiCGXD').textContent = chieuCao.taiCGXD;
                         document.getElementById('chieuCaoToiDaTaiDinhMai').textContent = chieuCao.taiDinhMai;
                         
-                        // Display conditions for additional floors
-                        renderConditionsMet(chieuCao.dieuKien, chieuCao.coDieuKienCongTang);
+                        // Display conditions for additional floors with updated information
+                        renderConditionsMet(chieuCao.dieuKien, chieuCao.coDieuKienCongTang, chieuCao.soTangCongThem, chieuCao.dieuKienDapUng);
                         
                         document.getElementById('thongTinTangLung').textContent = thongTinTangLung;
                         document.getElementById('doVuonBanCong').textContent = doVuonBanCongText;
